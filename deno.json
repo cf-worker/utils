@@ -8,6 +8,9 @@
   "publish": {
     "include": [
       "*.ts"
+    ],
+    "exclude": [
+      ".test.ts"
     ]
   }
 }
