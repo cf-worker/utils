@@ -1,4 +1,4 @@
-export function noContentResponse() {
+export function noContentResponse(): Response {
   return new Response(null, {
     status: 204,
     statusText: "No Content",

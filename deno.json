@@ -7,10 +7,10 @@
   },
   "publish": {
     "include": [
-      "*.ts"
+      "**/*.ts"
     ],
     "exclude": [
-      ".test.ts"
+      "**/*.test.ts"
     ]
   }
 }
