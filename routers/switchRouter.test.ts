@@ -39,6 +39,7 @@ function route(method: string, url: string) {
 }
 
 Deno.test("switchRouter router", () => {
+  assertEquals(route("GET", "https://example.com/users"), undefined)
   assertEquals(route("GET", "https://example.com/users/1"), "1")
   assertEquals(route("POST", "https://example.com/users/2"), "2")
   assertEquals(route("PUT", "https://example.com/users/3"), "3")

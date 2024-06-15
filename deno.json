@@ -1,6 +1,6 @@
 {
   "name": "@cf-worker/utils",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "exports": "./mod.ts",
   "imports": {
     "@std/assert": "jsr:@std/assert@^0.226.0"
@@ -21,6 +21,7 @@
   "tasks": {
     "test": "deno test",
     "dry-publish": "deno publish --dry-run --allow-dirty",
-    "publish": "deno publish"
+    "publish": "deno publish",
+    "coverage": "deno test --coverage; deno coverage --html; open coverage/html/index.html"
   }
 }
