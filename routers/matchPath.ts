@@ -1,6 +1,3 @@
-export function matchPath<Key extends string>(
-  pattern: string,
-  pathname: string,
-): Record<Key, string | undefined> | undefined {
+export function matchPath(pattern: string, pathname: string): Dict | undefined {
   return new URLPattern({ pathname: pattern }).exec({ pathname })?.pathname.groups
 }

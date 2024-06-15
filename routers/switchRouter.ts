@@ -1,8 +1,8 @@
 import { matchPath } from "./matchPath.ts"
 
-type Params = Pick<Request, "method" | "url">
+type Params = { method: string; url: string }
 type Return = {
-  params: Record<string, string | undefined>
+  params: Dict
   ANY: (pattern: string) => string
   GET: (pattern: string) => string
   POST: (pattern: string) => string
@@ -13,7 +13,7 @@ type Return = {
 
 export function switchRouter({ method, url }: Params): Return {
   const path = new URL(url).pathname
-  const params: Record<string, string | undefined> = {}
+  const params = {}
 
   function ANY(pattern: string): string {
     const args = matchPath(pattern, path)
