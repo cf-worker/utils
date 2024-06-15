@@ -1,5 +1,3 @@
-import type { Handler } from "../types.d.ts"
-
 export function xRuntimeDecorator<T extends unknown[]>(handler: Handler<T>): Handler<T> {
   return (...args: T) => xRuntime(() => handler(...args))
 }
