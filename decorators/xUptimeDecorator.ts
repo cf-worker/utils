@@ -1,4 +1,4 @@
-import type { Handler } from "../types.d.ts"
+import type { Handler } from "../types.ts"
 
 export function xUptimeDecorator<T extends unknown[]>(handler: Handler<T>): Handler<T> {
   let bootTime: number
@@ -6,11 +6,11 @@ export function xUptimeDecorator<T extends unknown[]>(handler: Handler<T>): Hand
   return async (...args: T) => {
     bootTime = bootTime || Date.now()
     const response = await handler(...args)
-    return setXUptime(bootTime, response)
+    return setXUptime(response, bootTime)
   }
 }
 
-export function setXUptime(bootTime: number, response: Response): Response {
+export function setXUptime(response: Response, bootTime: number): Response {
   const uptime = new Date(Date.now() - bootTime).toJSON().substring(11, 19)
 
   response.headers.set("X-Uptime", uptime)

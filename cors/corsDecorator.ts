@@ -1,6 +1,6 @@
 import { corsPreflight } from "./corsPreflight.ts"
 import { setCors } from "./setCors.ts"
-import type { Async } from "../types.d.ts"
+import type { Async } from "../types.ts"
 
 type RequestHandler<T extends unknown[]> = (req: Request, ...args: T) => Async<Response>
 
