@@ -1,4 +1,4 @@
-import type { Handler } from "../mod.ts"
+import type { Handler } from "../types.d.ts"
 
 export function xUptimeDecorator<T extends unknown[]>(handler: Handler<T>): Handler<T> {
   let bootTime: number
