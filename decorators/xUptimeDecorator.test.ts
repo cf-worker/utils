@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert"
-import { xUptimeDecorator, setXUptime } from "./xUptimeDecorator.ts"
+import { setXUptime, xUptimeDecorator } from "./xUptimeDecorator.ts"
 
 Deno.test("xUptimeDecorator sets X-Uptime header", async () => {
   const mockHandler = (_request: Request) => new Response("Hello, world!")

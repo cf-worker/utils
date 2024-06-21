@@ -1,30 +1,15 @@
-import { matchPath } from "./matchPath.ts"
+import { matchUrl } from "./matchUrl.ts"
 
-type Params = { method: string; url: string }
-type Return = {
-  params: Dict
-  ANY: (pattern: string) => string
-  GET: (pattern: string) => string
-  POST: (pattern: string) => string
-  PUT: (pattern: string) => string
-  PATCH: (pattern: string) => string
-  DELETE: (pattern: string) => string
-}
-
-export function switchRouter({ method, url }: Params): Return {
-  const path = new URL(url).pathname
-  const params = {}
-
-  function ANY(pattern: string): string {
-    const args = matchPath(pattern, path)
+export function switchRouter({ method, url }: MethodUrl, params: Dict = {}): Return {
+  function ANY(pattern: string) {
+    const args = matchUrl(pattern, url)
     if (args) {
       Object.assign(params, args)
-      return path
+      return new URL(url).pathname
     }
-    return ""
   }
 
-  const noop = (_: string) => ""
+  const noop = (_: string) => undefined
 
   const GET = method === "GET" ? ANY : noop
   const PUT = method === "PUT" ? ANY : noop
@@ -33,4 +18,14 @@ export function switchRouter({ method, url }: Params): Return {
   const DELETE = method === "DELETE" ? ANY : noop
 
   return { params, ANY, GET, POST, PUT, PATCH, DELETE }
+}
+
+type Return = {
+  params: Dict
+  ANY: (pattern: string) => string | undefined
+  GET: (pattern: string) => string | undefined
+  POST: (pattern: string) => string | undefined
+  PUT: (pattern: string) => string | undefined
+  PATCH: (pattern: string) => string | undefined
+  DELETE: (pattern: string) => string | undefined
 }

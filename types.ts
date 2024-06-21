@@ -1,4 +1,11 @@
+// deno-lint-ignore-file no-explicit-any
 export type Async<T> = T | Promise<T>
 export type Handler<T extends unknown[]> = (...args: T) => Async<Response>
 export type RequestHandler<T extends unknown[]> = (req: Request, ...args: T) => Async<Response>
 export type Dict = Record<string, string | undefined>
+export type MethodUrl = { method: string; url: string }
+// biome-ignore lint/suspicious/noExplicitAny: unknow doesn't work here
+export type Func = (...args: any[]) => any
+export type Rest<T extends (...args: unknown[]) => unknown> = T extends (_: infer F, ...rest: infer R) => unknown
+  ? R
+  : never

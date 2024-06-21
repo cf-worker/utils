@@ -2,4 +2,5 @@
 
 ## TODO
 
-- [ ] Make sure that all functions are exported by mod.ts
+- [ ] Create script to make sure that all functions are exported by mod.ts
+- [ ] https://github.com/dsherret/jsr-publish-on-tag

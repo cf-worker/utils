@@ -10,10 +10,10 @@ Deno.test("switchRouter GET success", () => {
   assertEquals(router.GET("/users/:id"), "/users/123")
   assertEquals(router.params, { id: "123" })
 
-  assertEquals(router.POST("/users/:id"), "")
-  assertEquals(router.PUT("/users/:id"), "")
-  assertEquals(router.PATCH("/users/:id"), "")
-  assertEquals(router.DELETE("/users/:id"), "")
+  assertEquals(router.POST("/users/:id"), undefined)
+  assertEquals(router.PUT("/users/:id"), undefined)
+  assertEquals(router.PATCH("/users/:id"), undefined)
+  assertEquals(router.DELETE("/users/:id"), undefined)
 })
 
 function route(method: string, url: string) {
