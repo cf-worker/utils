@@ -12,9 +12,10 @@
   },
   "tasks": {
     "test": "deno test",
-    "dry-publish": "deno publish --dry-run --allow-dirty",
+    "publish:dry": "deno publish --dry-run --allow-dirty",
     "publish": "deno publish",
     "format:biome": "npx @biomejs/biome format --write",
+    "build:mod": "deno run -A build-mod.deno.ts",
     "coverage": "deno test --coverage; deno coverage --html; open coverage/html/index.html"
   },
   "fmt": {
