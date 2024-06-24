@@ -1,5 +1,4 @@
 import { walkSync } from "@std/fs"
-import { tap } from "./mod.ts"
 
 /**
  * Script to iterate in all folders, and build the mod.ts file, importing all files in that folder,
@@ -30,3 +29,6 @@ const code = Array.from(
   .join("")
 
 Deno.writeTextFileSync("./mod.ts", `${code}export type * from "./types.ts"\n`)
+
+const types = Deno.readTextFileSync("./types.ts")
+Deno.writeTextFileSync("./types.d.ts", types.replaceAll("export type ", "type "))

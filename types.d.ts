@@ -2,7 +2,7 @@
 type Async<T> = T | Promise<T>
 type Handler<T extends unknown[]> = (...args: T) => Async<Response>
 type RequestHandler<T extends unknown[]> = (req: Request, ...args: T) => Async<Response>
-type Dict = Record<string, string | undefined>
+type Dict<T = string> = Record<string, T | undefined>
 type MethodUrl = { method: string; url: string }
 // biome-ignore lint/suspicious/noExplicitAny: unknow doesn't work here
 type Func = (...args: any[]) => any
