@@ -1,3 +1,5 @@
+import type { Dict, MethodUrl, RouteEntry } from "../types.ts"
+
 export function findRoute<T = unknown>(
   routes: Iterable<RouteEntry<T>>,
   methodUrl: MethodUrl,

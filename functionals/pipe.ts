@@ -1,3 +1,5 @@
+import type { Func } from "../types.ts"
+
 // @TODO: fix types
 export function pipe(...fns: Func[]): Func {
   return fns.reduce(pipe2)

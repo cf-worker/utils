@@ -10,4 +10,4 @@ export type Rest<T extends (...args: unknown[]) => unknown> = T extends (_: infe
   ? R
   : never
 export type RouteMatcher = (methodUrl: MethodUrl) => Dict | undefined
-export type RouteEntry<T> = [RouteMatcher, T]
+export type RouteEntry<T = unknown> = [RouteMatcher, T]

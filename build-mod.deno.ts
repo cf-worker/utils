@@ -30,5 +30,5 @@ const code = Array.from(
 
 Deno.writeTextFileSync("./mod.ts", `${code}export type * from "./types.ts"\n`)
 
-const types = Deno.readTextFileSync("./types.ts")
-Deno.writeTextFileSync("./types.d.ts", types.replaceAll("export type ", "type "))
+// const types = Deno.readTextFileSync("./types.ts")
+// Deno.writeTextFileSync("./types.d.ts", types.replaceAll("export type ", "type "))

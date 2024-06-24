@@ -1,3 +1,5 @@
+import type { Handler } from "../types.ts"
+
 export function xUptimeDecorator<T extends unknown[]>(handler: Handler<T>): Handler<T> {
   let bootTime: number
 

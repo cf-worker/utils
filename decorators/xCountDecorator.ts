@@ -1,3 +1,5 @@
+import type { Handler } from "../types.ts"
+
 export function xCountDecorator<T extends unknown[]>(handler: Handler<T>): Handler<T> {
   let count = 0
   return async (...args: T) => {

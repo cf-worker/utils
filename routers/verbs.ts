@@ -1,3 +1,4 @@
+import type { MethodUrl, RouteMatcher } from "../types.ts"
 import { matchUrl } from "./matchUrl.ts"
 
 type Verb = (pattern: string) => RouteMatcher

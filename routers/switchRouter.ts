@@ -1,3 +1,4 @@
+import type { Dict, MethodUrl } from "../types.ts"
 import { matchUrl } from "./matchUrl.ts"
 
 export function switchRouter({ method, url }: MethodUrl, params: Dict = {}): Return {
