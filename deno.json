@@ -20,7 +20,8 @@
     "lint": "deno lint --fix --compact",
     "publish": "deno publish",
     "build:mod": "deno run -A build-mod.deno.ts",
-    "git-pre-commit": "test -e '.git' && git config core.hooksPath ./.githooks",
+    "git-pre-commit": "deno task test && deno task fmt && deno task lint",
+    "git-pre-commit:install": "test -e '.git' && git config core.hooksPath ./.githooks",
     "coverage": "rm -rf coverage; deno test -A --clean --parallel --coverage; deno coverage --html; echo open coverage/html/index.html"
   },
   "fmt": {

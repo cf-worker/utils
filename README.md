@@ -2,6 +2,11 @@
 
 Fully typed utils for Cloudflare Workers and Javascript in general.
 
+run git pre-commit:
+
+`git hook run pre-commit`
+`bash .githooks/pre-commit`
+
 ## TODO
 
 - [x] Create script to make sure that all functions are exported by mod.ts
