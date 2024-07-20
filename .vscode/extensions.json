@@ -1,3 +1,7 @@
 {
-  "recommendations": ["yoavbls.pretty-ts-errors", "biomejs.biome", "denoland.vscode-deno"]
+  "recommendations": [
+    "yoavbls.pretty-ts-errors",
+    "denoland.vscode-deno",
+    "usernamehw.errorlens"
+  ]
 }

@@ -1,12 +1,25 @@
 import type { Dict, MethodUrl } from "../types.ts"
 import { matchUrl } from "./matchUrl.ts"
 
+type Return = {
+  params: Dict
+  methodPath: string
+  ANY: (pattern: string) => string | undefined
+  GET: (pattern: string) => string | undefined
+  POST: (pattern: string) => string | undefined
+  PUT: (pattern: string) => string | undefined
+  PATCH: (pattern: string) => string | undefined
+  DELETE: (pattern: string) => string | undefined
+}
+
 export function switchRouter({ method, url }: MethodUrl, params: Dict = {}): Return {
+  const path = new URL(url).pathname
+  const methodPath = `${method} ${path}`
   function ANY(pattern: string) {
     const args = matchUrl(pattern, url)
     if (args) {
       Object.assign(params, args)
-      return new URL(url).pathname
+      return methodPath
     }
   }
 
@@ -18,15 +31,5 @@ export function switchRouter({ method, url }: MethodUrl, params: Dict = {}): Ret
   const PATCH = method === "PATCH" ? ANY : noop
   const DELETE = method === "DELETE" ? ANY : noop
 
-  return { params, ANY, GET, POST, PUT, PATCH, DELETE }
-}
-
-type Return = {
-  params: Dict
-  ANY: (pattern: string) => string | undefined
-  GET: (pattern: string) => string | undefined
-  POST: (pattern: string) => string | undefined
-  PUT: (pattern: string) => string | undefined
-  PATCH: (pattern: string) => string | undefined
-  DELETE: (pattern: string) => string | undefined
+  return { params, methodPath, ANY, GET, POST, PUT, PATCH, DELETE }
 }

@@ -4,10 +4,9 @@ import { matchUrl } from "./matchUrl.ts"
 type Verb = (pattern: string) => RouteMatcher
 
 export function verbify(verb: string): Verb {
-  return (pattern: string) =>
-    ({ method, url }: MethodUrl) => {
-      if (method === verb) return matchUrl(pattern, url)
-    }
+  return (pattern: string) => ({ method, url }: MethodUrl) => {
+    if (method === verb) return matchUrl(pattern, url)
+  }
 }
 
 export const GET: Verb = verbify("GET")

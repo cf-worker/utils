@@ -7,7 +7,7 @@ Deno.test("switchRouter GET success", () => {
 
   const router = switchRouter({ method, url })
 
-  assertEquals(router.GET("/users/:id"), "/users/123")
+  assertEquals(router.GET("/users/:id"), "GET /users/123")
   assertEquals(router.params, { id: "123" })
 
   assertEquals(router.POST("/users/:id"), undefined)
@@ -19,8 +19,7 @@ Deno.test("switchRouter GET success", () => {
 function route(method: string, url: string) {
   const r = switchRouter({ method, url })
 
-  const path = new URL(url).pathname
-  switch (path) {
+  switch (r.methodPath) {
     case r.GET("/users/:id"):
       return r.params.id
 
