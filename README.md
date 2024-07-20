@@ -2,7 +2,7 @@
 
 Fully typed utils for Cloudflare Workers and Javascript in general.
 
-run git pre-commit:
+run git pre-commit: (alternative: https://github.com/toplenboren/simple-git-hooks)
 
 `git hook run pre-commit`
 `bash .githooks/pre-commit`
@@ -28,8 +28,8 @@ run git pre-commit:
 - [ ] check deno.json dependencies
 - [ ] Add compatibility tests with cf, bun, node, browser and deno
 - [ ] Link test coverage on README
-- [ ] Create github ci to test, check, and coverage report
-- [ ] Add git pre-commit hooks
+- [ ] Create github ci to test, check, and coverage report https://docs.deno.com/runtime/manual/advanced/continuous_integration/
+- [x] Add git pre-commit hooks
 - [ ] Generate stats about lines of code, number of functions, etc
 - [ ] Add donation link
 - [ ] https://docs.deno.com/runtime/manual/basics/testing/documentation/
