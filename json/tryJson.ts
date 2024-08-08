@@ -8,6 +8,6 @@ export function tryJson<T>(json: string): T {
   try {
     return JSON.parse(json) as T
   } catch (error) { // SyntaxError
-    throw new Error(`${error.name}, ${error.message}:\n${json}`)
+    throw new SyntaxError(`${error.name}, ${error.message}:\n${json}`, { cause: json })
   }
 }
