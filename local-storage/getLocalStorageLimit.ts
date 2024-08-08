@@ -15,6 +15,8 @@ import { getLocalStorageUsage } from "./getLocalStorageUsage.ts"
  * const keyLength = stringByteLength(key)
  * localStorage.setItem(key, "a".repeat(DENO_LOCAL_STORAGE_LIMIT - keyLength))
  */
-export function getLocalStorageLimit(storage: Record<string, string> = globalThis.localStorage): number {
+export function getLocalStorageLimit(
+  storage: Record<string, string> = globalThis.localStorage,
+): number {
   return getLocalStorageUsage(storage) + fillLocalStorage({ storage })
 }

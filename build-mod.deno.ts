@@ -6,7 +6,12 @@ import { walkSync } from "@std/fs"
  */
 function buildMod(dir: string) {
   const code = Array.from(
-    walkSync(dir, { maxDepth: 1, includeDirs: false, exts: [".ts"], skip: [/\.test\.ts/, /mod\.ts/] }),
+    walkSync(dir, {
+      maxDepth: 1,
+      includeDirs: false,
+      exts: [".ts"],
+      skip: [/\.test\.ts/, /mod\.ts/],
+    }),
   )
     .map((entry) => entry.name)
     .sort()
@@ -20,7 +25,13 @@ function buildMod(dir: string) {
 }
 
 const code = Array.from(
-  walkSync(".", { maxDepth: 1, includeDirs: true, includeFiles: false, skip: [/\..+/], match: [/\w+/] }),
+  walkSync(".", {
+    maxDepth: 1,
+    includeDirs: true,
+    includeFiles: false,
+    skip: [/\..+/],
+    match: [/\w+/],
+  }),
 )
   .map((entry) => entry.name)
   .filter(buildMod)

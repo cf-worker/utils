@@ -14,10 +14,16 @@ Deno.test("setCors", () => {
   assertEquals(result.headers.get("Access-Control-Max-Age"), "7200")
   assertEquals(result.headers.get("Access-Control-Allow-Origin"), "*")
   assertEquals(result.headers.get("Access-Control-Allow-Credentials"), "true")
-  assertEquals(result.headers.get("Access-Control-Allow-Methods"), "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS")
+  assertEquals(
+    result.headers.get("Access-Control-Allow-Methods"),
+    "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS",
+  )
   assertEquals(result.headers.get("Access-Control-Allow-Headers"), "content-type,x-pingother")
 
   request.headers.delete("Access-Control-Request-Headers")
   result = setCors(response, request)
-  assertEquals(result.headers.get("Access-Control-Allow-Headers"), "accept, accept-language, authorization")
+  assertEquals(
+    result.headers.get("Access-Control-Allow-Headers"),
+    "accept, accept-language, authorization",
+  )
 })

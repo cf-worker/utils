@@ -1,6 +1,8 @@
 import { recursiveBinarySearchMax } from "../algorithms/recursiveBinarySearchMax.ts"
 
-export function fillLocalStorage(opts?: { min?: number; max?: number; storage?: Record<string, string> }): number {
+export function fillLocalStorage(
+  opts?: { min?: number; max?: number; storage?: Record<string, string> },
+): number {
   const { min, max, storage, keyPrefix } = {
     min: 1, // force the first test be 5_242_881 to fail in Chrome
     max: 5_242_880 * 2 + 1,
@@ -27,7 +29,9 @@ function writer(storage: Record<string, string>, keyPrefix = " ", char = "*") {
   return (bytes: number): number => {
     bytes = Math.max(0, bytes)
     // the last two tests with 1, will first write to keyPrefix, than to empty key ""
-    const key = bytes === 1 ? (keyPrefix in storage ? "" : keyPrefix) : keyPrefix + String.fromCharCode(i)
+    const key = bytes === 1
+      ? (keyPrefix in storage ? "" : keyPrefix)
+      : keyPrefix + String.fromCharCode(i)
     const value = char.repeat(bytes - key.length)
     try {
       storage[key] = value

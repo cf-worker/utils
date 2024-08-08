@@ -3,7 +3,8 @@ import { getLocalStorageUsage } from "./getLocalStorageUsage.ts"
 import { stringByteLength } from "../strings/stringByteLength.ts"
 
 function hashSize(storage: Record<string, string | null | undefined>): number {
-  return Object.entries(storage).flat().map((o) => String(o)).map((s) => stringByteLength(s)).reduce((a, b) => a + b, 0)
+  return Object.entries(storage).flat().map((o) => String(o)).map((s) => stringByteLength(s))
+    .reduce((a, b) => a + b, 0)
 }
 
 Deno.test("getLocalStorageUsage should return 0 when local storage is empty", () => {

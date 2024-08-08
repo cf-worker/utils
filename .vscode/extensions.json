@@ -1,7 +1,15 @@
 {
   "recommendations": [
-    "yoavbls.pretty-ts-errors",
+    "biomejs.biome",
     "denoland.vscode-deno",
-    "usernamehw.errorlens"
+    "eamodio.gitlens",
+    "pflannery.vscode-versionlens",
+    "pushqrdx.inline-html",
+    "tamasfe.even-better-toml",
+    "thinker.sort-json",
+    "unional.vscode-sort-package-json",
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    "yzhang.markdown-all-in-one"
   ]
 }

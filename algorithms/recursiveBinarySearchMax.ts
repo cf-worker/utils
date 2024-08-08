@@ -9,7 +9,11 @@
  * @example recursiveBinarySearchMax(0, 10, (v) => v < 5) => 4
  * @description only works if predicate returns true for all values from min to V.
  */
-export function recursiveBinarySearchMax(min: number, max: number, predicate: (value: number) => boolean): number {
+export function recursiveBinarySearchMax(
+  min: number,
+  max: number,
+  predicate: (value: number) => boolean,
+): number {
   if (min > max) return max
   const mid = Math.floor((min + max) / 2)
   if (predicate(mid)) {
