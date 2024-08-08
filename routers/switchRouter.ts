@@ -4,6 +4,7 @@ import { matchUrl } from "./matchUrl.ts"
 type Return = {
   methodPath: string
   params: Dict
+  method: string
   path: string
   ANY: (pattern: string) => string | undefined
   GET: (pattern: string) => string | undefined
@@ -24,9 +25,11 @@ export function switchRouter({ method, url }: MethodUrl, params: Dict = {}): Ret
       return methodPath
     }
   }
+
   return {
     methodPath,
     params,
+    method,
     path,
     ANY,
     GET: method === "GET" ? ANY : noop,
