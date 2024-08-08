@@ -26,7 +26,7 @@
   },
   "tasks": {
     "build:mod": "deno run -A build-mod.deno.ts",
-    "coverage": "rm -rf coverage; deno test -A --clean --parallel --coverage; deno coverage --html; echo open coverage/html/index.html",
+    "coverage": "rm -rf coverage; deno test -A --clean --parallel --coverage; deno coverage --html; deno coverage --detailed; echo open coverage/html/index.html",
     "fmt": "deno fmt",
     "git-pre-commit": "deno task test && deno task fmt && deno task lint",
     "git-pre-commit:install": "test -e '.git' && git config core.hooksPath ./.githooks",

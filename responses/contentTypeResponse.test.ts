@@ -16,3 +16,8 @@ test("contentTypeResponse", () => {
   expect(response.headers.get("Content-Type")).toBe("text/csv;charset=UTF-8")
   expect(response.headers.get("Content-Disposition")).toBe("attachment; filename=report.csv")
 })
+
+test("contentTypeResponse return response", () => {
+  const response = Response.redirect("http://localhost", 301)
+  expect(contentTypeResponse(response)).toBe(response)
+})

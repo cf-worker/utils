@@ -1,6 +1,6 @@
 export function contentTypeResponse(
   body: BodyInit | Response,
-  contentType: string,
+  contentType: string = "text/plain",
   init: ResponseInit = {},
 ): Response {
   if (body instanceof Response) return body
