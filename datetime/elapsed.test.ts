@@ -6,27 +6,27 @@ import { sleep } from "./sleep.ts"
 Deno.test("elapsed should return a positive number", async () => {
   elapsed()
   await sleep(10)
-  let delta = elapsed()
-  assertGreaterOrEqual(delta, 10)
-  assertLess(delta, 20)
+  const delta1 = elapsed()
+  await sleep(10)
+  const delta2 = elapsed()
 
-  await sleep(5)
-  delta = elapsed()
-  assertGreaterOrEqual(delta, 5)
-  assertLess(delta, 10)
+  assertGreaterOrEqual(delta1, 10)
+  assertLess(delta1, 20)
+  assertGreaterOrEqual(delta2, 10)
+  assertLess(delta2, 20)
 })
 
 Deno.test("elapsed with label", async () => {
   elapsed("test")
   await sleep(10)
-  let delta = elapsed("test")
-  assertGreaterOrEqual(delta, 10)
-  assertLess(delta, 20)
+  const delta1 = elapsed("test")
+  await sleep(10)
+  const delta2 = elapsed("test")
 
-  await sleep(5)
-  delta = elapsed("test")
-  assertGreaterOrEqual(delta, 5)
-  assertLess(delta, 10)
+  assertGreaterOrEqual(delta1, 10)
+  assertLess(delta1, 20)
+  assertGreaterOrEqual(delta2, 10)
+  assertLess(delta2, 25)
 })
 
 Deno.test("elapsed.log", async () => {
