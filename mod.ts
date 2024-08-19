@@ -1,6 +1,7 @@
 export * from "./algorithms/mod.ts"
 export * from "./arrays/mod.ts"
 export * from "./booleans/mod.ts"
+export * from "./cf/mod.ts"
 export * from "./cors/mod.ts"
 export * from "./datetime/mod.ts"
 export * from "./decorators/mod.ts"

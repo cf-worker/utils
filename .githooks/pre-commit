@@ -4,3 +4,4 @@
 exec 1>&2
 
 deno task git-pre-commit
+git update-index --again

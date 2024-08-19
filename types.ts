@@ -1,4 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
+export type { ExecutionContext } from "@cloudflare/workers-types/2023-07-01/index.d.ts"
+
 export type Async<T> = T | Promise<T>
 export type Handler<T extends unknown[]> = (...args: T) => Async<Response>
 export type RequestHandler<T extends unknown[]> = (req: Request, ...args: T) => Async<Response>
