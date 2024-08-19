@@ -34,6 +34,7 @@
     "format-deno-json": "deno run -A npm:json-sort-cli deno.json &&deno run -A npm:sort-package-json deno.json",
     "git-pre-commit": "deno task build:mod && deno task test && deno task fmt && deno task lint && deno task format-deno-json && deno task coverage",
     "git-pre-commit:install": "test -e '.git' && git config core.hooksPath ./.githooks",
+    "git-pre-commit:test": "git hook run pre-commit",
     "lint": "deno lint --fix --compact",
     "publish": "deno publish",
     "publish:dry": "deno publish --dry-run --allow-dirty -q",
