@@ -8,4 +8,5 @@ exec 1>&2
 
 deno task git-pre-commit
 
+# add changes made by the above checks
 git update-index --again
