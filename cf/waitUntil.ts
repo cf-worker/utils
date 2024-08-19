@@ -1,6 +1,9 @@
 import type { ExecutionContext } from "../types.ts"
 
-type Waitable = Promise<unknown> | (() => unknown)
+/**
+ * A promise or a function with no params
+ */
+export type Waitable = Promise<unknown> | (() => unknown)
 /**
  * This constant is shared between different executions,
  * so a running fetch handler may execute a promise enqueued by another execution context.
