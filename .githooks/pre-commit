@@ -1,7 +1,11 @@
 #!/bin/sh
 
+# exit on error
+set -e
+
 # Redirect output to stderr.
 exec 1>&2
 
 deno task git-pre-commit
+
 git update-index --again

@@ -37,6 +37,6 @@
     "lint": "deno lint --fix --compact",
     "publish": "deno publish",
     "publish:dry": "deno publish --dry-run --allow-dirty -q",
-    "test": "deno test -A --doc --parallel --check"
+    "test": "deno test -A --doc --parallel --check --fail-fast"
   }
 }
