@@ -20,6 +20,9 @@ function route(method: string, url: string) {
 
     case r.DELETE("/users/:id"):
       return r.params.id
+
+    case r.QUERY("/users/:id"):
+      return r.params.id
   }
 }
 
@@ -45,6 +48,7 @@ Deno.test("switchRouter router", () => {
   assertEquals(route("PUT", "https://example.com/users/3"), "3")
   assertEquals(route("PATCH", "https://example.com/users/4"), "4")
   assertEquals(route("DELETE", "https://example.com/users/5"), "5")
+  assertEquals(route("QUERY", "https://example.com/users/6"), "6")
 })
 
 Deno.test("switchRouter initial params", () => {

@@ -15,6 +15,7 @@ type Return<P extends Record<string, unknown>> = {
   PUT: (pattern: string) => string | undefined
   POST: (pattern: string) => string | undefined
   PATCH: (pattern: string) => string | undefined
+  QUERY: (pattern: string) => string | undefined
   DELETE: (pattern: string) => string | undefined
 }
 
@@ -45,6 +46,7 @@ export function switchRouter<Fixed extends Record<string, unknown>, Default exte
     PUT: method === "PUT" ? ANY : noop,
     POST: method === "POST" ? ANY : noop,
     PATCH: method === "PATCH" ? ANY : noop,
+    QUERY: method === "QUERY" ? ANY : noop,
     DELETE: method === "DELETE" ? ANY : noop,
   }
 }

@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert"
-import { DELETE, GET, PATCH, POST, PUT } from "./verbs.ts"
+import { DELETE, GET, PATCH, POST, PUT, QUERY } from "./verbs.ts"
 
 Deno.test("GET success", () => {
   const pattern = "/users/:id"
@@ -77,6 +77,22 @@ Deno.test("DELETE fail", () => {
   const pattern = "/users/:id"
   const methodUrl = { method: "DELETE", url: "/users" }
   const matcher = DELETE(pattern)
+  const result = matcher(methodUrl)
+  assertEquals(result, undefined)
+})
+
+Deno.test("QUERY success", () => {
+  const pattern = "/users/:id"
+  const methodUrl = { method: "QUERY", url: "/users/123" }
+  const matcher = QUERY(pattern)
+  const result = matcher(methodUrl)
+  assertEquals(result, { id: "123" })
+})
+
+Deno.test("QUERY fail", () => {
+  const pattern = "/users/:id"
+  const methodUrl = { method: "QUERY", url: "/users" }
+  const matcher = QUERY(pattern)
   const result = matcher(methodUrl)
   assertEquals(result, undefined)
 })

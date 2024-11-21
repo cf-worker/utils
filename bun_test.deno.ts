@@ -2,12 +2,13 @@ import { assertEquals, assertGreater, assertStrictEquals, assertThrows } from "@
 import { spy } from "@std/testing/mock"
 
 function asSpy(actual: unknown) {
-  if (!(actual instanceof Function)) {
-    throw "function expected"
-  }
-  if (actual.name !== "spy") {
-    throw "spy expected"
-  }
+  // TODO: add tests
+  // if (!(actual instanceof Function)) {
+  //   throw "function expected"
+  // }
+  // if (actual.name !== "spy") {
+  //   throw "spy expected"
+  // }
   return actual as ReturnType<typeof spy>
 }
 

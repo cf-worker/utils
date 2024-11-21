@@ -8,9 +8,9 @@
   // "[jsonc]": {
   //   "editor.defaultFormatter": "denoland.vscode-deno"
   // },
-  // "[typescript]": {
-  //   "editor.defaultFormatter": "denoland.vscode-deno"
-  // },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
   // "biome.rename": true,
   "deno.enable": true,
   "deno.lint": true,

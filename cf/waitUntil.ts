@@ -32,9 +32,8 @@ export function waitUntilPush(fn: Waitable): void {
 export function waitUntilShift(ec: Pick<ExecutionContext, "waitUntil">): number {
   const length = WAITABLE_QUEUE.length
   let i = 0
-  while (WAITABLE_QUEUE.length > 0) {
-    const waitable = WAITABLE_QUEUE.shift()
-    if (!waitable) continue
+  let waitable: Waitable | undefined
+  while ((waitable = WAITABLE_QUEUE.shift()) !== undefined) {
     i++
     console.info(`waitUntil(${i}/${length}): ${waitable}`)
     const promise = waitable instanceof Promise ? waitable : Promise.resolve(waitable())
