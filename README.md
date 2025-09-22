@@ -6,6 +6,10 @@ Skip git-precommit: `git commit -m "commit message" --no-verify # -n for shortha
 
 `files.toSorted((a, b) => a.localeCompare(b, undefined, { numeric: true }))`
 
+## TODO
+
+- [ ] https://developers.cloudflare.com/workers/examples/signing-requests/
+
 ## Links
 
 - https://github.com/cfworker/cfworker

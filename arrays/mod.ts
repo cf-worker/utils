@@ -1,3 +1,4 @@
+export * from "./arrayBalanced.ts"
 export * from "./arrayDifference.ts"
 export * from "./arrayDuplicates.ts"
 export * from "./arrayIntersection.ts"
