@@ -9,6 +9,6 @@ test("base64Encode", () => {
   let base64 = base64Encode(uint8Array)
   expect(base64).toEqual(expected)
 
-  base64 = base64Encode(uint8Array.buffer)
+  base64 = base64Encode(uint8Array)
   expect(base64).toEqual(expected)
 })

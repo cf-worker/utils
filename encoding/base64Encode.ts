@@ -1,11 +1,11 @@
 /**
- * Encodes a given buffer into a base64 string.
+ * Encodes a given buffer into a base64 string url safe.
  *
- * @param {ArrayLike<number> | ArrayBufferLike} buffer - The buffer to be encoded.
+ * @param {ArrayLike<number>} buffer - The buffer to be encoded.
  * @return {string} The base64 encoded string.
  * @see https://tc39.es/proposal-arraybuffer-base64/
  */
-export function base64Encode(buffer: ArrayLike<number> | ArrayBufferLike): string {
+export function base64Encode(buffer: ArrayLike<number>): string {
   return btoa(
     String.fromCharCode(
       ...new Uint8Array(buffer),
