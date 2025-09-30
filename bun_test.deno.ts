@@ -34,13 +34,13 @@ export const expect = (actual: unknown) => ({
 
   toBeGreaterThanOrEqual: (expected: number) => assertGreaterOrEqual(actual as number, expected),
 
-  toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),
+  // toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),
 
   toBeLessThanOrEqual: (expected: number) => assertLessOrEqual(actual as number, expected),
 
   toBeLessThan: (expected: number) => assertLess(actual, expected),
 
-  toBeNaN: () => assertStrictEquals(Number.isNaN(actual as number), true),
+  // toBeNaN: () => assertStrictEquals(Number.isNaN(actual as number), true),
 
   toBeInstanceOf: (expectedType: Parameters<typeof assertInstanceOf>[1]) =>
     assertInstanceOf(actual, expectedType),

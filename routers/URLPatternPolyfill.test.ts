@@ -56,3 +56,12 @@ test("URLPatternPolyfill url", () => {
     ext: "html",
   })
 })
+
+test("edge case", () => {
+  const match = new URLPatternPolyfill({ pathname: "/" }).exec("/")
+  expect(match).toEqual({
+    pathname: {
+      groups: {},
+    },
+  })
+})
