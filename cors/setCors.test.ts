@@ -1,7 +1,7 @@
-import { assertEquals } from "@std/assert"
+import { expect, test } from "bun:test"
 import { setCors } from "./setCors.ts"
 
-Deno.test("setCors", () => {
+test("setCors", () => {
   const response = new Response()
   const request = new Request("https://example.com", {
     headers: new Headers({
@@ -11,19 +11,21 @@ Deno.test("setCors", () => {
 
   let result = setCors(response, request)
 
-  assertEquals(result.headers.get("Access-Control-Max-Age"), "7200")
-  assertEquals(result.headers.get("Access-Control-Allow-Origin"), "*")
-  assertEquals(result.headers.get("Access-Control-Allow-Credentials"), "true")
-  assertEquals(
+  expect(result.headers.get("Access-Control-Max-Age")).toBe("7200")
+  expect(result.headers.get("Access-Control-Allow-Origin")).toBe("*")
+  expect(result.headers.get("Access-Control-Allow-Credentials")).toBe("true")
+  expect(
     result.headers.get("Access-Control-Allow-Methods"),
+  ).toBe(
     "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS",
   )
-  assertEquals(result.headers.get("Access-Control-Allow-Headers"), "content-type,x-pingother")
+  expect(result.headers.get("Access-Control-Allow-Headers")).toBe("content-type,x-pingother")
 
   request.headers.delete("Access-Control-Request-Headers")
   result = setCors(response, request)
-  assertEquals(
+  expect(
     result.headers.get("Access-Control-Allow-Headers"),
+  ).toBe(
     "accept, accept-language, authorization",
   )
 })

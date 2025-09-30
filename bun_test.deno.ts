@@ -1,5 +1,16 @@
-import { assertEquals, assertGreater, assertStrictEquals, assertThrows } from "@std/assert"
+import {
+  assertEquals,
+  assertGreater,
+  assertGreaterOrEqual,
+  assertInstanceOf,
+  assertLess,
+  assertLessOrEqual,
+  assertStrictEquals,
+  assertThrows,
+} from "@std/assert"
 import { spy } from "@std/testing/mock"
+
+export { spy as spyOn } from "@std/testing/mock"
 
 function asSpy(actual: unknown) {
   // TODO: add tests
@@ -19,19 +30,22 @@ export const expect = (actual: unknown) => ({
   toBe: (expected: unknown) => assertStrictEquals(actual, expected),
 
   toBeUndefined: () => assertStrictEquals(actual, undefined),
+  toBeNull: () => assertStrictEquals(actual, null),
 
-  // toBeGreaterThanOrEqual: (expected: number) => assertGreaterOrEqual(actual as number, expected),
+  toBeGreaterThanOrEqual: (expected: number) => assertGreaterOrEqual(actual as number, expected),
 
-  // toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),
+  toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),
 
-  // toBeLessThanOrEqual: (expected: number) => assertLessOrEqual(actual as number, expected),
+  toBeLessThanOrEqual: (expected: number) => assertLessOrEqual(actual as number, expected),
 
-  // toBeLessThan: (expected: number) => assertLess(actual, expected),
+  toBeLessThan: (expected: number) => assertLess(actual, expected),
 
-  // toBeNaN: () => assertStrictEquals(Number.isNaN(actual as number), true),
+  toBeNaN: () => assertStrictEquals(Number.isNaN(actual as number), true),
 
-  toThrow: (expected: Parameters<typeof assertThrows>[1]) =>
-    assertThrows(actual as () => unknown, expected),
+  toBeInstanceOf: (expectedType: Parameters<typeof assertInstanceOf>[1]) =>
+    assertInstanceOf(actual, expectedType),
+
+  toThrow: (expected?: unknown) => assertThrows(actual as () => unknown, expected as string),
 
   toHaveBeenCalled: () => assertGreater(asSpy(actual).calls.length, 0),
 

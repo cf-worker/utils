@@ -1,0 +1,13 @@
+{
+  "lockfileVersion": 1,
+  "workspaces": {
+    "": {
+      "devDependencies": {
+        "@svarta/walk-it": "npm:@jsr/svarta__walk-it",
+      },
+    },
+  },
+  "packages": {
+    "@svarta/walk-it": ["@jsr/svarta__walk-it@5.0.1", "https://npm.jsr.io/~/11/@jsr/svarta__walk-it/5.0.1.tgz", {}, "sha512-nGtYSxT6MF5N0PZq0BnBk0rgFHTw04XIu3HqJrBAaDo68I1Vk1JECExmj0i6gcO0VSkveq+s3UTk4YLdqHATRg=="],
+  }
+}

@@ -1,14 +1,14 @@
-import { assertEquals } from "@std/assert"
+import { expect, test } from "bun:test"
 import { matchUrl } from "./matchUrl.ts"
 
-Deno.test("matchUrl success", () => {
-  assertEquals(matchUrl("/users/:id", "http://localhost/users/123")?.id, "123")
+test("matchUrl success", () => {
+  expect(matchUrl("/users/:id", "http://localhost/users/123")?.id).toBe("123")
 })
 
-Deno.test("matchUrl accepts pathname", () => {
-  assertEquals(matchUrl("/users/:id", "/users/123")?.id, "123")
+test("matchUrl accepts pathname", () => {
+  expect(matchUrl("/users/:id", "/users/123")?.id).toEqual("123")
 })
 
-Deno.test("matchUrl fail returns undefined", () => {
-  assertEquals(matchUrl("/users/:id", "http://localhost/users"), undefined)
+test("matchUrl fail returns undefined", () => {
+  expect(matchUrl("/users/:id", "http://localhost/users")).toBeUndefined()
 })

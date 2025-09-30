@@ -1,7 +1,7 @@
-import { assertEquals } from "@std/assert"
+import { expect, test } from "bun:test"
 import { pluck } from "./pluck.ts"
 
-Deno.test("pluck should return an array of values extracted from objects", () => {
+test("pluck should return an array of values extracted from objects", () => {
   const array = [
     { name: "John", age: 25 },
     { name: "Jane", age: 30 },
@@ -10,19 +10,19 @@ Deno.test("pluck should return an array of values extracted from objects", () =>
 
   const result = pluck(array, "name")
 
-  assertEquals(result, ["John", "Jane", "Bob"])
+  expect(result).toEqual(["John", "Jane", "Bob"])
 })
 
-Deno.test("pluck should return an empty array when input array is empty", () => {
+test("pluck should return an empty array when input array is empty", () => {
   // deno-lint-ignore no-explicit-any
   const array: any[] = []
 
   const result = pluck(array, "name")
 
-  assertEquals(result, [])
+  expect(result).toEqual([])
 })
 
-Deno.test("pluck should return an array of undefined values when key does not exist in objects", () => {
+test("pluck should return an array of undefined values when key does not exist in objects", () => {
   const array = [
     { name: "John", age: 25 },
     { name: "Jane", age: 30 },
@@ -31,6 +31,5 @@ Deno.test("pluck should return an array of undefined values when key does not ex
 
   // @ts-expect-error email does not exist in the object
   const result = pluck(array, "email")
-  // @ts-expect-error email does not exist in the object
-  assertEquals(result, [undefined, undefined, undefined])
+  expect(result).toEqual([undefined, undefined, undefined])
 })

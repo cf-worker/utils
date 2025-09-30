@@ -1,32 +1,38 @@
-import { assertEquals } from "@std/assert"
+import { expect, test } from "bun:test"
 import { findRoute } from "./findRoute.ts"
+import { URLPatternPolyfill } from "./URLPatternPolyfill.ts"
 import { GET, POST } from "./verbs.ts"
+
+if (typeof globalThis.URLPattern === "undefined") {
+  // @ts-expect-error: URLPatternPolyfill
+  globalThis.URLPattern = URLPatternPolyfill
+}
 
 const routes = new Map([
   [GET("/"), "root"],
   [POST("/users/:id"), "users"],
 ])
 
-Deno.test("GET /", () => {
+test("GET /", () => {
   const req = new Request("data:///")
   const params = {}
   const result = findRoute(routes, req, params)
-  assertEquals(result, "root")
-  assertEquals(params, {})
+  expect(result).toBe("root")
+  expect(params).toEqual({})
 })
 
-Deno.test("POST /users/123", () => {
+test("POST /users/123", () => {
   const req = new Request("data:///users/123", { method: "POST" })
   const params = {}
   const result = findRoute(routes, req, params)
-  assertEquals(result, "users")
-  assertEquals(params, { id: "123" })
+  expect(result).toBe("users")
+  expect(params).toEqual({ id: "123" })
 })
 
-Deno.test("DELETE /users/123", () => {
+test("DELETE /users/123", () => {
   const req = new Request("data:///users/123", { method: "DELETE" })
   const params = {}
   const result = findRoute(routes, req, params)
-  assertEquals(result, undefined)
-  assertEquals(params, {})
+  expect(result).toBeUndefined()
+  expect(params).toEqual({})
 })

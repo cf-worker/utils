@@ -20,13 +20,19 @@ export class URLPatternPolyfill {
     this.#regexp = RegExp(`^${pattern}/*$`)
   }
 
-  exec(input: URLPatternInput): { pathname: Pick<URLPatternComponentResult, "groups"> } | null {
+  exec(
+    input: URLPatternInput,
+  ): { pathname: Pick<URLPatternComponentResult, "groups"> } | null {
     if (typeof input === "string") {
+      if (!URL.canParse(input)) {
+        input = `data://${input}`
+      }
       return this.exec(new URL(input))
     }
     const pathname = String(input.pathname)
-    const groups = this.#regexp.exec(pathname)?.groups
-    if (!groups) return null
+    const match = this.#regexp.exec(pathname)
+    if (!match) return null
+    const groups = match.groups ?? {}
     return {
       pathname: {
         groups,

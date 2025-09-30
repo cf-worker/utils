@@ -1,16 +1,16 @@
-import { assertEquals } from "@std/assert"
+import { expect, test } from "bun:test"
 import { recursiveBinarySearchMax } from "./recursiveBinarySearchMax.ts"
 
-Deno.test("recursiveBinarySearchMax from 0 to 100", () => {
+test("recursiveBinarySearchMax from 0 to 100", () => {
   const min = 0
   const max = 100
   for (let i = min; i <= max; i++) {
-    assertEquals(recursiveBinarySearchMax(min, max, (v) => v <= i), i)
+    expect(recursiveBinarySearchMax(min, max, (v) => v <= i)).toEqual(i)
   }
 })
 
-Deno.test("recursiveBinarySearchMax should return lower than min if not found", () => {
+test("recursiveBinarySearchMax should return lower than min if not found", () => {
   const min = 5
   const max = 10
-  assertEquals(recursiveBinarySearchMax(min, max, (v) => v > max), 4)
+  expect(recursiveBinarySearchMax(min, max, (v) => v > max)).toEqual(4)
 })

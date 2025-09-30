@@ -1,11 +1,13 @@
 {
   "name": "@cf-worker/utils",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "imports": {
     "@cloudflare/workers-types": "npm:@cloudflare/workers-types@^4.20250922.0",
     "@std/assert": "jsr:@std/assert@^1.0.14",
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/testing": "jsr:@std/testing@^1.0.15",
+    "@svarta/walk-it": "jsr:@svarta/walk-it@^5.0.1",
+    "bun": "./bun_polyfill.deno.ts",
     "bun:test": "./bun_test.deno.ts"
   },
   "exports": "./mod.ts",
@@ -17,6 +19,7 @@
     "singleQuote": false,
     "useTabs": false
   },
+  "nodeModulesDir": "auto",
   "publish": {
     "exclude": [
       "**/*.test.ts"

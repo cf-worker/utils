@@ -1,10 +1,10 @@
-import { assertEquals } from "@std/assert"
+import { expect, test } from "bun:test"
 import { noContentResponse } from "./noContentResponse.ts"
 
-Deno.test("noContentResponse", () => {
+test("noContentResponse", () => {
   const response = noContentResponse()
 
-  assertEquals(response.status, 204)
-  assertEquals(response.statusText, "No Content")
-  assertEquals(response.headers.get("Content-Length"), "0")
+  expect(response.status).toEqual(204)
+  expect(response.statusText).toEqual("No Content")
+  expect(response.headers.get("Content-Length")).toEqual("0")
 })

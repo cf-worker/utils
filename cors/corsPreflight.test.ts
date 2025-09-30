@@ -1,16 +1,16 @@
-import { assertEquals, assertInstanceOf } from "@std/assert"
+import { expect, test } from "bun:test"
 import { corsPreflight } from "./corsPreflight.ts"
 
-Deno.test("corsPreflight OPTIONS", () => {
+test("corsPreflight OPTIONS", () => {
   const request = new Request("https://example.com", {
     method: "OPTIONS",
   })
   const actualResponse = corsPreflight(request)
-  assertInstanceOf(actualResponse, Response)
+  expect(actualResponse).toBeInstanceOf(Response)
 })
 
-Deno.test("corsPreflight GET", () => {
+test("corsPreflight GET", () => {
   const request = new Request("https://example.com")
   const actualResponse = corsPreflight(request)
-  assertEquals(actualResponse, undefined)
+  expect(actualResponse).toBeUndefined()
 })
