@@ -1,3 +1,8 @@
+/**
+ * Return a function to match a pattern
+ * @param pattern
+ * @returns
+ */
 export function matcherPath(
   pattern: string,
 ): (pathname: string) => Record<string, string | undefined> | undefined {

@@ -1,4 +1,4 @@
-type URLJson = Omit<URL, "toString" | "toJSON">
+export type URLJson = Omit<URL, "toString" | "toJSON">
 
 /**
  * You can't convert URL to json, this function fixes that

@@ -1,10 +1,12 @@
 # @cf-worker/utils
 
-Fully typed utils for Cloudflare Workers and Javascript in general.
+![JSR Version](https://img.shields.io/jsr/v/@cf-worker/utils)
+![Bun ready](https://img.shields.io/static/v1?label=&message=Bun+ready&color=%23000000&logo=bun)
+![Deno ready](https://img.shields.io/static/v1?label=&message=Deno+ready&color=%23000000&logo=deno)
+![ESM ready](https://img.shields.io/static/v1?label=&message=ESM+ready&color=%23000000&logo=javascript)
+![100% Typed](https://img.shields.io/static/v1?label=&message=100%+Typed&color=%23000000&logo=typescript)
 
-Skip git-precommit: `git commit -m "commit message" --no-verify # -n for shorthand`
-
-`files.toSorted((a, b) => a.localeCompare(b, undefined, { numeric: true }))`
+Fully typed utils for Cloudflare Workers and modern Javascript like Deno and Bun.
 
 ## TODO
 
@@ -16,3 +18,20 @@ Skip git-precommit: `git commit -m "commit message" --no-verify # -n for shortha
 - https://github.com/lowlighter/libs
 - https://sindresorhus.com/blog/micro-benchmark-fallacy
 - https://sinja.io/blog/build-typesafe-react-router-from-scratch#high-level-overview-of-api
+
+## Development
+
+Every new file need to run `deno run build:mod` to export it.
+
+Check dependencies with `deno run check-deps`.
+
+#### Testing
+
+Works with both `bun test` and `deno run test`
+
+#### Skip git-precommit
+
+```shell
+git commit -m "commit message" --no-verify
+# -n for shorthand
+```

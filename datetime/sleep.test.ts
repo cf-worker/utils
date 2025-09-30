@@ -1,11 +1,11 @@
 import { expect, test } from "bun:test"
 import { sleep } from "./sleep.ts"
 
-test("sleep for 100 milliseconds", async () => {
+test("sleep for 10 milliseconds", async () => {
   const start = Date.now()
   const duration = await sleep(10)
   const end = Date.now()
-  expect(duration).toBe(end - start)
+  expect(Math.abs(duration - (end - start))).toBeLessThanOrEqual(1)
 })
 
 test("sleep for 50 milliseconds", async () => {

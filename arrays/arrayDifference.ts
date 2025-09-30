@@ -1,4 +1,4 @@
-type ArrayDiff = {
+export type ArrayDiff = {
   removed: number[]
   added: number[]
 }
