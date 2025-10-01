@@ -1,6 +1,6 @@
 # @cf-worker/utils
 
-![JSR Version](https://img.shields.io/jsr/v/@cf-worker/utils)
+[![JSR](https://jsr.io/badges/@cf-worker/utils)](https://jsr.io/@cf-worker/utils)
 ![Bun ready](https://img.shields.io/static/v1?label=&message=Bun+ready&color=%23000000&logo=bun)
 ![Deno ready](https://img.shields.io/static/v1?label=&message=Deno+ready&color=%23000000&logo=deno)
 ![ESM ready](https://img.shields.io/static/v1?label=&message=ESM+ready&color=%23000000&logo=javascript)
