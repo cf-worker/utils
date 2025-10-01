@@ -10,8 +10,7 @@ test("fetchProxy", async () => {
     },
   })
   const response = await fetchProxy(req, "https://echo.free.beeceptor.com")
-  // deno-lint-ignore no-explicit-any
-  const json = await response.json<any>()
+  const json = await response.json()
   expect(json.method).toEqual("POST")
   expect(Object.keys(json.headers).includes("content-encoding")).toBe(false)
   expect(Object.keys(json.headers).includes("x-runtime-proxy")).toBe(false)

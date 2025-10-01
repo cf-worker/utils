@@ -10,7 +10,6 @@
     "jsr:@std/path@^1.1.1": "1.1.2",
     "jsr:@std/testing@^1.0.15": "1.0.15",
     "jsr:@svarta/walk-it@^5.0.1": "5.0.1",
-    "npm:@cloudflare/workers-types@^4.20250922.0": "4.20250922.0",
     "npm:@jsr/svarta__walk-it@*": "5.0.1",
     "npm:@types/node@*": "24.2.0",
     "npm:json-sort-cli@*": "4.0.4",
@@ -60,9 +59,6 @@
     }
   },
   "npm": {
-    "@cloudflare/workers-types@4.20250922.0": {
-      "integrity": "sha512-BaqlKnVc0Xzqm9xt3TC4v0yB9EHy5vVqpiWz+DAsbEmdcpUbqdBschvI9502p6FgFbZElD7XcxTEeViXLsoO0A=="
-    },
     "@jsr/svarta__walk-it@5.0.1": {
       "integrity": "sha512-nGtYSxT6MF5N0PZq0BnBk0rgFHTw04XIu3HqJrBAaDo68I1Vk1JECExmj0i6gcO0VSkveq+s3UTk4YLdqHATRg==",
       "tarball": "https://npm.jsr.io/~/11/@jsr/svarta__walk-it/5.0.1.tgz"
@@ -657,8 +653,7 @@
       "jsr:@std/assert@^1.0.14",
       "jsr:@std/fs@^1.0.19",
       "jsr:@std/testing@^1.0.15",
-      "jsr:@svarta/walk-it@^5.0.1",
-      "npm:@cloudflare/workers-types@^4.20250922.0"
+      "jsr:@svarta/walk-it@^5.0.1"
     ],
     "packageJson": {
       "dependencies": [

@@ -1,6 +1,5 @@
 import {
   assertEquals,
-  assertGreater,
   assertGreaterOrEqual,
   assertInstanceOf,
   assertLess,
@@ -8,7 +7,7 @@ import {
   assertStrictEquals,
   assertThrows,
 } from "@std/assert"
-import { spy } from "@std/testing/mock"
+import type { spy } from "@std/testing/mock"
 
 export { spy as spyOn } from "@std/testing/mock"
 
@@ -34,24 +33,21 @@ export const expect = (actual: unknown) => ({
 
   toBeGreaterThanOrEqual: (expected: number) => assertGreaterOrEqual(actual as number, expected),
 
-  // toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),
-
   toBeLessThanOrEqual: (expected: number) => assertLessOrEqual(actual as number, expected),
 
   toBeLessThan: (expected: number) => assertLess(actual, expected),
-
-  // toBeNaN: () => assertStrictEquals(Number.isNaN(actual as number), true),
 
   toBeInstanceOf: (expectedType: Parameters<typeof assertInstanceOf>[1]) =>
     assertInstanceOf(actual, expectedType),
 
   toThrow: (expected?: unknown) => assertThrows(actual as () => unknown, expected as string),
 
-  toHaveBeenCalled: () => assertGreater(asSpy(actual).calls.length, 0),
-
   toHaveBeenCalledTimes: (times: number) => assertStrictEquals(asSpy(actual).calls.length, times),
+  // toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),
+  // toBeNaN: () => assertStrictEquals(Number.isNaN(actual as number), true),
+  // toHaveBeenCalled: () => assertGreater(asSpy(actual).calls.length, 0),
 })
 
-export const mock = (fn: (...args: unknown[]) => unknown) => {
-  return spy(fn)
-}
+// export const mock = (fn: (...args: unknown[]) => unknown) => {
+//   return spy(fn)
+// }

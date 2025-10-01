@@ -8,9 +8,9 @@ const paths = (await Array.fromAsync(
   walkFiles(".", {
     maxLevel: 2,
     recursive: true,
-    filterFile: ({ name }) =>
+    filterFile: ({ name, parentPath }) =>
       name.endsWith(".ts") && !name.endsWith(".deno.ts") && !name.endsWith(".test.ts") &&
-      !name.endsWith("mod.ts") && !name.endsWith("types.ts"),
+      !name.endsWith("mod.ts") && !name.endsWith("types.ts") && !parentPath.includes("/lab/"),
   }),
 )).map((entry) => entry.path)
 

@@ -26,7 +26,8 @@ export function response2json(response: Response): ResponseJson {
     statusText: response.statusText,
     bodyUsed: response.bodyUsed,
     redirected: response.redirected,
-    cf: response.cf,
+    // deno-lint-ignore no-explicit-any
+    cf: (response as any).cf,
     type: response.type,
     url,
     headers: headers2json(response.headers),

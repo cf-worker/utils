@@ -10,7 +10,7 @@ function buildMod(dir: string) {
       maxDepth: 1,
       includeDirs: false,
       exts: [".ts"],
-      skip: [/\.test\.ts/, /mod\.ts/],
+      skip: [/\.test\.ts/, /mod\.ts/, /lab\//],
     }),
   )
     .map((entry) => entry.name)
