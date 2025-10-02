@@ -1,0 +1,37 @@
+import { expect, test } from "bun:test"
+import { isTruthy } from "./isTruthy.ts"
+
+test("isTruthy true", () => {
+  expect(isTruthy([])).toBe(true)
+  expect(isTruthy([0])).toBe(true)
+  expect(isTruthy([null])).toBe(true)
+  expect(isTruthy([undefined])).toBe(true)
+  expect(isTruthy([""])).toBe(true)
+  expect(isTruthy({})).toBe(true)
+  expect(isTruthy(true)).toBe(true)
+  expect(isTruthy(1)).toBe(true)
+  expect(isTruthy(2)).toBe(true)
+  expect(isTruthy("anything")).toBe(true)
+  expect(isTruthy(new Date())).toBe(true)
+  expect(isTruthy(1234567890n)).toBe(true)
+  expect(isTruthy(() => 0)).toBe(true)
+  expect(isTruthy(Symbol())).toBe(true)
+  expect(isTruthy(new Response())).toBe(true)
+  expect(isTruthy(Promise.resolve())).toBe(true)
+})
+
+test("isTruthy false", () => {
+  expect(isTruthy(false)).toBe(false)
+  expect(isTruthy(0)).toBe(false)
+  expect(isTruthy("f")).toBe(false)
+  expect(isTruthy("false")).toBe(false)
+  expect(isTruthy(0n)).toBe(false)
+  expect(isTruthy("n")).toBe(false)
+  expect(isTruthy("no")).toBe(false)
+  expect(isTruthy("")).toBe(false)
+  expect(isTruthy("null")).toBe(false)
+  expect(isTruthy(null)).toBe(false)
+  expect(isTruthy("off")).toBe(false)
+  expect(isTruthy("undefined")).toBe(false)
+  expect(isTruthy(undefined)).toBe(false)
+})
