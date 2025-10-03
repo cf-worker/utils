@@ -33,11 +33,55 @@ test("elapsed.log", async () => {
   try {
     elapsed("log")
     await sleep(10)
+    expect(info).toHaveBeenCalledTimes(0)
     const delta = elapsed.log("log")
     expect(delta).toBeGreaterThanOrEqual(10)
     expect(delta).toBeLessThan(30)
     expect(info).toHaveBeenCalledTimes(1)
   } finally {
-    // info.restore()
+    info.mockRestore()
+  }
+})
+
+test("elapsed.new", async () => {
+  let elapse = elapsed.new()
+  await sleep(10)
+  let lap = elapse.lap()
+  let delta = elapse()
+  expect(delta).toBeGreaterThanOrEqual(10)
+  expect(delta).toBeLessThan(20)
+  expect(lap).toBeGreaterThanOrEqual(10)
+  expect(lap).toBeLessThan(20)
+
+  elapse = elapsed.new()
+  await sleep(10)
+  lap = elapse.lap()
+  delta = elapse()
+  expect(delta).toBeGreaterThanOrEqual(10)
+  expect(delta).toBeLessThan(20)
+  expect(lap).toBeGreaterThanOrEqual(10)
+  expect(lap).toBeLessThan(20)
+
+  await sleep(10)
+  lap = elapse.lap()
+  delta = elapse()
+  expect(delta).toBeGreaterThanOrEqual(20)
+  expect(delta).toBeLessThan(30)
+  expect(lap).toBeGreaterThanOrEqual(10)
+  expect(lap).toBeLessThan(20)
+})
+
+test("elapsed.new(label)", async () => {
+  const info = spyOn(console, "info")
+  try {
+    const elapse = elapsed.new()
+    await sleep(10)
+    expect(info).toHaveBeenCalledTimes(0)
+    const delta = elapse("log")
+    expect(delta).toBeGreaterThanOrEqual(10)
+    expect(delta).toBeLessThan(30)
+    expect(info).toHaveBeenCalledTimes(1)
+  } finally {
+    info.mockRestore()
   }
 })

@@ -7,9 +7,18 @@ import {
   assertStrictEquals,
   assertThrows,
 } from "@std/assert"
-import type { spy } from "@std/testing/mock"
+import { spy } from "@std/testing/mock"
 
-export { spy as spyOn } from "@std/testing/mock"
+export function spyOn<Self, Prop extends keyof Self>(
+  self: Self,
+  property: Prop,
+) {
+  const mockSpy = spy(self, property)
+  const mockRestore = mockSpy.restore.bind(mockSpy)
+  const restore = { mockRestore }
+  Object.assign(mockSpy, restore)
+  return mockSpy as typeof mockSpy & typeof restore
+}
 
 function asSpy(actual: unknown) {
   // TODO: add tests
