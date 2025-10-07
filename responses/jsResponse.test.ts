@@ -5,7 +5,7 @@ test("jsResponse should create a JavaScript response with the correct content ty
   const body = 'alert("Hello, world!");'
   const response = jsResponse(body)
 
-  expect(response.headers.get("Content-Type")).toBe("application/javascript;charset=UTF-8")
+  expect(response.headers.get("Content-Type")).toBe("text/javascript;charset=UTF-8")
 })
 
 test("jsResponse should create a JavaScript response with the provided body", async () => {

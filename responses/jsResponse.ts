@@ -8,5 +8,5 @@ import { contentTypeResponse } from "./contentTypeResponse.ts"
  * @return {Response} The JavaScript response.
  */
 export function jsResponse(body: BodyInit | Response, init?: ResponseInit): Response {
-  return contentTypeResponse(body, "application/javascript", init)
+  return contentTypeResponse(body, "text/javascript", init)
 }
