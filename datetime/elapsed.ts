@@ -36,7 +36,7 @@ elapsed.log = (label: string = ""): number => {
  * Returns a new independent instance to use when measuring async code
  * @returns
  */
-elapsed.new = (): { (label?: string, last?: number): number; lap(label?: string): number } => {
+elapsed.start = (): { (label?: string, last?: number): number; lap(label?: string): number } => {
   const start = Date.now()
   let _last = start
 

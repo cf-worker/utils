@@ -43,8 +43,8 @@ test("elapsed.log", async () => {
   }
 })
 
-test("elapsed.new", async () => {
-  let elapse = elapsed.new()
+test("elapsed.start", async () => {
+  let elapse = elapsed.start()
   await sleep(10)
   let lap = elapse.lap()
   let delta = elapse()
@@ -53,7 +53,7 @@ test("elapsed.new", async () => {
   expect(lap).toBeGreaterThanOrEqual(10)
   expect(lap).toBeLessThan(20)
 
-  elapse = elapsed.new()
+  elapse = elapsed.start()
   await sleep(10)
   lap = elapse.lap()
   delta = elapse()
@@ -71,10 +71,10 @@ test("elapsed.new", async () => {
   expect(lap).toBeLessThan(20)
 })
 
-test("elapsed.new(label)", async () => {
+test("elapsed.start(label)", async () => {
   const info = spyOn(console, "info")
   try {
-    const elapse = elapsed.new()
+    const elapse = elapsed.start()
     await sleep(10)
     expect(info).toHaveBeenCalledTimes(0)
     const delta = elapse("log")
