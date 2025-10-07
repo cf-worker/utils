@@ -19,3 +19,22 @@ test("addHeadersToResponse", () => {
     "x-runtime-proxy": "123",
   })
 })
+
+test("addHeadersToResponse should preserve response data", async () => {
+  const json = {
+    foo: "bar",
+  }
+  const response = Response.json(json, {
+    headers: {
+      "Content-Encoding": "gzip",
+    },
+    status: 406,
+    statusText: "Not Acceptable",
+  })
+  const newResponse = addHeadersToResponse(response, { "x-runtime-proxy": "123" })
+  expect(newResponse.status).toBe(response.status)
+  expect(newResponse.statusText).toBe(response.statusText)
+  expect(newResponse.headers.get("x-runtime-proxy")).toBe("123")
+  expect(await newResponse.json()).toEqual(await response.json())
+  expect(newResponse.headers === response.headers).toBe(false)
+})

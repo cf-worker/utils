@@ -13,8 +13,9 @@ export function addHeadersToResponse(response: Response, newHeaders: HeadersInit
     value === "" ? headers.delete(key) : headers.set(key, value)
   }
 
-  return new Response(response.body, {
-    ...response,
+  return new Response(response.clone().body, {
+    status: response.status,
+    statusText: response.statusText,
     headers,
   })
 }
