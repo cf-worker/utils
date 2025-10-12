@@ -22,6 +22,7 @@ export function elapsed(label: string = ""): number {
 
 /**
  * Same as elapsed, but also long using console.info
+ * Use console.time("foo") + console.timeEnd("foo") instead.
  * @param label
  * @returns
  */

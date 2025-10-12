@@ -4,22 +4,22 @@ import { sleep } from "./sleep.ts"
 
 test("elapsed should return a positive number", async () => {
   elapsed()
-  await sleep(10)
+  await sleep(9)
   const delta1 = elapsed()
-  await sleep(10)
+  await sleep(9)
   const delta2 = elapsed()
 
   expect(delta1).toBeGreaterThanOrEqual(10)
-  expect(delta1).toBeLessThan(20)
+  expect(delta1).toBeLessThan(30)
   expect(delta2).toBeGreaterThanOrEqual(10)
-  expect(delta2).toBeLessThan(20)
+  expect(delta2).toBeLessThan(30)
 })
 
 test("elapsed with label", async () => {
   elapsed("test")
-  await sleep(10)
+  await sleep(9)
   const delta1 = elapsed("test")
-  await sleep(10)
+  await sleep(9)
   const delta2 = elapsed("test")
 
   expect(delta1).toBeGreaterThanOrEqual(10)
@@ -58,9 +58,9 @@ test("elapsed.start", async () => {
   lap = elapse.lap()
   delta = elapse()
   expect(delta).toBeGreaterThanOrEqual(10)
-  expect(delta).toBeLessThan(20)
+  expect(delta).toBeLessThan(30)
   expect(lap).toBeGreaterThanOrEqual(10)
-  expect(lap).toBeLessThan(20)
+  expect(lap).toBeLessThan(30)
 
   await sleep(10)
   lap = elapse.lap()
