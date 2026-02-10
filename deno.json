@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json",
   "name": "@cf-worker/utils",
-  "version": "0.4.8-alpha.4",
+  "version": "0.4.8-beta",
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.18",
     "@std/fs": "jsr:@std/fs@^1.0.22",

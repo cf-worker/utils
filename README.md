@@ -8,6 +8,21 @@
 
 Fully typed utils for Cloudflare Workers and modern Javascript like Deno and Bun.
 
+## VSCODE
+
+To force vscode use the long import path instead of the short `@cf-worker/utils` add this to .vscode/settings.json:
+
+```json
+{
+  "typescript.preferences.autoImportSpecifierExcludeRegexes": [
+    "^@cf-worker/utils$"
+  ],
+  "javascript.preferences.autoImportSpecifierExcludeRegexes": [
+    "^@cf-worker/utils$"
+  ]
+}
+```
+
 ## TODO
 
 - [ ] https://developers.cloudflare.com/workers/examples/signing-requests/
