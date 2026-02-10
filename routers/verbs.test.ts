@@ -102,3 +102,10 @@ test("QUERY fail", () => {
   const result = matcher(methodUrl)
   expect(result).toBeUndefined()
 })
+
+test("verb matching is case-sensitive", () => {
+  const pattern = "/users/:id"
+  const matcher = GET(pattern)
+  const result = matcher({ method: "get", url: "/users/123" })
+  expect(result).toBeUndefined()
+})

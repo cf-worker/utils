@@ -23,7 +23,7 @@ const functions = arrayUnique(
 )
 
 test("mod should export all functions", () => {
-  expect(functions).toEqual(Object.keys(utils))
+  expect([...functions].sort()).toEqual(Object.keys(utils).sort())
 })
 
 async function arrayFilterAsync<T>(

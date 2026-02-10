@@ -107,3 +107,7 @@ test("switchRouter params are the same", () => {
   GET("/users/:id/page/:page")
   expect(params).toBe(iniParams)
 })
+
+test("switchRouter throws for malformed url", () => {
+  expect(() => switchRouter({ method: "GET", url: "://bad-url" })).toThrow(TypeError)
+})

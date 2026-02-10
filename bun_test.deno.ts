@@ -4,20 +4,27 @@ import {
   assertInstanceOf,
   assertLess,
   assertLessOrEqual,
+  assertMatch,
   assertStrictEquals,
   assertThrows,
 } from "@std/assert"
 import { spy } from "@std/testing/mock"
 
-export function spyOn<Self, Prop extends keyof Self>(
+type Callable<T> = T extends { (...args: infer Args): infer Ret } ? (...args: Args) => Ret : never
+
+export function spyOn<Self extends object, Prop extends keyof Self>(
   self: Self,
   property: Prop,
 ) {
   const mockSpy = spy(self, property)
   const mockRestore = mockSpy.restore.bind(mockSpy)
-  const restore = { mockRestore }
-  Object.assign(mockSpy, restore)
-  return mockSpy as typeof mockSpy & typeof restore
+  const mockImplementation = (implementation: Callable<Self[Prop]>) => {
+    ;(self as Record<PropertyKey, unknown>)[property as PropertyKey] = implementation
+    return mockSpy
+  }
+  const extra = { mockRestore, mockImplementation }
+  Object.assign(mockSpy, extra)
+  return mockSpy as typeof mockSpy & typeof extra
 }
 
 function asSpy(actual: unknown) {
@@ -32,7 +39,23 @@ function asSpy(actual: unknown) {
 }
 
 export const test = Deno.test
-export const expect = (actual: unknown) => ({
+type ExpectMatchers = {
+  toEqual: (expected: unknown) => void
+  toBe: (expected: unknown) => void
+  toBeUndefined: () => void
+  toBeNull: () => void
+  toBeGreaterThanOrEqual: (expected: number) => void
+  toBeLessThanOrEqual: (expected: number) => void
+  toBeLessThan: (expected: number) => void
+  toBeInstanceOf: (expectedType: Parameters<typeof assertInstanceOf>[1]) => void
+  toThrow: (expected?: unknown) => void
+  toMatch: (expected: RegExp | string) => void
+  toHaveBeenCalledTimes: (times: number) => void
+}
+
+type ExpectFn = (actual: unknown) => ExpectMatchers
+
+export const expect: ExpectFn = (actual: unknown) => ({
   toEqual: (expected: unknown) => assertEquals(actual, expected),
 
   toBe: (expected: unknown) => assertStrictEquals(actual, expected),
@@ -50,6 +73,14 @@ export const expect = (actual: unknown) => ({
     assertInstanceOf(actual, expectedType),
 
   toThrow: (expected?: unknown) => assertThrows(actual as () => unknown, expected as string),
+
+  toMatch: (expected: RegExp | string) => {
+    if (expected instanceof RegExp) {
+      assertMatch(String(actual), expected)
+      return
+    }
+    assertStrictEquals(String(actual).includes(expected), true)
+  },
 
   toHaveBeenCalledTimes: (times: number) => assertStrictEquals(asSpy(actual).calls.length, times),
   // toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),

@@ -1,4 +1,8 @@
-import type { ExecutionContext } from "../types.ts"
+// import type { ExecutionContext } from "../types.ts"
+
+interface ExecutionContext {
+  waitUntil: (promise: Promise<unknown>) => void
+}
 
 /**
  * A promise or a function with no params

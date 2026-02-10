@@ -3,19 +3,19 @@ import { storage2json } from "./storage2json.ts"
 import { MemoryStorage } from "./MemoryStorage.ts"
 
 test("storage2json", () => {
-  globalThis.localStorage ??= new MemoryStorage()
-  globalThis.localStorage.clear()
+  const storage = new MemoryStorage()
+  storage.clear()
 
-  localStorage.setItem("foo", "bar")
-  localStorage.setItem("true", "true")
-  localStorage.setItem("false", "false")
-  localStorage.setItem("zero", "0")
-  localStorage.setItem("one", "1")
-  localStorage.setItem("array", "[1, 2, 3]")
-  localStorage.setItem("object", JSON.stringify({ foo: "bar" }))
-  localStorage.setItem("null", "null")
+  storage.setItem("foo", "bar")
+  storage.setItem("true", "true")
+  storage.setItem("false", "false")
+  storage.setItem("zero", "0")
+  storage.setItem("one", "1")
+  storage.setItem("array", "[1, 2, 3]")
+  storage.setItem("object", JSON.stringify({ foo: "bar" }))
+  storage.setItem("null", "null")
 
-  expect(storage2json()).toEqual({
+  expect(storage2json(storage)).toEqual({
     foo: "bar",
     true: true,
     false: false,
@@ -27,6 +27,4 @@ test("storage2json", () => {
     },
     null: null,
   })
-
-  globalThis.localStorage.clear()
 })

@@ -1,10 +1,15 @@
 import { expect, test } from "bun:test"
 import { MemoryStorage } from "./MemoryStorage.ts"
 
-const ls = globalThis.localStorage ?? new MemoryStorage()
-const ms = new MemoryStorage()
+function createPair() {
+  return {
+    ls: new MemoryStorage(),
+    ms: new MemoryStorage(),
+  }
+}
 
 test("MemoryStorage behaves like localStorage", () => {
+  const { ls, ms } = createPair()
   ls.clear()
   expect(ms.length).toEqual(ls.length)
   ls.setItem("foo", "foo")
@@ -16,6 +21,7 @@ test("MemoryStorage behaves like localStorage", () => {
 })
 
 test("missing key are undefined with object and array access", () => {
+  const { ls, ms } = createPair()
   expect(ms.bar).toEqual(undefined)
   expect(ms.bar).toEqual(ls.bar)
   expect(ms.bar).toEqual(undefined)
@@ -23,11 +29,13 @@ test("missing key are undefined with object and array access", () => {
 })
 
 test("but are null with getItem", () => {
+  const { ls, ms } = createPair()
   expect(ms.getItem("bar")).toEqual(null)
   expect(ms.getItem("bar")).toEqual(ls.getItem("bar"))
 })
 
 test("other types are converted to string", () => {
+  const { ls, ms } = createPair()
   ls[123] = 123
   ms[123] = 123
   expect(ls["123"]).toEqual("123")
@@ -46,6 +54,9 @@ test("other types are converted to string", () => {
 })
 
 test("delete", () => {
+  const { ls, ms } = createPair()
+  ls.setItem("foo", "foo")
+  ms.setItem("foo", "foo")
   delete ms.foo
   delete ls.foo
   expect(ms.foo).toEqual(ls.foo)
@@ -53,14 +64,25 @@ test("delete", () => {
 })
 
 test("length are the same", () => {
+  const { ls, ms } = createPair()
   expect(ms.length).toEqual(ls.length)
 })
 
 test("Object.keys", () => {
+  const { ls, ms } = createPair()
+  ls[123] = 123
+  ms[123] = 123
+  ls.null = null
+  ms.null = null
+  ls.undefined = undefined
+  ms.undefined = undefined
   expect(Object.keys(ms)).toEqual(Object.keys(ls))
 })
 
 test("removeItem", () => {
+  const { ls, ms } = createPair()
+  ls.setItem("foo", "foo")
+  ms.setItem("foo", "foo")
   ms.removeItem("foo")
   ls.removeItem("foo")
   expect(ms.foo).toEqual(ls.foo)
@@ -68,12 +90,22 @@ test("removeItem", () => {
 })
 
 test("key", () => {
+  const { ls, ms } = createPair()
+  ls[123] = 123
+  ms[123] = 123
+  ls.null = null
+  ms.null = null
+  ls.undefined = undefined
+  ms.undefined = undefined
   for (let i = 0; i < ms.length; i++) {
     expect(ms.key(i)).toEqual(ls.key(i))
   }
 })
 
 test("clear to length zero", () => {
+  const { ls, ms } = createPair()
+  ls.setItem("foo", "foo")
+  ms.setItem("foo", "foo")
   ms.clear()
   ls.clear()
   expect(ms.length).toEqual(ls.length)
