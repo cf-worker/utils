@@ -114,6 +114,7 @@
     "build:mod": "deno run -A build-mod.deno.ts",
     "check-deps": "deno run -A jsr:@check/deps --allow-unused",
     "coverage": "rm -rf coverage; deno test -A --clean --parallel --coverage; deno coverage --html; deno coverage --detailed; echo open coverage/html/index.html",
+    "deno:check": "deno check -q",
     "doc-lint": "deno doc --lint *.ts",
     "fmt": "deno fmt",
     "format-deno-json": "deno run -A npm:json-sort-cli deno.json &&deno run -A npm:sort-package-json deno.json",
@@ -123,7 +124,6 @@
     "lint": "deno lint --fix --compact",
     "publish": "deno publish",
     "publish:dry": "deno publish --dry-run --allow-dirty -q",
-    "deno:check": "deno check -q",
     "test": "deno test -A --doc --parallel --check --fail-fast"
   },
   "test": {
