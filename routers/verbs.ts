@@ -3,6 +3,9 @@ import { matchUrl } from "./matchUrl.ts"
 
 type Verb = (pattern: string) => RouteMatcher
 
+/**
+ * Normalize an HTTP verb string to a supported verb.
+ */
 export function verbify(verb: string): Verb {
   return (pattern: string) => ({ method, url }: MethodUrl) => {
     if (method === verb) return matchUrl(pattern, url)

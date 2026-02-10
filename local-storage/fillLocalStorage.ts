@@ -1,5 +1,8 @@
 import { recursiveBinarySearchMax } from "../algorithms/recursiveBinarySearchMax.ts"
 
+/**
+ * Fill a storage-like record until it reaches the quota limit.
+ */
 export function fillLocalStorage(
   opts?: { min?: number; max?: number; storage?: Record<string, string> },
 ): number {
@@ -24,6 +27,9 @@ export function fillLocalStorage(
   return limit
 }
 
+/**
+ * Write repeated values into storage keys until storage is full.
+ */
 function writer(storage: Record<string, string>, keyPrefix = " ", char = "*") {
   let i = 0
   return (bytes: number): number => {
@@ -43,6 +49,9 @@ function writer(storage: Record<string, string>, keyPrefix = " ", char = "*") {
   }
 }
 
+/**
+ * Remove temporary keys from storage created during fill operations.
+ */
 function cleanup(storage: Record<string, string>, keyPrefix = " ") {
   Object.keys(storage).filter((k) => k.startsWith(keyPrefix)).forEach((k) => delete storage[k])
   delete storage[""]

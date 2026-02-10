@@ -1,5 +1,8 @@
 import type { Handler } from "../types.ts"
 
+/**
+ * Attach process uptime information to handler responses.
+ */
 export function xUptimeDecorator<T extends unknown[]>(handler: Handler<T>): Handler<T> {
   let bootTime: number
 
@@ -10,6 +13,9 @@ export function xUptimeDecorator<T extends unknown[]>(handler: Handler<T>): Hand
   }
 }
 
+/**
+ * Set the uptime header on a response.
+ */
 export function setXUptime(response: Response, bootTime: number): Response {
   const uptime = new Date(Date.now() - bootTime).toJSON().substring(11, 19)
 

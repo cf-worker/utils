@@ -1,3 +1,6 @@
+/**
+ * Return an empty favicon response.
+ */
 export function emptyFaviconResponse(): Response {
   return new Response(null, {
     status: 204,

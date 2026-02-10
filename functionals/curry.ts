@@ -1,5 +1,8 @@
 import type { Func, Rest } from "../types.ts"
 
+/**
+ * Curry a function so arguments can be provided incrementally.
+ */
 export function curry<T extends Func>(
   fn: T,
   arg1: Parameters<T>[0],

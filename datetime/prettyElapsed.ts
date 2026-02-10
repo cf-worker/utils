@@ -1,3 +1,6 @@
+/**
+ * Format elapsed milliseconds to a readable string.
+ */
 export function prettyElapsed(ms: number): string {
   const s = Math.floor(ms / 1000)
   const m = Math.floor(s / 60)

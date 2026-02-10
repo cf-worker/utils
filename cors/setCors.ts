@@ -1,3 +1,6 @@
+/**
+ * Set CORS headers on a response.
+ */
 export function setCors(response: Response, request?: Request): Response {
   response.headers.set("Access-Control-Max-Age", "7200")
   response.headers.set("Access-Control-Allow-Origin", "*")

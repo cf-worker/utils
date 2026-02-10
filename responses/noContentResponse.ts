@@ -1,3 +1,6 @@
+/**
+ * Return a 204 No Content response.
+ */
 export function noContentResponse(): Response {
   return new Response(null, {
     status: 204,

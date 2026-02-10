@@ -58,6 +58,9 @@ function buildRootMod(moduleGroups: ModuleGroup[]) {
   Deno.writeTextFileSync("./mod.ts", `${code}export type * from "./types.ts"\n`)
 }
 
+/**
+ * Read a JSON file and return an empty object when the file does not exist.
+ */
 function readJsonFile(path: string): Record<string, unknown> {
   try {
     return JSON.parse(Deno.readTextFileSync(path)) as Record<string, unknown>
@@ -69,6 +72,9 @@ function readJsonFile(path: string): Record<string, unknown> {
   }
 }
 
+/**
+ * Return the value only when it is a string.
+ */
 function asString(value: unknown): string | undefined {
   return typeof value === "string" ? value : undefined
 }

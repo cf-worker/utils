@@ -1,10 +1,16 @@
 import type { Func } from "../types.ts"
 
 // @TODO: fix types
+/**
+ * Compose functions from left to right.
+ */
 export function pipe(...fns: Func[]): Func {
   return fns.reduce(pipe2)
 }
 
+/**
+ * Compose two functions from left to right.
+ */
 export function pipe2<A extends Func, B extends (arg: ReturnType<A>) => ReturnType<B>>(
   a: A,
   b: B,
@@ -12,6 +18,9 @@ export function pipe2<A extends Func, B extends (arg: ReturnType<A>) => ReturnTy
   return (arg: Parameters<A>[0]): ReturnType<B> => b(a(arg))
 }
 
+/**
+ * Compose three functions from left to right.
+ */
 export function pipe3<
   A extends Func,
   B extends (arg: ReturnType<A>) => ReturnType<B>,

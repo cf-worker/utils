@@ -1,3 +1,6 @@
+/**
+ * Create a response with a specific content type.
+ */
 export function contentTypeResponse(
   body: BodyInit | Response,
   contentType: string = "text/plain",

@@ -1,3 +1,6 @@
+/**
+ * Convert an IPv4 string to an integer.
+ */
 export function ip2int(ip: string): number {
   return ip.split(".")
     .map(Number) // Convert each octet to a number

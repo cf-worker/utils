@@ -19,6 +19,9 @@ export type Return<P extends Record<string, unknown>> = {
   DELETE: (pattern: string) => string | undefined
 }
 
+/**
+ * Create a router that dispatches requests by method and path.
+ */
 export function switchRouter<Fixed extends Record<string, unknown>, Default extends Dict>(
   { method, url }: MethodUrl,
   params: Fixed = {} as Fixed,

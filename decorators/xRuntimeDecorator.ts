@@ -1,5 +1,8 @@
 import type { Handler } from "../types.ts"
 
+/**
+ * Attach runtime timing information to handler responses.
+ */
 export function xRuntimeDecorator<T extends unknown[]>(handler: Handler<T>): Handler<T> {
   return (...args: T) => xRuntime(() => handler(...args))
 }
@@ -10,6 +13,9 @@ export async function xRuntime(handler: Handler<unknown[]>): Promise<Response> {
   return setXRuntime(response, start)
 }
 
+/**
+ * Set the runtime header on a response.
+ */
 export function setXRuntime(response: Response, start: number): Response {
   const elapsed = Math.max(Date.now() - start, 1)
 

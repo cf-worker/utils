@@ -1,5 +1,8 @@
 const voids = "meta|link|img|br|input|hr|area|base|col|command|embed|keygen|param|source|track|wbr"
 const voidRe = new RegExp(`^<(${voids})\s?`)
+/**
+ * Check whether an HTML line is a void element.
+ */
 function isVoid(line: string): boolean {
   return voidRe.test(line)
 }
