@@ -1,87 +1,101 @@
 import { expect, spyOn, test } from "bun:test"
 import { elapsed } from "./elapsed.ts"
-import { sleep } from "./sleep.ts"
 
-test("elapsed should return a positive number", async () => {
-  elapsed()
-  await sleep(10)
-  const delta1 = elapsed()
-  await sleep(10)
-  const delta2 = elapsed()
+function spyFirstArg(spy: unknown): unknown {
+  const denoCalls = (spy as { calls?: Array<{ args?: unknown[] }> }).calls
+  if (denoCalls?.[0]?.args) return denoCalls[0].args[0]
 
-  expect(delta1).toBeGreaterThanOrEqual(10)
-  expect(delta1).toBeLessThan(30)
-  expect(delta2).toBeGreaterThanOrEqual(10)
-  expect(delta2).toBeLessThan(30)
-})
+  const bunCalls = (spy as { mock?: { calls?: unknown[][] } }).mock?.calls
+  if (bunCalls?.[0]) return bunCalls[0][0]
 
-test("elapsed with label", async () => {
-  elapsed("test")
-  await sleep(10)
-  const delta1 = elapsed("test")
-  await sleep(10)
-  const delta2 = elapsed("test")
+  return undefined
+}
 
-  expect(delta1).toBeGreaterThanOrEqual(10)
-  expect(delta1).toBeLessThan(20)
-  expect(delta2).toBeGreaterThanOrEqual(10)
-  expect(delta2).toBeLessThan(25)
-})
-
-test("elapsed.log", async () => {
-  const info = spyOn(console, "info")
+test("elapsed should return deterministic deltas", () => {
+  const originalNow = Date.now
+  const times = [1000, 1010, 1025]
+  Date.now = () => times.shift() ?? originalNow()
   try {
-    elapsed("log")
-    await sleep(10)
-    expect(info).toHaveBeenCalledTimes(0)
-    const delta = elapsed.log("log")
-    expect(delta).toBeGreaterThanOrEqual(10)
-    expect(delta).toBeLessThan(30)
-    expect(info).toHaveBeenCalledTimes(1)
+    const label = "deterministic-default"
+    const delta1 = elapsed(label)
+    const delta2 = elapsed(label)
+
+    expect(delta1).toBe(0)
+    expect(delta2).toBe(10)
   } finally {
-    info.mockRestore()
+    Date.now = originalNow
   }
 })
 
-test("elapsed.start", async () => {
-  let elapse = elapsed.start()
-  await sleep(10)
-  let lap = elapse.lap()
-  let delta = elapse()
-  expect(delta).toBeGreaterThanOrEqual(10)
-  expect(delta).toBeLessThan(20)
-  expect(lap).toBeGreaterThanOrEqual(10)
-  expect(lap).toBeLessThan(20)
+test("elapsed with label", () => {
+  const originalNow = Date.now
+  const times = [2000, 2020]
+  Date.now = () => times.shift() ?? originalNow()
+  try {
+    const delta1 = elapsed("test")
+    const delta2 = elapsed("test")
 
-  elapse = elapsed.start()
-  await sleep(10)
-  lap = elapse.lap()
-  delta = elapse()
-  expect(delta).toBeGreaterThanOrEqual(10)
-  expect(delta).toBeLessThan(40)
-  expect(lap).toBeGreaterThanOrEqual(10)
-  expect(lap).toBeLessThan(40)
-
-  await sleep(10)
-  lap = elapse.lap()
-  delta = elapse()
-  expect(delta).toBeGreaterThanOrEqual(20)
-  expect(delta).toBeLessThan(40)
-  expect(lap).toBeGreaterThanOrEqual(10)
-  expect(lap).toBeLessThan(20)
+    expect(delta1).toBe(0)
+    expect(delta2).toBe(20)
+  } finally {
+    Date.now = originalNow
+  }
 })
 
-test("elapsed.start(label)", async () => {
+test("elapsed.log", () => {
   const info = spyOn(console, "info")
+  const originalNow = Date.now
+  const times = [3000, 3012]
+  Date.now = () => times.shift() ?? originalNow()
   try {
-    const elapse = elapsed.start()
-    await sleep(10)
+    elapsed("log")
+
     expect(info).toHaveBeenCalledTimes(0)
-    const delta = elapse("log")
-    expect(delta).toBeGreaterThanOrEqual(10)
-    expect(delta).toBeLessThan(30)
+    const delta = elapsed.log("log")
+    expect(delta).toBe(12)
     expect(info).toHaveBeenCalledTimes(1)
+    expect(spyFirstArg(info)).toBe("elapsed:log 12ms")
   } finally {
     info.mockRestore()
+    Date.now = originalNow
+  }
+})
+
+test("elapsed.start", () => {
+  const originalNow = Date.now
+  const times = [1000, 1010, 1010, 1025, 1025, 1040, 1040, 1060, 1060]
+  Date.now = () => times.shift() ?? originalNow()
+  try {
+    const elapse = elapsed.start()
+    const lap = elapse.lap()
+    const delta = elapse()
+    const lap2 = elapse.lap()
+    const delta2 = elapse()
+
+    expect(lap).toBe(10)
+    expect(delta).toBe(25)
+    expect(lap2).toBe(15)
+    expect(delta2).toBe(60)
+  } finally {
+    Date.now = originalNow
+  }
+})
+
+test("elapsed.start(label)", () => {
+  const info = spyOn(console, "info")
+  const originalNow = Date.now
+  const times = [5000, 5018, 5018]
+  Date.now = () => times.shift() ?? originalNow()
+  try {
+    const elapse = elapsed.start()
+
+    expect(info).toHaveBeenCalledTimes(0)
+    const delta = elapse("log")
+    expect(delta).toBe(18)
+    expect(info).toHaveBeenCalledTimes(1)
+    expect(spyFirstArg(info)).toBe("elapsed:log 18ms")
+  } finally {
+    info.mockRestore()
+    Date.now = originalNow
   }
 })

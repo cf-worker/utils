@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json",
   "name": "@cf-worker/utils",
-  "version": "0.4.8-alpha.3",
+  "version": "0.4.8-alpha.4",
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.18",
     "@std/fs": "jsr:@std/fs@^1.0.22",
@@ -11,6 +11,7 @@
     "bun:test": "./bun_test.deno.ts"
   },
   "exports": {
+    ".": "./mod.ts",
     "./algorithms/recursiveBinarySearchMax": "./algorithms/recursiveBinarySearchMax.ts",
     "./arrays/arrayBalanced": "./arrays/arrayBalanced.ts",
     "./arrays/arrayDifference": "./arrays/arrayDifference.ts",
