@@ -73,17 +73,10 @@ function readJsonFile(path: string): Record<string, unknown> {
 }
 
 /**
- * Return the value only when it is a string.
- */
-function asString(value: unknown): string | undefined {
-  return typeof value === "string" ? value : undefined
-}
-
-/**
- * Build the JSR exports map with root and per-file module exports.
+ * Build the exports map with root and per-file module exports.
  * Ignore all *.mod.ts files except the root ./mod.ts entry.
  */
-function buildJsrExports(moduleGroups: ModuleGroup[]): Record<string, string> {
+function buildExportsMap(moduleGroups: ModuleGroup[]): Record<string, string> {
   const exports: Array<[string, string]> = [[".", "./mod.ts"]]
 
   for (const { dir, files } of moduleGroups) {
@@ -99,26 +92,16 @@ function buildJsrExports(moduleGroups: ModuleGroup[]): Record<string, string> {
 }
 
 /**
- * Generate jsr.json with per-module exports while preserving existing custom fields.
+ * Replace deno.json exports with generated per-module exports.
  */
-function buildJsrConfig(moduleGroups: ModuleGroup[]) {
+function buildDenoConfig(moduleGroups: ModuleGroup[]) {
   const denoConfig = readJsonFile("./deno.json")
-  const currentJsrConfig = readJsonFile("./jsr.json")
-
-  const name = asString(denoConfig.name)
-  const version = asString(denoConfig.version)
-
-  const nextJsrConfig: Record<string, unknown> = {
-    ...currentJsrConfig,
-    $schema: asString(currentJsrConfig["$schema"]) ??
-      "https://jsr.io/schema/config-file.v1.json",
-    exports: buildJsrExports(moduleGroups),
+  const nextDenoConfig: Record<string, unknown> = {
+    ...denoConfig,
+    exports: buildExportsMap(moduleGroups),
   }
 
-  if (name) nextJsrConfig.name = name
-  if (version) nextJsrConfig.version = version
-
-  Deno.writeTextFileSync("./jsr.json", `${JSON.stringify(nextJsrConfig, null, 2)}\n`)
+  Deno.writeTextFileSync("./deno.json", `${JSON.stringify(nextDenoConfig, null, 2)}\n`)
 }
 
 const moduleGroups = listModuleGroups()
@@ -126,7 +109,7 @@ for (const group of moduleGroups) {
   buildFolderMod(group)
 }
 buildRootMod(moduleGroups)
-buildJsrConfig(moduleGroups)
+buildDenoConfig(moduleGroups)
 
 // const types = Deno.readTextFileSync("./types.ts")
 // Deno.writeTextFileSync("./types.d.ts", types.replaceAll("export type ", "type "))
