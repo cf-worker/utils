@@ -1,3 +1,7 @@
+/**
+ * routers/switchRouter module.
+ * @module
+ */
 import type { Dict, MethodUrl } from "../types.ts"
 import { matchUrl } from "./matchUrl.ts"
 

@@ -1,4 +1,8 @@
 /**
+ * arrays/arrayMax module.
+ * @module
+ */
+/**
  * Return the Math.max of an array
  * @param numbers
  * @returns

@@ -1,3 +1,7 @@
+/**
+ * decorators/xRuntimeDecorator module.
+ * @module
+ */
 import type { Handler } from "../types.ts"
 
 /**

@@ -1,3 +1,7 @@
+/**
+ * arrays/arrayDifference module.
+ * @module
+ */
 export type ArrayDiff = {
   removed: number[]
   added: number[]

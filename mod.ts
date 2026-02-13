@@ -1,3 +1,7 @@
+/**
+ * Utility collection for Cloudflare Workers and general TypeScript runtimes.
+ * @module
+ */
 export * from "./algorithms/mod.ts"
 export * from "./arrays/mod.ts"
 export * from "./booleans/mod.ts"

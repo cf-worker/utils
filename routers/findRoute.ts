@@ -1,3 +1,7 @@
+/**
+ * routers/findRoute module.
+ * @module
+ */
 import type { Dict, MethodUrl, RouteEntry } from "../types.ts"
 
 /**

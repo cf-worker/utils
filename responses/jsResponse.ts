@@ -1,3 +1,7 @@
+/**
+ * responses/jsResponse module.
+ * @module
+ */
 import { contentTypeResponse } from "./contentTypeResponse.ts"
 
 /**

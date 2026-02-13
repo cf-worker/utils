@@ -1,4 +1,8 @@
 /**
+ * responses/noContentResponse module.
+ * @module
+ */
+/**
  * Return a 204 No Content response.
  */
 export function noContentResponse(): Response {

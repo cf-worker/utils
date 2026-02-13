@@ -1,3 +1,7 @@
+/**
+ * json/response2json module.
+ * @module
+ */
 import { headers2json } from "./headers2json.ts"
 import { url2json, type URLJson } from "./url2json.ts"
 

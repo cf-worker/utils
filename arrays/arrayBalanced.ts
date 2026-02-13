@@ -1,3 +1,7 @@
+/**
+ * arrays/arrayBalanced module.
+ * @module
+ */
 const MAX = 2n ** 64n - 1n
 
 /**

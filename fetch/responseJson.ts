@@ -1,3 +1,7 @@
+/**
+ * fetch/responseJson module.
+ * @module
+ */
 import { tryJson } from "../json/tryJson.ts"
 
 /**

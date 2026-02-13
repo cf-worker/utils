@@ -1,3 +1,7 @@
+/**
+ * strings/escapeHTML module.
+ * @module
+ */
 const entities = {
   "&": "&amp;",
   "<": "&lt;",

@@ -1,3 +1,7 @@
+/**
+ * local-storage/storage2json module.
+ * @module
+ */
 import { safeJson } from "../json/safeJson.ts"
 import { storageKeys } from "./storageKeys.ts"
 

@@ -1,4 +1,8 @@
 /**
+ * responses/redirectReferer module.
+ * @module
+ */
+/**
  * Redirect to referer header or fallbackUrl or request.url
  * @param req
  * @param fallbackUrl

@@ -1,4 +1,8 @@
 /**
+ * arrays/pluck module.
+ * @module
+ */
+/**
  * Extracts the values of a specified property from an array of objects.
  *
  * @template T - The type of the objects in the array.

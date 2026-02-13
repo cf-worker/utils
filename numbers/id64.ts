@@ -1,3 +1,7 @@
+/**
+ * numbers/id64 module.
+ * @module
+ */
 let lastId64 = 0n
 //            17603085528865971680n
 const TIMESTAMP_OFFSET = 7600000000000000000n

@@ -1,3 +1,7 @@
+/**
+ * cors/corsDecorator module.
+ * @module
+ */
 import type { RequestHandler } from "../types.ts"
 import { corsPreflight } from "./corsPreflight.ts"
 import { setCors } from "./setCors.ts"

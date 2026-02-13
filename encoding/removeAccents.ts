@@ -1,4 +1,8 @@
 /**
+ * encoding/removeAccents module.
+ * @module
+ */
+/**
  * Removes accents from a given string.
  *
  * @param {string} string - The string to remove accents from.

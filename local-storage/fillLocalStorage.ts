@@ -1,3 +1,7 @@
+/**
+ * local-storage/fillLocalStorage module.
+ * @module
+ */
 import { recursiveBinarySearchMax } from "../algorithms/recursiveBinarySearchMax.ts"
 
 /**

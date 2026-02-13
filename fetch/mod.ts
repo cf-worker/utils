@@ -1,3 +1,7 @@
+/**
+ * Fetch and response composition helpers.
+ * @module
+ */
 export * from "./addHeadersToResponse.ts"
 export * from "./fetchJson.ts"
 export * from "./fetchJsonMethod.ts"

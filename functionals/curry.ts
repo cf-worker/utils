@@ -1,3 +1,7 @@
+/**
+ * functionals/curry module.
+ * @module
+ */
 import type { Func, Rest } from "../types.ts"
 
 /**

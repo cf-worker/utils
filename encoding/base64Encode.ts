@@ -1,4 +1,8 @@
 /**
+ * encoding/base64Encode module.
+ * @module
+ */
+/**
  * Encodes a given buffer into a base64 string url safe.
  *
  * @param {ArrayLike<number>} buffer - The buffer to be encoded.

@@ -1,4 +1,8 @@
 /**
+ * responses/emptyFaviconResponse module.
+ * @module
+ */
+/**
  * Return an empty favicon response.
  */
 export function emptyFaviconResponse(): Response {

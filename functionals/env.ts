@@ -1,3 +1,7 @@
+/**
+ * functionals/env module.
+ * @module
+ */
 import { raise } from "./raise.ts"
 
 /**

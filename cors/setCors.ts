@@ -1,4 +1,8 @@
 /**
+ * cors/setCors module.
+ * @module
+ */
+/**
  * Set CORS headers on a response.
  */
 export function setCors(response: Response, request?: Request): Response {

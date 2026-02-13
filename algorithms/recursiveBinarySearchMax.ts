@@ -1,4 +1,8 @@
 /**
+ * algorithms/recursiveBinarySearchMax module.
+ * @module
+ */
+/**
  * Find the highest number V between min and max that the predicate returns true.
  *
  * @param min - The minimum value to search from.

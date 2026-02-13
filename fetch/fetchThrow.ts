@@ -1,4 +1,8 @@
 /**
+ * fetch/fetchThrow module.
+ * @module
+ */
+/**
  * Throw error when fetch response is not ok
  * @param promise
  * @param request

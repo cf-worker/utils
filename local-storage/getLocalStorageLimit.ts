@@ -1,3 +1,7 @@
+/**
+ * local-storage/getLocalStorageLimit module.
+ * @module
+ */
 import { fillLocalStorage } from "./fillLocalStorage.ts"
 import { getLocalStorageUsage } from "./getLocalStorageUsage.ts"
 

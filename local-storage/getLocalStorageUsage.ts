@@ -1,3 +1,7 @@
+/**
+ * local-storage/getLocalStorageUsage module.
+ * @module
+ */
 import { stringByteLength } from "../strings/stringByteLength.ts"
 
 /**

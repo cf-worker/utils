@@ -1,3 +1,7 @@
+/**
+ * functionals/tap module.
+ * @module
+ */
 import type { Func } from "../types.ts"
 
 /**

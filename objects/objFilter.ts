@@ -1,4 +1,8 @@
 /**
+ * objects/objFilter module.
+ * @module
+ */
+/**
  * Filter an object by predicate
  * @param obj
  * @param predicate

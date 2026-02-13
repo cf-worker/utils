@@ -1,3 +1,7 @@
+/**
+ * URL and route matching utilities.
+ * @module
+ */
 export * from "./URLPatternPolyfill.ts"
 export * from "./findRoute.ts"
 export * from "./matchPath.ts"

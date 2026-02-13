@@ -1,4 +1,8 @@
 /**
+ * local-storage/storageKeys module.
+ * @module
+ */
+/**
  * Returns the keys from (local|session)Storage
  * @param storage
  * @returns

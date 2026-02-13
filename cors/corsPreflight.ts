@@ -1,3 +1,7 @@
+/**
+ * cors/corsPreflight module.
+ * @module
+ */
 import { noContentResponse } from "../responses/noContentResponse.ts"
 import { setCors } from "./setCors.ts"
 

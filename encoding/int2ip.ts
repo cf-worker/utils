@@ -1,4 +1,8 @@
 /**
+ * encoding/int2ip module.
+ * @module
+ */
+/**
  * Convert an integer to an IPv4 string.
  */
 export function int2ip(int: number): string {

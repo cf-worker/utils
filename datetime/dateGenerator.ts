@@ -1,4 +1,8 @@
 /**
+ * datetime/dateGenerator module.
+ * @module
+ */
+/**
  * Generates sequential dates
  * @param startDate
  * @param interval

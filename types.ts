@@ -1,3 +1,7 @@
+/**
+ * types module.
+ * @module
+ */
 // deno-lint-ignore no-explicit-any
 export type Func = (...args: any[]) => any
 export type Async<T> = T | Promise<T>

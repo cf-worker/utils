@@ -1,3 +1,7 @@
+/**
+ * xml/xml2json module.
+ * @module
+ */
 type XmlContent = string | Xml | XmlContent[]
 
 type Xml = {

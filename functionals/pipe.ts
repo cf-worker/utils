@@ -1,3 +1,7 @@
+/**
+ * functionals/pipe module.
+ * @module
+ */
 import type { Func } from "../types.ts"
 
 // @TODO: fix types

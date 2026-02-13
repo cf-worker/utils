@@ -1,4 +1,8 @@
 /**
+ * arrays/arrayDuplicates module.
+ * @module
+ */
+/**
  * Return duplicated elements from an array.
  */
 export function arrayDuplicates<T>(array: T[]): T[] {

@@ -1,3 +1,7 @@
+/**
+ * routers/matchUrl module.
+ * @module
+ */
 import type { Dict } from "../types.ts"
 
 /**

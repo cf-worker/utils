@@ -1,4 +1,8 @@
 /**
+ * responses/contentTypeResponse module.
+ * @module
+ */
+/**
  * Create a response with a specific content type.
  */
 export function contentTypeResponse(

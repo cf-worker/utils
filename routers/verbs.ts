@@ -1,3 +1,7 @@
+/**
+ * routers/verbs module.
+ * @module
+ */
 import type { MethodUrl, RouteMatcher } from "../types.ts"
 import { matchUrl } from "./matchUrl.ts"
 

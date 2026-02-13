@@ -1,3 +1,7 @@
+/**
+ * functionals/raise module.
+ * @module
+ */
 // this code is invalid
 // true ? "truthy" : (throw new Error())
 // this is valid

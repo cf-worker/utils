@@ -1,4 +1,8 @@
 /**
+ * datetime/prettyElapsed module.
+ * @module
+ */
+/**
  * Format elapsed milliseconds to a readable string.
  */
 export function prettyElapsed(ms: number): string {

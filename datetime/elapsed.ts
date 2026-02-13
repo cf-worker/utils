@@ -1,4 +1,8 @@
 /**
+ * datetime/elapsed module.
+ * @module
+ */
+/**
  * Global map of stored elapsed labels
  */
 const labels: Record<string, number> = {

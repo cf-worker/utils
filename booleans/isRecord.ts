@@ -1,4 +1,8 @@
 /**
+ * booleans/isRecord module.
+ * @module
+ */
+/**
  * Checks if a value is a record (an object with string keys and unknown values).
  * @description Accepts only { [key: string]: unknown } objects, not arrays, classes, dates, etc.
  * @param value - The value to check.

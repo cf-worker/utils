@@ -1,4 +1,8 @@
 /**
+ * datetime/sleep module.
+ * @module
+ */
+/**
  * Wait for a number of milliseconds.
  */
 export function sleep(ms: number): Promise<number> {

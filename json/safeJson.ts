@@ -1,4 +1,8 @@
 /**
+ * json/safeJson module.
+ * @module
+ */
+/**
  * Safely parse json without throwing an error,
  * returning undefined if invalid, since undefined is not a valid json
  * @param {string} json

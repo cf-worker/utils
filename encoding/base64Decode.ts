@@ -1,4 +1,8 @@
 /**
+ * encoding/base64Decode module.
+ * @module
+ */
+/**
  * Decodes a base64 encoded string into a Uint8Array.
  *
  * @param {string} base64 - The base64 encoded string to be decoded.

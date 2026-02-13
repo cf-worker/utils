@@ -1,3 +1,7 @@
+/**
+ * strings/prettyHTML module.
+ * @module
+ */
 const voids = "meta|link|img|br|input|hr|area|base|col|command|embed|keygen|param|source|track|wbr"
 const voidRe = new RegExp(`^<(${voids})\s?`)
 /**

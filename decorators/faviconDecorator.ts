@@ -1,3 +1,7 @@
+/**
+ * decorators/faviconDecorator module.
+ * @module
+ */
 import { emptyFaviconResponse } from "../responses/emptyFaviconResponse.ts"
 import type { RequestHandler } from "../types.ts"
 

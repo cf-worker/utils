@@ -1,4 +1,8 @@
 /**
+ * objects/objSorted module.
+ * @module
+ */
+/**
  * Return the object with the keys sorted
  * @param obj
  * @returns

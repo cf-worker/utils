@@ -1,3 +1,7 @@
+/**
+ * json/url2json module.
+ * @module
+ */
 export type URLJson = Omit<URL, "toString" | "toJSON" | "searchParams"> & {
   searchParams: Record<string, string>
 }

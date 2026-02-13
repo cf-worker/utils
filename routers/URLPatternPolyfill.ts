@@ -1,4 +1,8 @@
 /**
+ * routers/URLPatternPolyfill module.
+ * @module
+ */
+/**
  * bun does not have URLPattern,
  * this class is a reduced polyfill for URLPattern just no make matchPath work
  * import { URLPatternPolyfill } from "@cf-worker/utils"

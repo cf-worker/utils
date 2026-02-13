@@ -1,3 +1,7 @@
+/**
+ * fetch/fetchJsonMethod module.
+ * @module
+ */
 import { fetchJson } from "./fetchJson.ts"
 
 export type FetchJsonMethod<T> = (data?: unknown) => Promise<T>

@@ -1,4 +1,8 @@
 /**
+ * arrays/arrayGroupCount module.
+ * @module
+ */
+/**
  * Group array elements and count ocurrencies
  * @param list
  * @returns

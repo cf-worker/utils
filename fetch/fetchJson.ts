@@ -1,3 +1,7 @@
+/**
+ * fetch/fetchJson module.
+ * @module
+ */
 import { fetchThrow } from "./fetchThrow.ts"
 import { responseJson } from "./responseJson.ts"
 

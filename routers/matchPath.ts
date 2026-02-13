@@ -1,3 +1,7 @@
+/**
+ * routers/matchPath module.
+ * @module
+ */
 import type { Dict } from "../types.ts"
 
 /**

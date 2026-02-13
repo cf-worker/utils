@@ -1,4 +1,8 @@
 /**
+ * arrays/arraySubtract module.
+ * @module
+ */
+/**
  * Returns a new array containing the elements from array `a` that are not present in array `b`.
  *
  * @template T - The type of elements in the arrays.

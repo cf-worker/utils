@@ -1,3 +1,7 @@
+/**
+ * decorators/xCountDecorator module.
+ * @module
+ */
 import type { Handler } from "../types.ts"
 
 /**

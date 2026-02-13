@@ -1,4 +1,8 @@
 /**
+ * booleans/isTruthy module.
+ * @module
+ */
+/**
  * Check if a value is likely true
  * @param val
  * @returns

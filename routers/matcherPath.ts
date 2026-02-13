@@ -1,4 +1,8 @@
 /**
+ * routers/matcherPath module.
+ * @module
+ */
+/**
  * Return a function to match a pattern
  * @param pattern
  * @returns

@@ -1,4 +1,8 @@
 /**
+ * fetch/addHeadersToResponse module.
+ * @module
+ */
+/**
  * You can't change fetch response headers,
  * this function creates a new Response with the new headers added.
  * Add an empty string value header to remove it.

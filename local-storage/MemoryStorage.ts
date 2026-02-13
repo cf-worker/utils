@@ -1,3 +1,7 @@
+/**
+ * local-storage/MemoryStorage module.
+ * @module
+ */
 export class MemoryStorage implements Storage {
   // deno-lint-ignore no-explicit-any
   [name: string]: any

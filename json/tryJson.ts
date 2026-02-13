@@ -1,4 +1,8 @@
 /**
+ * json/tryJson module.
+ * @module
+ */
+/**
  * Parse json with better error message containing the invalid json
  * @param {string} json representing the json to parse
  * @returns {unknown} parsed json

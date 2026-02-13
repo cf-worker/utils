@@ -1,3 +1,7 @@
+/**
+ * encoding/slugify module.
+ * @module
+ */
 import { removeAccents } from "./removeAccents.ts"
 
 /**

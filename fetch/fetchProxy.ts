@@ -1,3 +1,7 @@
+/**
+ * fetch/fetchProxy module.
+ * @module
+ */
 import { elapsed } from "../mod.ts"
 import { addHeadersToResponse } from "./addHeadersToResponse.ts"
 
