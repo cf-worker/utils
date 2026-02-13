@@ -5,10 +5,16 @@
 import type { Dict, MethodUrl } from "../types.ts"
 import { matchUrl } from "./matchUrl.ts"
 
-type LooseObject<T extends Record<string, unknown>> = T & {
+/**
+ * Object with named string properties from route captures.
+ */
+export type LooseObject<T extends Record<string, unknown>> = T & {
   [key: string]: string | undefined
 }
 
+/**
+ * Switch router result and route matching helpers.
+ */
 export type Return<P extends Record<string, unknown>> = {
   methodPath: string
   params: LooseObject<P>

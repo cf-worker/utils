@@ -2,9 +2,15 @@
  * xml/xml2json module.
  * @module
  */
-type XmlContent = string | Xml | XmlContent[]
+/**
+ * XML node content in the parsed structure.
+ */
+export type XmlContent = string | Xml | XmlContent[]
 
-type Xml = {
+/**
+ * Parsed XML object.
+ */
+export type Xml = {
   [key: string]: XmlContent
 }
 

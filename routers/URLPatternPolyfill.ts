@@ -11,6 +11,7 @@
 export class URLPatternPolyfill {
   #regexp: RegExp
 
+  /** Create a new pathname-based URL pattern polyfill. */
   constructor({ pathname }: { pathname: string }) {
     // https://github.com/kwhitley/itty-router/blob/v5.x/src/Router.ts#L22
     const pattern = pathname
@@ -24,6 +25,7 @@ export class URLPatternPolyfill {
     this.#regexp = RegExp(`^${pattern}/*$`)
   }
 
+  /** Execute the pattern against an input URL or path-like value. */
   exec(
     input: URLPatternInput,
   ): { pathname: Pick<URLPatternComponentResult, "groups"> } | null {

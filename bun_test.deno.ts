@@ -10,12 +10,29 @@ import {
 } from "@std/assert"
 import { spy } from "@std/testing/mock"
 
-type Callable<T> = T extends { (...args: infer Args): infer Ret } ? (...args: Args) => Ret : never
+type Constructable = abstract new (...args: never[]) => unknown
 
+/**
+ * Callable function shape extracted from a property.
+ */
+export type Callable<T> = T extends { (...args: infer Args): infer Ret } ? (...args: Args) => Ret
+  : never
+
+/**
+ * Public result shape returned by `spyOn`.
+ */
+export type SpyOnResult<Self extends object, Prop extends keyof Self> = {
+  mockRestore: () => void
+  mockImplementation: (implementation: Callable<Self[Prop]>) => unknown
+}
+
+/**
+ * Create a spy for an object property and expose Bun-like mock helpers.
+ */
 export function spyOn<Self extends object, Prop extends keyof Self>(
   self: Self,
   property: Prop,
-) {
+): SpyOnResult<Self, Prop> {
   const mockSpy = spy(self, property)
   const mockRestore = mockSpy.restore.bind(mockSpy)
   const mockImplementation = (implementation: Callable<Self[Prop]>) => {
@@ -38,8 +55,14 @@ function asSpy(actual: unknown) {
   return actual as ReturnType<typeof spy>
 }
 
-export const test = Deno.test
-type ExpectMatchers = {
+/**
+ * Test declaration compatible with Bun's `test`.
+ */
+export const test: typeof Deno.test = Deno.test
+/**
+ * Matchers available in `expect`.
+ */
+export type ExpectMatchers = {
   toEqual: (expected: unknown) => void
   toBe: (expected: unknown) => void
   toBeUndefined: () => void
@@ -47,14 +70,20 @@ type ExpectMatchers = {
   toBeGreaterThanOrEqual: (expected: number) => void
   toBeLessThanOrEqual: (expected: number) => void
   toBeLessThan: (expected: number) => void
-  toBeInstanceOf: (expectedType: Parameters<typeof assertInstanceOf>[1]) => void
+  toBeInstanceOf: (expectedType: Constructable) => void
   toThrow: (expected?: unknown) => void
   toMatch: (expected: RegExp | string) => void
   toHaveBeenCalledTimes: (times: number) => void
 }
 
-type ExpectFn = (actual: unknown) => ExpectMatchers
+/**
+ * Assertion entry function.
+ */
+export type ExpectFn = (actual: unknown) => ExpectMatchers
 
+/**
+ * Bun-like expectation API built on top of `@std/assert`.
+ */
 export const expect: ExpectFn = (actual: unknown) => ({
   toEqual: (expected: unknown) => assertEquals(actual, expected),
 
@@ -69,8 +98,7 @@ export const expect: ExpectFn = (actual: unknown) => ({
 
   toBeLessThan: (expected: number) => assertLess(actual, expected),
 
-  toBeInstanceOf: (expectedType: Parameters<typeof assertInstanceOf>[1]) =>
-    assertInstanceOf(actual, expectedType),
+  toBeInstanceOf: (expectedType: Constructable) => assertInstanceOf(actual, expectedType),
 
   toThrow: (expected?: unknown) => assertThrows(actual as () => unknown, expected as string),
 

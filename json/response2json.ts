@@ -5,7 +5,10 @@
 import { headers2json } from "./headers2json.ts"
 import { url2json, type URLJson } from "./url2json.ts"
 
-type ResponseJson = {
+/**
+ * Serializable view of a `Response`.
+ */
+export type ResponseJson = {
   ok: boolean
   status: number
   statusText: string

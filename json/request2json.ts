@@ -5,7 +5,10 @@
 import { headers2json } from "./headers2json.ts"
 import { url2json, type URLJson } from "./url2json.ts"
 
-type RequestJson = {
+/**
+ * Serializable view of a `Request`.
+ */
+export type RequestJson = {
   method: string
   url?: URLJson
   bodyUsed: boolean

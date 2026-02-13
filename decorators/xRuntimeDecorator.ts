@@ -11,6 +11,9 @@ export function xRuntimeDecorator<T extends unknown[]>(handler: Handler<T>): Han
   return (...args: T) => xRuntime(() => handler(...args))
 }
 
+/**
+ * Execute a handler and add runtime headers to its response.
+ */
 export async function xRuntime(handler: Handler<unknown[]>): Promise<Response> {
   const start = Date.now()
   const response = await handler()

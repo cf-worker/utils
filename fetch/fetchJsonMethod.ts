@@ -4,8 +4,14 @@
  */
 import { fetchJson } from "./fetchJson.ts"
 
+/**
+ * JSON method function signature.
+ */
 export type FetchJsonMethod<T> = (data?: unknown) => Promise<T>
 
+/**
+ * Grouped JSON methods for common write verbs.
+ */
 export type FetchJsonMethodReturn<T> = {
   post: FetchJsonMethod<T>
   put: FetchJsonMethod<T>

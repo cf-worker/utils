@@ -3,6 +3,7 @@
  * @module
  */
 export class MemoryStorage implements Storage {
+  /** Index signature for compatibility with `Storage` shape. */
   // deno-lint-ignore no-explicit-any
   [name: string]: any
 
@@ -23,6 +24,7 @@ export class MemoryStorage implements Storage {
     return this.#hasKey(key) ? this.#bytes(key) + this.#bytes(this.#storage[key]) : 0
   }
 
+  /** Create a memory-backed `Storage` implementation. */
   constructor(opts?: { limit?: number }) {
     this.#limit = opts?.limit ?? this.#limit
 
@@ -71,30 +73,36 @@ export class MemoryStorage implements Storage {
     })
   }
 
+  /** Number of stored keys. */
   get length(): number {
     return Object.keys(this.#storage).length
   }
 
+  /** Remove all entries. */
   clear(): void {
     for (const key in this.#storage) {
       delete this.#storage[key]
     }
   }
 
+  /** Read a value by key. */
   getItem(key: string): string | null {
     return this.#storage[key] ?? null
   }
 
+  /** Return key name by index. */
   key(index: number): string | null {
     const keys = Object.keys(this.#storage)
     return index >= 0 && index < keys.length ? keys[index] : null
   }
 
+  /** Remove a key and its value. */
   removeItem(key: string): void {
     this.#usage -= this.#keyUsage(key)
     delete this.#storage[key]
   }
 
+  /** Set a value for a key, enforcing storage limit. */
   setItem(key: string, value: string): void {
     const newSize = this.#bytes(key) + this.#bytes(value)
     const oldSize = this.#keyUsage(key)
@@ -108,14 +116,17 @@ export class MemoryStorage implements Storage {
     this.#usage = size
   }
 
+  /** String tag representation for the storage object. */
   get [Symbol.toStringTag](): string {
     return this.toString()
   }
 
+  /** Convert internal storage to JSON string. */
   toString(): string {
     return JSON.stringify(this.#storage)
   }
 
+  /** Convert internal storage to plain object. */
   toJSON(): object {
     return this.#storage
   }

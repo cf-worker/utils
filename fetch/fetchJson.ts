@@ -22,4 +22,5 @@ export function fetchJson<T>(input: RequestInfo | URL, init: RequestInit = {}): 
   return responseJson<T>(fetchThrow(fetch(request), request))
 }
 
+/** Default timeout in milliseconds used by `fetchJson`. */
 fetchJson.timeout = 10_000
