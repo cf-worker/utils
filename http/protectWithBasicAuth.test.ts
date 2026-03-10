@@ -7,41 +7,44 @@ function createRequestWithAuthorization(authorization?: string) {
   })
 }
 
-test("protectWithBasicAuth returns 404 when authorization header is missing", async () => {
+test("protectWithBasicAuth returns 401 when authorization header is missing", async () => {
   const response = protectWithBasicAuth(createRequestWithAuthorization(), "admin", "secret")
 
-  expect(response?.status).toBe(404)
-  expect(await response?.text()).toBe("Not Found")
+  expect(response?.status).toBe(401)
+  expect(response?.headers.get("WWW-Authenticate")).toBe(
+    'Basic realm="Restricted", charset="UTF-8"',
+  )
+  expect(await response?.text()).toBe("Unauthorized")
 })
 
-test("protectWithBasicAuth returns 404 for non-basic authorization", () => {
+test("protectWithBasicAuth returns 401 for non-basic authorization", () => {
   const response = protectWithBasicAuth(
     createRequestWithAuthorization("Bearer token"),
     "admin",
     "secret",
   )
 
-  expect(response?.status).toBe(404)
+  expect(response?.status).toBe(401)
 })
 
-test("protectWithBasicAuth returns 404 for malformed basic authorization", () => {
+test("protectWithBasicAuth returns 401 for malformed basic authorization", () => {
   const response = protectWithBasicAuth(
     createRequestWithAuthorization("Basic invalid-base64%%%"),
     "admin",
     "secret",
   )
 
-  expect(response?.status).toBe(404)
+  expect(response?.status).toBe(401)
 })
 
-test("protectWithBasicAuth returns 404 for wrong credentials", () => {
+test("protectWithBasicAuth returns 401 for wrong credentials", () => {
   const response = protectWithBasicAuth(
     createRequestWithAuthorization(`Basic ${btoa("admin:wrong")}`),
     "admin",
     "secret",
   )
 
-  expect(response?.status).toBe(404)
+  expect(response?.status).toBe(401)
 })
 
 test("protectWithBasicAuth returns null for matching credentials", () => {
