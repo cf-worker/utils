@@ -1,11 +1,6 @@
 import { expect, test } from "bun:test"
-import { URLPatternPolyfill } from "./URLPatternPolyfill.ts"
+import "./installURLPatternPolyfill.bun.ts"
 import { DELETE, GET, PATCH, POST, PUT, QUERY } from "./verbs.ts"
-
-if (typeof globalThis.URLPattern === "undefined") {
-  // @ts-expect-error: URLPatternPolyfill
-  globalThis.URLPattern = URLPatternPolyfill
-}
 
 test("GET success", () => {
   const pattern = "/users/:id"

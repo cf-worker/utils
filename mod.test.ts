@@ -9,8 +9,10 @@ const paths = (await Array.fromAsync(
     maxLevel: 2,
     recursive: true,
     filterFile: ({ name, parentPath }) =>
-      name.endsWith(".ts") && !name.endsWith(".d.ts") && !name.endsWith(".deno.ts") &&
-      !name.endsWith(".test.ts") && !name.endsWith("mod.ts") && !name.endsWith("types.ts") &&
+      name.endsWith(".ts") && !name.endsWith(".d.ts") &&
+      !name.endsWith(".deno.ts") && !name.endsWith(".bun.ts") &&
+      !name.endsWith(".test.ts") && !name.endsWith("mod.ts") &&
+      !name.endsWith("types.ts") &&
       !parentPath.includes("/lab/") && !parentPath.includes("/node_modules/"),
   }),
 )).map((entry) => entry.path)
@@ -37,5 +39,7 @@ async function arrayFilterAsync<T>(
 
 test("all files should have tests", async () => {
   const tests = paths.map((path) => path.replace(".ts", ".test.ts"))
-  expect(tests).toEqual(await arrayFilterAsync(tests, (path) => file(path).exists()))
+  expect(tests).toEqual(
+    await arrayFilterAsync(tests, (path) => file(path).exists()),
+  )
 })

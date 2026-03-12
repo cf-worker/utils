@@ -1,11 +1,6 @@
 import { expect, test } from "bun:test"
+import "./installURLPatternPolyfill.bun.ts"
 import { matcherPath } from "./matcherPath.ts"
-import { URLPatternPolyfill } from "./URLPatternPolyfill.ts"
-
-if (typeof globalThis.URLPattern === "undefined") {
-  // @ts-expect-error: URLPatternPolyfill
-  globalThis.URLPattern = URLPatternPolyfill
-}
 
 const match = matcherPath("/users/:id")
 

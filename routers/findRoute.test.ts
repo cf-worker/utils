@@ -1,12 +1,7 @@
 import { expect, test } from "bun:test"
+import "./installURLPatternPolyfill.bun.ts"
 import { findRoute } from "./findRoute.ts"
-import { URLPatternPolyfill } from "./URLPatternPolyfill.ts"
 import { GET, POST } from "./verbs.ts"
-
-if (typeof globalThis.URLPattern === "undefined") {
-  // @ts-expect-error: URLPatternPolyfill
-  globalThis.URLPattern = URLPatternPolyfill
-}
 
 const routes = new Map([
   [GET("/"), "root"],

@@ -1,11 +1,6 @@
 import { expect, test } from "bun:test"
+import "./installURLPatternPolyfill.bun.ts"
 import { switchRouter } from "./switchRouter.ts"
-import { URLPatternPolyfill } from "./URLPatternPolyfill.ts"
-
-if (typeof globalThis.URLPattern === "undefined") {
-  // @ts-expect-error: URLPatternPolyfill
-  globalThis.URLPattern = URLPatternPolyfill
-}
 
 function route(method: string, url: string) {
   const r = switchRouter({ method, url })
@@ -82,7 +77,11 @@ test("switchRouter route default params", () => {
   const method = "GET"
   const url = "https://example.com/users/123"
   const page = "1"
-  const { params, GET } = switchRouter({ method: method, url: url }, undefined, { page })
+  const { params, GET } = switchRouter(
+    { method: method, url: url },
+    undefined,
+    { page },
+  )
   GET("/users/:id")
   expect(params.id).toBe("123")
   expect(params.page).toBe(page)
@@ -92,7 +91,11 @@ test("switchRouter route default params can be overrided", () => {
   const method = "GET"
   const url = "https://example.com/users/123/page/2"
   const page = "1"
-  const { params, GET } = switchRouter({ method: method, url: url }, undefined, { page })
+  const { params, GET } = switchRouter(
+    { method: method, url: url },
+    undefined,
+    { page },
+  )
   GET("/users/:id/page/:page")
   expect(params.id).toBe("123")
   expect(params.page).toBe("2")
@@ -109,5 +112,7 @@ test("switchRouter params are the same", () => {
 })
 
 test("switchRouter throws for malformed url", () => {
-  expect(() => switchRouter({ method: "GET", url: "://bad-url" })).toThrow(TypeError)
+  expect(() => switchRouter({ method: "GET", url: "://bad-url" })).toThrow(
+    TypeError,
+  )
 })
