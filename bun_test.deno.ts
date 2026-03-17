@@ -10,7 +10,10 @@ import {
 } from "@std/assert"
 import { spy } from "@std/testing/mock"
 
-type Constructable = abstract new (...args: never[]) => unknown
+/**
+ * Constructor shape accepted by instance matchers.
+ */
+export type Constructable = abstract new (...args: never[]) => unknown
 
 /**
  * Callable function shape extracted from a property.

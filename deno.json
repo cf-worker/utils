@@ -99,6 +99,9 @@
     "singleQuote": false,
     "useTabs": false
   },
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
   "nodeModulesDir": "auto",
   "publish": {
     "exclude": [

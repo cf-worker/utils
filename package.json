@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "dependencies": {},
   "devDependencies": {
     "@svarta/walk-it": "npm:@jsr/svarta__walk-it"

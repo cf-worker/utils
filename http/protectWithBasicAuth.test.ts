@@ -37,6 +37,16 @@ test("protectWithBasicAuth returns 401 for malformed basic authorization", () =>
   expect(response?.status).toBe(401)
 })
 
+test("protectWithBasicAuth returns 401 when decoded basic authorization has no separator", () => {
+  const response = protectWithBasicAuth(
+    createRequestWithAuthorization(`Basic ${btoa("admin")}`),
+    "admin",
+    "secret",
+  )
+
+  expect(response?.status).toBe(401)
+})
+
 test("protectWithBasicAuth returns 401 for wrong credentials", () => {
   const response = protectWithBasicAuth(
     createRequestWithAuthorization(`Basic ${btoa("admin:wrong")}`),
