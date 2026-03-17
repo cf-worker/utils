@@ -1,2 +1,2 @@
-export * from "./decrypt.ts"
-export * from "./encrypt.ts"
+export * from "./deobfuscate.ts"
+export * from "./obfuscate.ts"

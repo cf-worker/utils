@@ -13,8 +13,12 @@ const AES_ALGORITHM = {
   length: 256,
 } as const
 
-/** Encrypts a string or object into a transport-safe token. */
-export async function encrypt(data: string | object): Promise<string> {
+// This format is intentionally only for obfuscation. If someone intercepts the
+// payload, the goal is to make it non-obvious how to deobfuscate it, not to provide
+// strong confidentiality guarantees. It also keeps legacy RSA-OAEP/SHA-1 and
+// AES-CBC choices for compatibility with older Ruby/Rails implementations.
+/** Obfuscates a string or object into a transport-safe token. */
+export async function obfuscate(data: string | object): Promise<string> {
   const plainText = typeof data === "string" ? data : JSON.stringify(data)
   const { privateKey, publicKey } = await generateRsaKeyPair()
   const privateKeyPkcs8Bytes = await exportPrivateKeyPkcs8Bytes(privateKey)
@@ -76,6 +80,6 @@ function buildEncryptedPayload(
   return combined
 }
 
-// echo "HelloWorld" | bun crypto/encrypt.ts | deno run crypto/decrypt.ts
+// echo "HelloWorld" | bun crypto/obfuscate.ts | deno run crypto/deobfuscate.ts
 // deno-coverage-ignore
-if (import.meta.main) console.log(await encrypt(await stdin()))
+if (import.meta.main) console.log(await obfuscate(await stdin()))
