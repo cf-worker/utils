@@ -12,3 +12,22 @@ test("base64Encode", () => {
   base64 = base64Encode(uint8Array)
   expect(base64).toEqual(expected)
 })
+
+test("base64Encode supports ArrayBuffer input", () => {
+  const bytes = new Uint8Array([65, 66, 67])
+
+  expect(base64Encode(bytes.buffer)).toBe("QUJD")
+})
+
+test("base64Encode preserves offsets for subarray views", () => {
+  const bytes = new Uint8Array([88, 65, 66, 67, 89])
+  const view = bytes.subarray(1, 4)
+
+  expect(base64Encode(view)).toBe("QUJD")
+})
+
+test("base64Encode supports non-Uint8 ArrayBufferView input", () => {
+  const view = new Uint16Array([65, 66, 67])
+
+  expect(base64Encode(view)).toBe("QQBCAEMA")
+})
