@@ -1,7 +1,3 @@
-/**
- * Storage helpers for browser-like local storage APIs.
- * @module
- */
 export * from "./MemoryStorage.ts"
 export * from "./fillLocalStorage.ts"
 export * from "./getLocalStorageLimit.ts"

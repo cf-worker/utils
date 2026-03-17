@@ -1,17 +1,15 @@
-/**
- * Utility collection for Cloudflare Workers and general TypeScript runtimes.
- * @module
- */
 export * from "./algorithms/mod.ts"
 export * from "./arrays/mod.ts"
 export * from "./booleans/mod.ts"
+export * from "./cli/mod.ts"
 export * from "./cors/mod.ts"
+export * from "./crypto/mod.ts"
 export * from "./datetime/mod.ts"
 export * from "./decorators/mod.ts"
 export * from "./encoding/mod.ts"
 export * from "./fetch/mod.ts"
 export * from "./functionals/mod.ts"
-export * from "./http/protectWithBasicAuth.ts"
+export * from "./http/mod.ts"
 export * from "./json/mod.ts"
 export * from "./local-storage/mod.ts"
 export * from "./numbers/mod.ts"

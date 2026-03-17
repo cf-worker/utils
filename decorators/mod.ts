@@ -1,7 +1,3 @@
-/**
- * Request/response decorator utilities.
- * @module
- */
 export * from "./faviconDecorator.ts"
 export * from "./xCountDecorator.ts"
 export * from "./xRuntimeDecorator.ts"

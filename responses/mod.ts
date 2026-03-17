@@ -1,7 +1,3 @@
-/**
- * HTTP response factory helpers.
- * @module
- */
 export * from "./contentTypeResponse.ts"
 export * from "./cssResponse.ts"
 export * from "./emptyFaviconResponse.ts"

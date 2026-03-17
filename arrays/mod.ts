@@ -1,7 +1,3 @@
-/**
- * Array manipulation and analysis utilities.
- * @module
- */
 export * from "./arrayBalanced.ts"
 export * from "./arrayDifference.ts"
 export * from "./arrayDuplicates.ts"
