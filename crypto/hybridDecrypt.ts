@@ -4,6 +4,7 @@ import { base64Decode } from "../encoding/base64Decode.ts"
 import { stdin } from "../cli/stdin.ts"
 import { privateKeyFromText } from "./hybridKeyPair.ts"
 
+const TEXT_DECODER = new TextDecoder()
 const AES_ALGORITHM = {
   name: "AES-GCM",
   length: 256,
@@ -50,7 +51,7 @@ export async function hybridDecrypt(
     aesKey,
     encryptedContent,
   )
-  return new TextDecoder().decode(plainText)
+  return TEXT_DECODER.decode(plainText)
 }
 
 function parseToken(token: string) {

@@ -4,27 +4,42 @@ import { hybridDecrypt } from "./hybridDecrypt.ts"
 import { hybridEncrypt } from "./hybridEncrypt.ts"
 import { generateHybridKeyPair, privateKeyToText } from "./hybridKeyPair.ts"
 
+let hybridFixturePromise:
+  | Promise<{ privateKey: CryptoKey, privateKeyText: string, publicKey: CryptoKey }>
+  | undefined
+
+function getHybridFixture() {
+  hybridFixturePromise ??= (async () => {
+    const keyPair = await generateHybridKeyPair()
+    return {
+      privateKey: keyPair.privateKey,
+      privateKeyText: await privateKeyToText(keyPair.privateKey),
+      publicKey: keyPair.publicKey,
+    }
+  })()
+
+  return hybridFixturePromise
+}
+
 test("hybridDecrypt restores plaintext from a hybrid token", async () => {
-  const { publicKey, privateKey } = await generateHybridKeyPair()
+  const { publicKey, privateKey } = await getHybridFixture()
   const token = await hybridEncrypt("secret value", publicKey)
 
   expect(await hybridDecrypt(token, privateKey)).toBe("secret value")
 })
 
 test("hybridDecrypt works with a PEM private key", async () => {
-  const { publicKey, privateKey } = await generateHybridKeyPair()
-  const privateKeyText = await privateKeyToText(privateKey)
+  const { privateKeyText, publicKey } = await getHybridFixture()
   const token = await hybridEncrypt("secret value", publicKey)
 
   expect(await hybridDecrypt(token, privateKeyText)).toBe("secret value")
 })
 
 test("hybridDecrypt throws for malformed token format", async () => {
+  const { privateKeyText } = await getHybridFixture()
+
   try {
-    await hybridDecrypt(
-      "bad-token",
-      await privateKeyToText((await generateHybridKeyPair()).privateKey),
-    )
+    await hybridDecrypt("bad-token", privateKeyText)
     expect(true).toBe(false)
   } catch (error) {
     expect((error as Error).message).toBe("Invalid hybrid token")
@@ -32,11 +47,10 @@ test("hybridDecrypt throws for malformed token format", async () => {
 })
 
 test("hybridDecrypt throws for tokens shorter than the header", async () => {
+  const { privateKeyText } = await getHybridFixture()
+
   try {
-    await hybridDecrypt(
-      base64Encode(new Uint8Array([1, 2, 3])),
-      await privateKeyToText((await generateHybridKeyPair()).privateKey),
-    )
+    await hybridDecrypt(base64Encode(new Uint8Array([1, 2, 3])), privateKeyText)
     expect(true).toBe(false)
   } catch (error) {
     expect((error as Error).message).toBe("Invalid hybrid token")
@@ -44,7 +58,7 @@ test("hybridDecrypt throws for tokens shorter than the header", async () => {
 })
 
 test("hybridDecrypt throws for invalid token header values", async () => {
-  const privateKeyText = await privateKeyToText((await generateHybridKeyPair()).privateKey)
+  const { privateKeyText } = await getHybridFixture()
 
   for (
     const payload of [
@@ -63,7 +77,7 @@ test("hybridDecrypt throws for invalid token header values", async () => {
 })
 
 test("hybridDecrypt throws for truncated tokens", async () => {
-  const privateKeyText = await privateKeyToText((await generateHybridKeyPair()).privateKey)
+  const { privateKeyText } = await getHybridFixture()
 
   try {
     await hybridDecrypt(base64Encode(new Uint8Array([1, 0, 1, 1, 255])), privateKeyText)
@@ -74,10 +88,7 @@ test("hybridDecrypt throws for truncated tokens", async () => {
 })
 
 test("hybridDecrypt throws when using the wrong private key", async () => {
-  const [{ publicKey }, { privateKey }] = await Promise.all([
-    generateHybridKeyPair(),
-    generateHybridKeyPair(),
-  ])
+  const [{ publicKey }, { privateKey }] = await Promise.all([getHybridFixture(), generateHybridKeyPair()])
   const token = await hybridEncrypt("secret value", publicKey)
 
   try {

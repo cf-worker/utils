@@ -1,6 +1,7 @@
 import { base64Encode } from "../encoding/base64Encode.ts"
 import { stdin } from "../cli/stdin.ts"
 
+const TEXT_ENCODER = new TextEncoder()
 const RSA_ALGORITHM = {
   name: "RSA-OAEP",
   modulusLength: 2048,
@@ -17,23 +18,38 @@ const AES_ALGORITHM = {
 // payload, the goal is to make it non-obvious how to deobfuscate it, not to provide
 // strong confidentiality guarantees. It also keeps legacy RSA-OAEP/SHA-1 and
 // AES-CBC choices for compatibility with older Ruby/Rails implementations.
+export type ObfuscateOptions = {
+  embedPrivateKey?: boolean
+  keyPair?: CryptoKeyPair
+  privateKeyText?: string
+}
+
+/** Generates a reusable RSA key pair for obfuscation. */
+export async function generateObfuscationKeyPair(): Promise<CryptoKeyPair> {
+  return await crypto.subtle.generateKey(RSA_ALGORITHM, true, ["encrypt", "decrypt"])
+}
+
 /** Obfuscates a string or object into a transport-safe token. */
-export async function obfuscate(data: string | object): Promise<string> {
+export async function obfuscate(
+  data: string | object,
+  options: ObfuscateOptions = {},
+): Promise<string> {
   const plainText = typeof data === "string" ? data : JSON.stringify(data)
-  const { privateKey, publicKey } = await generateRsaKeyPair()
-  const privateKeyPkcs8Bytes = await exportPrivateKeyPkcs8Bytes(privateKey)
+  const embedPrivateKey = options.embedPrivateKey ?? true
+  const { privateKey, publicKey } = options.keyPair ?? await generateObfuscationKeyPair()
   const { aesKey, iv, ivBuffer } = await createAesKeyAndIv()
   const encryptedContent = await encryptWithAes(plainText, aesKey, ivBuffer)
   const encryptedAesKey = await encryptAesKeyWithRsa(aesKey, publicKey)
   const encryptedPayloadBytes = buildEncryptedPayload(encryptedAesKey, iv, encryptedContent)
   const encryptedPayload = base64Encode(encryptedPayloadBytes)
-  const privateKeyPkcs8 = base64Encode(privateKeyPkcs8Bytes)
 
+  if (!embedPrivateKey) {
+    return encryptedPayload
+  }
+
+  const privateKeyPkcs8 = options.privateKeyText ??
+    base64Encode(await exportPrivateKeyPkcs8Bytes(privateKey))
   return `${encryptedPayload}.${privateKeyPkcs8}`
-}
-
-async function generateRsaKeyPair(): Promise<CryptoKeyPair> {
-  return await crypto.subtle.generateKey(RSA_ALGORITHM, true, ["encrypt", "decrypt"])
 }
 
 async function exportPrivateKeyPkcs8Bytes(privateKey: CryptoKey): Promise<ArrayBuffer> {
@@ -53,7 +69,7 @@ async function encryptWithAes(plainText: string, aesKey: CryptoKey, ivBuffer: Ar
   return await crypto.subtle.encrypt(
     { name: AES_ALGORITHM.name, iv: ivBuffer },
     aesKey,
-    new TextEncoder().encode(plainText),
+    TEXT_ENCODER.encode(plainText),
   )
 }
 

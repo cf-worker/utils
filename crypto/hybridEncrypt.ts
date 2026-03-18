@@ -4,6 +4,7 @@ import { base64Encode } from "../encoding/base64Encode.ts"
 import { stdin } from "../cli/stdin.ts"
 import { publicKeyFromText } from "./hybridKeyPair.ts"
 
+const TEXT_ENCODER = new TextEncoder()
 const AES_ALGORITHM = {
   name: "AES-GCM",
   length: 256,
@@ -58,7 +59,7 @@ export async function hybridEncrypt(
   const encryptedContent = await crypto.subtle.encrypt(
     { name: AES_ALGORITHM.name, iv },
     aesKey,
-    new TextEncoder().encode(plainText),
+    TEXT_ENCODER.encode(plainText),
   )
   const encryptedKey = await crypto.subtle.encrypt(
     RSA_ALGORITHM,
