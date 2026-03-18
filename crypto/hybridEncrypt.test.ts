@@ -4,7 +4,7 @@ import { hybridEncrypt } from "./hybridEncrypt.ts"
 import { generateHybridKeyPair, publicKeyToText } from "./hybridKeyPair.ts"
 
 let hybridFixturePromise:
-  | Promise<{ privateKey: CryptoKey, publicKey: CryptoKey, publicKeyText: string }>
+  | Promise<{ privateKey: CryptoKey; publicKey: CryptoKey; publicKeyText: string }>
   | undefined
 
 function getHybridFixture() {

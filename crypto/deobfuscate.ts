@@ -52,7 +52,9 @@ function parseEncryptedToken(token: string): ParsedEncryptedToken {
     encryptedContent: copyBytes(combined.slice(ENCRYPTED_KEY_LENGTH + IV_LENGTH)),
     encryptedKey: copyBytes(combined.slice(0, ENCRYPTED_KEY_LENGTH)),
     iv: copyBytes(combined.slice(ENCRYPTED_KEY_LENGTH, ENCRYPTED_KEY_LENGTH + IV_LENGTH)),
-    privateKeyBytes: encodedPrivateKeyData ? copyBytes(base64Decode(encodedPrivateKeyData)) : undefined,
+    privateKeyBytes: encodedPrivateKeyData
+      ? copyBytes(base64Decode(encodedPrivateKeyData))
+      : undefined,
   }
 }
 

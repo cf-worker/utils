@@ -2,7 +2,9 @@ import { expect, test } from "bun:test"
 import { deobfuscate } from "./deobfuscate.ts"
 import { generateObfuscationKeyPair, obfuscate } from "./obfuscate.ts"
 
-let obfuscationFixturePromise: Promise<{ keyPair: CryptoKeyPair, privateKeyText: string }> | undefined
+let obfuscationFixturePromise:
+  | Promise<{ keyPair: CryptoKeyPair; privateKeyText: string }>
+  | undefined
 
 function getObfuscationFixture() {
   obfuscationFixturePromise ??= (async () => {

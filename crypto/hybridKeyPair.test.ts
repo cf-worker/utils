@@ -63,7 +63,8 @@ test("publicKeyToText and privateKeyToText return PEM text", async () => {
 })
 
 test("publicKeyFromText and privateKeyFromText import PEM keys", async () => {
-  const { privateKeyPem: privateKeyText, publicKeyPem: publicKeyText } = await getHybridKeyPairFixture()
+  const { privateKeyPem: privateKeyText, publicKeyPem: publicKeyText } =
+    await getHybridKeyPairFixture()
   const importedPublicKey = await publicKeyFromText(publicKeyText)
   const importedPrivateKey = await privateKeyFromText(privateKeyText)
 
@@ -72,7 +73,8 @@ test("publicKeyFromText and privateKeyFromText import PEM keys", async () => {
 })
 
 test("publicKeyFromText and privateKeyFromText import base64 keys", async () => {
-  const { privateKeyBase64: privateKeyText, publicKeyBase64: publicKeyText } = await getHybridKeyPairFixture()
+  const { privateKeyBase64: privateKeyText, publicKeyBase64: publicKeyText } =
+    await getHybridKeyPairFixture()
   const importedPublicKey = await publicKeyFromText(publicKeyText)
   const importedPrivateKey = await privateKeyFromText(privateKeyText)
 
@@ -81,7 +83,8 @@ test("publicKeyFromText and privateKeyFromText import base64 keys", async () => 
 })
 
 test("publicKeyFromText and privateKeyFromText import JWK text", async () => {
-  const { privateKeyJwkText: privateKeyText, publicKeyJwkText: publicKeyText } = await getHybridKeyPairFixture()
+  const { privateKeyJwkText: privateKeyText, publicKeyJwkText: publicKeyText } =
+    await getHybridKeyPairFixture()
   const importedPublicKey = await publicKeyFromText(publicKeyText)
   const importedPrivateKey = await privateKeyFromText(privateKeyText)
 

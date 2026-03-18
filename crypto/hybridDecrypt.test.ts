@@ -5,7 +5,7 @@ import { hybridEncrypt } from "./hybridEncrypt.ts"
 import { generateHybridKeyPair, privateKeyToText } from "./hybridKeyPair.ts"
 
 let hybridFixturePromise:
-  | Promise<{ privateKey: CryptoKey, privateKeyText: string, publicKey: CryptoKey }>
+  | Promise<{ privateKey: CryptoKey; privateKeyText: string; publicKey: CryptoKey }>
   | undefined
 
 function getHybridFixture() {
@@ -88,7 +88,10 @@ test("hybridDecrypt throws for truncated tokens", async () => {
 })
 
 test("hybridDecrypt throws when using the wrong private key", async () => {
-  const [{ publicKey }, { privateKey }] = await Promise.all([getHybridFixture(), generateHybridKeyPair()])
+  const [{ publicKey }, { privateKey }] = await Promise.all([
+    getHybridFixture(),
+    generateHybridKeyPair(),
+  ])
   const token = await hybridEncrypt("secret value", publicKey)
 
   try {
