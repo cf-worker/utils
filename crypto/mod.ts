@@ -1,2 +1,5 @@
 export * from "./deobfuscate.ts"
+export * from "./hybridDecrypt.ts"
+export * from "./hybridEncrypt.ts"
+export * from "./hybridKeyPair.ts"
 export * from "./obfuscate.ts"

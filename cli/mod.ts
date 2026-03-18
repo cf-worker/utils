@@ -1,3 +1,5 @@
+export * from "./args.ts"
+export * from "./setExitCode.ts"
 export * from "./stdin.ts"
 export * from "./stdinBun.ts"
 export * from "./stdinDeno.ts"
