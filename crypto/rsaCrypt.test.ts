@@ -4,7 +4,9 @@ import { rsaCrypt } from "./rsaCrypt.ts"
 import { rsaDecrypt } from "./rsaDecrypt.ts"
 
 let rsaFixturePromise:
-  | Promise<{ privateKey: CryptoKey; privateKeyText: string; publicKey: CryptoKey; publicKeyText: string }>
+  | Promise<
+    { privateKey: CryptoKey; privateKeyText: string; publicKey: CryptoKey; publicKeyText: string }
+  >
   | undefined
 
 function getRsaFixture() {

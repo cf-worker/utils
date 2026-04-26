@@ -6,7 +6,10 @@ import { publicKeyFromText } from "./hybridKeyPair.ts"
 
 const TEXT_ENCODER = new TextEncoder()
 
-export async function rsaCrypt(data: string | object, publicKey: CryptoKey | string): Promise<string> {
+export async function rsaCrypt(
+  data: string | object,
+  publicKey: CryptoKey | string,
+): Promise<string> {
   const plainText = typeof data === "string" ? data : JSON.stringify(data)
   const importedPublicKey = typeof publicKey === "string"
     ? await publicKeyFromText(publicKey)
