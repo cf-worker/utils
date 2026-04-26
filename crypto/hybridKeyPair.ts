@@ -125,17 +125,11 @@ function pemToBytes(text: string, header: string, footer: string): ArrayBuffer {
     .slice(header.length, normalized.length - footer.length)
     .replace(/\s+/g, "")
 
-  const bytes = base64Decode(base64)
-  const copy = new Uint8Array(bytes.byteLength)
-  copy.set(bytes)
-  return copy.buffer
+  return base64Decode(base64).buffer
 }
 
 function base64ToArrayBuffer(text: string): ArrayBuffer {
-  const bytes = base64Decode(text)
-  const copy = new Uint8Array(bytes.byteLength)
-  copy.set(bytes)
-  return copy.buffer
+  return base64Decode(text).buffer
 }
 
 async function importPublicKeyFromSpkiBytes(bytes: ArrayBuffer): Promise<CryptoKey> {

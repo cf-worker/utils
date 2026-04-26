@@ -13,16 +13,9 @@ export async function rsaDecrypt(token: string, privateKey: CryptoKey | string):
   const plainText = await crypto.subtle.decrypt(
     { name: "RSA-OAEP" },
     importedPrivateKey,
-    copyBytes(base64Decode(token)),
+    base64Decode(token),
   )
   return TEXT_DECODER.decode(plainText)
-}
-
-function copyBytes(bytes: Uint8Array): Uint8Array<ArrayBuffer> {
-  const buffer = new ArrayBuffer(bytes.byteLength)
-  const copy = new Uint8Array(buffer)
-  copy.set(bytes)
-  return copy
 }
 
 async function main(): Promise<void> {

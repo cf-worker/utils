@@ -89,7 +89,7 @@ async function resolvePrivateKey(
   }
 
   if (typeof privateKey === "string") {
-    return await importPrivateKeyPkcs8(copyBytes(base64Decode(privateKey)))
+    return await importPrivateKeyPkcs8(base64Decode(privateKey))
   }
 
   if (privateKey instanceof ArrayBuffer) {
