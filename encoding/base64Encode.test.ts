@@ -31,3 +31,11 @@ test("base64Encode supports non-Uint8 ArrayBufferView input", () => {
 
   expect(base64Encode(view)).toBe("QQBCAEMA")
 })
+
+test("base64Encode handles very large inputs", () => {
+  const size = "Bun" in globalThis ? 1_000_000 : 130_000
+  const bytes = new Uint8Array(size)
+  const base64 = base64Encode(bytes)
+
+  expect(base64.length > 0).toBe(true)
+})

@@ -13,12 +13,14 @@ export function base64Encode(buffer: ArrayBuffer | ArrayBufferView | ArrayLike<n
   const view = ArrayBuffer.isView(buffer)
     ? new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength)
     : new Uint8Array(buffer as ArrayBuffer | ArrayLike<number>)
+  let text = ""
+  const chunkSize = 0x8000
 
-  return btoa(
-    String.fromCharCode(
-      ...view,
-    ),
-  )
+  for (let index = 0; index < view.length; index += chunkSize) {
+    text += String.fromCharCode(...view.subarray(index, index + chunkSize))
+  }
+
+  return btoa(text)
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/, "")

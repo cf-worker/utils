@@ -1,3 +1,8 @@
 [tools]
 bun = "latest"
 deno = "latest"
+
+[tasks.bun-slowest-tests]
+description = "Run bun test and print the slowest timed tests"
+raw = true
+run = "bun run bun_slowest_tests.ts"
