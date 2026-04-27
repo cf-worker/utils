@@ -1,5 +1,5 @@
 import process from "node:process"
-const DEFAULT_LIMIT = 12
+const DEFAULT_LIMIT = 10
 
 type TimedTest = {
   durationMs: number
@@ -73,12 +73,14 @@ async function main() {
 
   const tests = parseTimedTests(combinedOutput).sort((a, b) => b.durationMs - a.durationMs)
   const slowest = tests.slice(0, limit)
+  const totalDurationMs = slowest.reduce((sum, test) => sum + test.durationMs, 0)
 
   if (slowest.length > 0) {
     process.stdout.write(`\nTop ${slowest.length} slowest tests\n`)
     for (const [index, test] of slowest.entries()) {
-      process.stdout.write(`${index + 1}. ${formatDuration(test.durationMs)}  ${test.name}\n`)
+      process.stdout.write(`${index}. ${formatDuration(test.durationMs)}  ${test.name}\n`)
     }
+    process.stdout.write(`Total: ${formatDuration(totalDurationMs)}\n`)
   } else {
     process.stdout.write("\nNo timed test lines were found in bun test output.\n")
   }

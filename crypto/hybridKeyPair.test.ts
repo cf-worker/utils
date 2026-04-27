@@ -1,16 +1,12 @@
 import { expect, test } from "bun:test"
+import { getHybridTestFixture } from "./hybridTestFixtures.ts"
 import {
-  generateHybridKeyPair,
   privateKeyFromText,
-  privateKeyToBase64,
   privateKeyToJwkText,
   privateKeyToPem,
-  privateKeyToText,
   publicKeyFromText,
-  publicKeyToBase64,
   publicKeyToJwkText,
   publicKeyToPem,
-  publicKeyToText,
 } from "./hybridKeyPair.ts"
 
 let hybridKeyPairFixturePromise:
@@ -30,18 +26,25 @@ let hybridKeyPairFixturePromise:
 
 function getHybridKeyPairFixture() {
   hybridKeyPairFixturePromise ??= (async () => {
-    const { privateKey, publicKey } = await generateHybridKeyPair()
+    const {
+      privateKey,
+      privateKeyBase64,
+      privateKeyText,
+      publicKey,
+      publicKeyBase64,
+      publicKeyText,
+    } = await getHybridTestFixture()
     return {
       privateKey,
-      privateKeyBase64: await privateKeyToBase64(privateKey),
+      privateKeyBase64,
       privateKeyJwkText: await privateKeyToJwkText(privateKey),
       privateKeyPem: await privateKeyToPem(privateKey),
-      privateKeyText: await privateKeyToText(privateKey),
+      privateKeyText,
       publicKey,
-      publicKeyBase64: await publicKeyToBase64(publicKey),
+      publicKeyBase64,
       publicKeyJwkText: await publicKeyToJwkText(publicKey),
       publicKeyPem: await publicKeyToPem(publicKey),
-      publicKeyText: await publicKeyToText(publicKey),
+      publicKeyText,
     }
   })()
 

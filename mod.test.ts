@@ -12,6 +12,7 @@ const paths = (await Array.fromAsync(
       name.endsWith(".ts") && !name.endsWith(".d.ts") &&
       !name.endsWith(".deno.ts") && !name.endsWith(".bun.ts") &&
       name !== "bun_slowest_tests.ts" &&
+      name !== "hybridTestFixtures.ts" &&
       !name.endsWith(".test.ts") && !name.endsWith("mod.ts") &&
       !name.endsWith("types.ts") &&
       !parentPath.includes("/lab/") && !parentPath.includes("/node_modules/"),

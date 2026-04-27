@@ -2,12 +2,9 @@ import { base64Encode } from "../encoding/base64Encode.ts"
 import { stdin } from "../cli/stdin.ts"
 
 const TEXT_ENCODER = new TextEncoder()
-const RSA_ALGORITHM = {
-  name: "RSA-OAEP",
-  modulusLength: 2048,
-  publicExponent: new Uint8Array([1, 0, 1]),
-  hash: "SHA-1",
-} as const
+const DEFAULT_MODULUS_LENGTH = 2048
+const PUBLIC_EXPONENT = new Uint8Array([1, 0, 1])
+const RSA_HASH = "SHA-1"
 
 const AES_ALGORITHM = {
   name: "AES-CBC",
@@ -24,9 +21,28 @@ export type ObfuscateOptions = {
   privateKeyText?: string
 }
 
+export type GenerateObfuscationKeyPairOptions = {
+  modulusLength?: number
+}
+
+function createRsaAlgorithm(modulusLength = DEFAULT_MODULUS_LENGTH) {
+  return {
+    name: "RSA-OAEP",
+    modulusLength,
+    publicExponent: PUBLIC_EXPONENT,
+    hash: RSA_HASH,
+  } as const
+}
+
 /** Generates a reusable RSA key pair for obfuscation. */
-export async function generateObfuscationKeyPair(): Promise<CryptoKeyPair> {
-  return await crypto.subtle.generateKey(RSA_ALGORITHM, true, ["encrypt", "decrypt"])
+export async function generateObfuscationKeyPair(
+  options: GenerateObfuscationKeyPairOptions = {},
+): Promise<CryptoKeyPair> {
+  return await crypto.subtle.generateKey(
+    createRsaAlgorithm(options.modulusLength),
+    true,
+    ["encrypt", "decrypt"],
+  )
 }
 
 /** Obfuscates a string or object into a transport-safe token. */
@@ -75,7 +91,7 @@ async function encryptWithAes(plainText: string, aesKey: CryptoKey, ivBuffer: Ar
 
 async function encryptAesKeyWithRsa(aesKey: CryptoKey, publicKey: CryptoKey) {
   return await crypto.subtle.encrypt(
-    { name: RSA_ALGORITHM.name },
+    { name: createRsaAlgorithm().name },
     publicKey,
     await crypto.subtle.exportKey("raw", aesKey),
   )

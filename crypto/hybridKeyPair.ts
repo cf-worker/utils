@@ -3,17 +3,27 @@ import { base64Encode } from "../encoding/base64Encode.ts"
 import { args } from "../cli/args.ts"
 import { setExitCode } from "../cli/setExitCode.ts"
 
-const RSA_ALGORITHM = {
-  name: "RSA-OAEP",
-  modulusLength: 2048,
-  publicExponent: new Uint8Array([1, 0, 1]),
-  hash: "SHA-256",
-} as const
+const DEFAULT_MODULUS_LENGTH = 2048
+const PUBLIC_EXPONENT = new Uint8Array([1, 0, 1])
+const RSA_HASH = "SHA-256"
 
 const PUBLIC_KEY_HEADER = "-----BEGIN PUBLIC KEY-----"
 const PUBLIC_KEY_FOOTER = "-----END PUBLIC KEY-----"
 const PRIVATE_KEY_HEADER = "-----BEGIN PRIVATE KEY-----"
 const PRIVATE_KEY_FOOTER = "-----END PRIVATE KEY-----"
+
+export type GenerateHybridKeyPairOptions = {
+  modulusLength?: number
+}
+
+function createRsaAlgorithm(modulusLength = DEFAULT_MODULUS_LENGTH) {
+  return {
+    name: "RSA-OAEP",
+    modulusLength,
+    publicExponent: PUBLIC_EXPONENT,
+    hash: RSA_HASH,
+  } as const
+}
 
 /**
  * Generates an RSA key pair for hybrid encryption.
@@ -22,8 +32,14 @@ const PRIVATE_KEY_FOOTER = "-----END PRIVATE KEY-----"
  * AES key to encrypt the actual payload. The matching private key unwraps the
  * AES key during decryption.
  */
-export async function generateHybridKeyPair(): Promise<CryptoKeyPair> {
-  return await crypto.subtle.generateKey(RSA_ALGORITHM, true, ["encrypt", "decrypt"])
+export async function generateHybridKeyPair(
+  options: GenerateHybridKeyPairOptions = {},
+): Promise<CryptoKeyPair> {
+  return await crypto.subtle.generateKey(
+    createRsaAlgorithm(options.modulusLength),
+    true,
+    ["encrypt", "decrypt"],
+  )
 }
 
 /** Converts a public key to PEM text so it can be stored or shared. */
@@ -133,18 +149,18 @@ function base64ToArrayBuffer(text: string): ArrayBuffer {
 }
 
 async function importPublicKeyFromSpkiBytes(bytes: ArrayBuffer): Promise<CryptoKey> {
-  return await crypto.subtle.importKey("spki", bytes, RSA_ALGORITHM, false, ["encrypt"])
+  return await crypto.subtle.importKey("spki", bytes, createRsaAlgorithm(), false, ["encrypt"])
 }
 
 async function importPrivateKeyFromPkcs8Bytes(bytes: ArrayBuffer): Promise<CryptoKey> {
-  return await crypto.subtle.importKey("pkcs8", bytes, RSA_ALGORITHM, false, ["decrypt"])
+  return await crypto.subtle.importKey("pkcs8", bytes, createRsaAlgorithm(), false, ["decrypt"])
 }
 
 async function importPublicKeyFromJwkText(text: string): Promise<CryptoKey> {
   return await crypto.subtle.importKey(
     "jwk",
     JSON.parse(text),
-    RSA_ALGORITHM,
+    createRsaAlgorithm(),
     false,
     ["encrypt"],
   )
@@ -154,7 +170,7 @@ async function importPrivateKeyFromJwkText(text: string): Promise<CryptoKey> {
   return await crypto.subtle.importKey(
     "jwk",
     JSON.parse(text),
-    RSA_ALGORITHM,
+    createRsaAlgorithm(),
     false,
     ["decrypt"],
   )

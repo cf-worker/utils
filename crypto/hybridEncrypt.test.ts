@@ -1,28 +1,9 @@
 import { expect, test } from "bun:test"
+import { getHybridTestFixture } from "./hybridTestFixtures.ts"
 import { hybridDecrypt } from "./hybridDecrypt.ts"
-import { hybridEncrypt } from "./hybridEncrypt.ts"
-import { generateHybridKeyPair, publicKeyToText } from "./hybridKeyPair.ts"
-
-let hybridFixturePromise:
-  | Promise<{ privateKey: CryptoKey; publicKey: CryptoKey; publicKeyText: string }>
-  | undefined
-
-function getHybridFixture() {
-  hybridFixturePromise ??= (async () => {
-    const { publicKey, privateKey } = await generateHybridKeyPair()
-    return {
-      privateKey,
-      publicKey,
-      publicKeyText: await publicKeyToText(publicKey),
-    }
-  })()
-
-  return hybridFixturePromise
-}
 
 test("hybridEncrypt returns a compact token", async () => {
-  const { publicKey } = await getHybridFixture()
-  const token = await hybridEncrypt("hello world", publicKey)
+  const { helloToken: token } = await getHybridTestFixture()
 
   expect(typeof token).toBe("string")
   expect(token.length > 0).toBe(true)
@@ -30,15 +11,13 @@ test("hybridEncrypt returns a compact token", async () => {
 })
 
 test("hybridEncrypt works with a PEM public key", async () => {
-  const { privateKey, publicKeyText } = await getHybridFixture()
-  const token = await hybridEncrypt("hello world", publicKeyText)
+  const { helloTokenFromTextKey: token, privateKey } = await getHybridTestFixture()
 
   expect(await hybridDecrypt(token, privateKey)).toBe("hello world")
 })
 
 test("hybridEncrypt serializes objects before encryption", async () => {
-  const { publicKey, privateKey } = await getHybridFixture()
-  const token = await hybridEncrypt({ hello: "world", count: 1 }, publicKey)
+  const { objectToken: token, privateKey } = await getHybridTestFixture()
 
   expect(await hybridDecrypt(token, privateKey)).toBe('{"hello":"world","count":1}')
 })

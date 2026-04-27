@@ -1,17 +1,12 @@
 import { expect, test } from "bun:test"
-import { generateHybridKeyPair } from "./hybridKeyPair.ts"
-import { rsaCrypt } from "./rsaCrypt.ts"
+import { getRsaTestFixture } from "./hybridTestFixtures.ts"
 import { rsaDecrypt } from "./rsaDecrypt.ts"
 
 test("rsaDecrypt throws with the wrong private key", async () => {
-  const [{ publicKey }, { privateKey }] = await Promise.all([
-    generateHybridKeyPair(),
-    generateHybridKeyPair(),
-  ])
-  const token = await rsaCrypt("hello", publicKey)
+  const { helloToken: token, wrongPrivateKey } = await getRsaTestFixture()
 
   try {
-    await rsaDecrypt(token, privateKey)
+    await rsaDecrypt(token, wrongPrivateKey)
     throw new Error("Expected rsaDecrypt to throw")
   } catch (error) {
     expect(error instanceof Error).toBe(true)

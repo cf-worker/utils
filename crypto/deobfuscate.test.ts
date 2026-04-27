@@ -1,37 +1,44 @@
 import { expect, test } from "bun:test"
 import { base64Decode } from "../encoding/base64Decode.ts"
+import { getObfuscationTestFixture } from "./hybridTestFixtures.ts"
 import { deobfuscate } from "./deobfuscate.ts"
-import { generateObfuscationKeyPair, obfuscate } from "./obfuscate.ts"
 
 let obfuscationFixturePromise:
   | Promise<{
-    keyPair: CryptoKeyPair
     privateKeyBuffer: ArrayBuffer
     privateKeyBytes: Uint8Array<ArrayBuffer>
     privateKeyText: string
+    tokenWithKey: string
     tokenWithoutKey: string
   }>
   | undefined
 
 function getObfuscationFixture() {
   obfuscationFixturePromise ??= (async () => {
-    const keyPair = await generateObfuscationKeyPair()
-    const tokenWithKey = await obfuscate("secret value", { keyPair })
-    const [, privateKeyText] = tokenWithKey.split(".")
-    const tokenWithoutKey = await obfuscate("secret value", { keyPair, embedPrivateKey: false })
+    const {
+      privateKeyText,
+      secretTokenWithKey: tokenWithKey,
+      secretTokenWithoutKey: tokenWithoutKey,
+    } = await getObfuscationTestFixture()
     const decodedPrivateKeyBytes = base64Decode(privateKeyText)
     const privateKeyBuffer = new ArrayBuffer(decodedPrivateKeyBytes.byteLength)
     const privateKeyBytes = new Uint8Array<ArrayBuffer>(privateKeyBuffer)
     privateKeyBytes.set(decodedPrivateKeyBytes)
 
-    return { keyPair, privateKeyBuffer, privateKeyBytes, privateKeyText, tokenWithoutKey }
+    return {
+      privateKeyBuffer,
+      privateKeyBytes,
+      privateKeyText,
+      tokenWithKey,
+      tokenWithoutKey,
+    }
   })()
 
   return obfuscationFixturePromise
 }
 
 test("deobfuscate restores the plaintext from an obfuscated token", async () => {
-  const token = await obfuscate("secret value")
+  const { tokenWithKey: token } = await getObfuscationFixture()
 
   expect(await deobfuscate(token)).toBe("secret value")
 })
