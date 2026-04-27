@@ -1,11 +1,8 @@
-import { args } from "../cli/args.ts"
-import { setExitCode } from "../cli/setExitCode.ts"
-import { stdin } from "../cli/stdin.ts"
 import { base64Encode } from "../encoding/base64Encode.ts"
 
 const TEXT_ENCODER = new TextEncoder()
 
-export async function crypt(data: string | object, key: string): Promise<string> {
+export async function encrypt(data: string | object, key: string): Promise<string> {
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const plainText = typeof data === "string" ? data : JSON.stringify(data)
   const cryptoKey = await createKey(key)
@@ -31,24 +28,4 @@ export async function createKey(
     false,
     keyUsages,
   )
-}
-
-async function main(): Promise<void> {
-  const [key] = args()
-
-  if (!key) {
-    throw new Error("Missing key argument")
-  }
-
-  console.log(await crypt(await stdin(), key))
-}
-
-// echo "HelloWorld" | bun crypto/crypt.ts "secret"
-if (import.meta.main) {
-  try {
-    await main()
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : String(error))
-    setExitCode(1)
-  }
 }

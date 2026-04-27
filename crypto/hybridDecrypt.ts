@@ -1,7 +1,4 @@
-import { args } from "../cli/args.ts"
-import { setExitCode } from "../cli/setExitCode.ts"
 import { base64Decode } from "../encoding/base64Decode.ts"
-import { stdin } from "../cli/stdin.ts"
 import { privateKeyFromText } from "./hybridKeyPair.ts"
 
 const TEXT_DECODER = new TextDecoder()
@@ -94,24 +91,4 @@ function copyBytes(bytes: Uint8Array): Uint8Array<ArrayBuffer> {
   const copy = new Uint8Array(buffer)
   copy.set(bytes)
   return copy
-}
-
-async function main(): Promise<void> {
-  const [privateKeyText] = args()
-
-  if (!privateKeyText) {
-    throw new Error("Missing private key argument")
-  }
-
-  console.log(await hybridDecrypt(await stdin(), privateKeyText))
-}
-
-// echo "$TOKEN" | bun crypto/hybridDecrypt.ts "$PRIVATE_KEY_TEXT"
-if (import.meta.main) {
-  try {
-    await main()
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : String(error))
-    setExitCode(1)
-  }
 }

@@ -1,5 +1,4 @@
 import { base64Decode } from "../encoding/base64Decode.ts"
-import { stdin } from "../cli/stdin.ts"
 
 const TEXT_DECODER = new TextDecoder()
 const ENCRYPTED_KEY_LENGTH = 256
@@ -142,7 +141,3 @@ async function decryptWithAes(
     encryptedContent,
   )
 }
-
-// echo "HelloWorld" | deno run crypto/obfuscate.ts | bun crypto/deobfuscate.ts
-// deno-coverage-ignore
-if (import.meta.main) console.log(await deobfuscate(await stdin()))

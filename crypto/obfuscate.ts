@@ -1,5 +1,4 @@
 import { base64Encode } from "../encoding/base64Encode.ts"
-import { stdin } from "../cli/stdin.ts"
 
 const TEXT_ENCODER = new TextEncoder()
 const DEFAULT_MODULUS_LENGTH = 2048
@@ -111,7 +110,3 @@ function buildEncryptedPayload(
 
   return combined
 }
-
-// echo "HelloWorld" | bun crypto/obfuscate.ts | deno run crypto/deobfuscate.ts
-// deno-coverage-ignore
-if (import.meta.main) console.log(await obfuscate(await stdin()))

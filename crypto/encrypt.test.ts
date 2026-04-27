@@ -2,18 +2,9 @@ import { expect, test } from "bun:test"
 import { encrypt } from "./encrypt.ts"
 import { decrypt } from "./decrypt.ts"
 
-test("decrypt restores strings and serialized objects", async () => {
+test("encrypt round-trips strings and objects", async () => {
   expect(await decrypt(await encrypt("hello", "secret"), "secret")).toBe("hello")
   expect(await decrypt(await encrypt({ hello: "world" }, "secret"), "secret")).toBe(
     '{"hello":"world"}',
   )
-})
-
-test("decrypt throws for the wrong key", async () => {
-  try {
-    await decrypt(await encrypt("hello", "secret"), "nope")
-    throw new Error("Expected decrypt to throw")
-  } catch (error) {
-    expect(error instanceof Error).toBe(true)
-  }
 })

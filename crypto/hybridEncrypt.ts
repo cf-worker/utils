@@ -1,7 +1,4 @@
-import { args } from "../cli/args.ts"
-import { setExitCode } from "../cli/setExitCode.ts"
 import { base64Encode } from "../encoding/base64Encode.ts"
-import { stdin } from "../cli/stdin.ts"
 import { publicKeyFromText } from "./hybridKeyPair.ts"
 
 const TEXT_ENCODER = new TextEncoder()
@@ -88,24 +85,4 @@ function buildPayload(
   combined.set(iv, 4 + encryptedKey.byteLength)
   combined.set(encryptedContent, 4 + encryptedKey.byteLength + iv.byteLength)
   return combined
-}
-
-async function main(): Promise<void> {
-  const [publicKeyText] = args()
-
-  if (!publicKeyText) {
-    throw new Error("Missing public key argument")
-  }
-
-  console.log(await hybridEncrypt(await stdin(), publicKeyText))
-}
-
-// echo "HelloWorld" | bun crypto/hybridEncrypt.ts "$PUBLIC_KEY_TEXT"
-if (import.meta.main) {
-  try {
-    await main()
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : String(error))
-    setExitCode(1)
-  }
 }

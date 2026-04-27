@@ -7,7 +7,7 @@ import {
 } from "./hybridKeyPair.ts"
 import { hybridEncrypt } from "./hybridEncrypt.ts"
 import { generateObfuscationKeyPair, obfuscate } from "./obfuscate.ts"
-import { rsaCrypt } from "./rsaCrypt.ts"
+import { rsaEncrypt } from "./rsaEncrypt.ts"
 
 const TEST_RSA_MODULUS_LENGTH = 1024
 
@@ -117,8 +117,8 @@ export function getRsaTestFixture() {
       privateKeyToText(privateKey),
     ])
     const [helloToken, objectToken] = await Promise.all([
-      rsaCrypt("hello", publicKey),
-      rsaCrypt({ hello: "world" }, publicKey),
+      rsaEncrypt("hello", publicKey),
+      rsaEncrypt({ hello: "world" }, publicKey),
     ])
 
     return {

@@ -6,7 +6,7 @@ test("hybridKeyPair CLI outputs JSON with base64 keys", async () => {
   if (!("Deno" in globalThis)) return
 
   const command = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridKeyPair.ts", "--format", "base64"],
+    args: ["run", "-A", "cli.ts", "hybridKeyPair", "--format", "base64"],
     env: coverageEnv(),
     stdout: "piped",
     stderr: "piped",
@@ -27,7 +27,7 @@ test("hybridKeyPair CLI outputs JSON with pem keys by default", async () => {
   if (!("Deno" in globalThis)) return
 
   const command = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridKeyPair.ts"],
+    args: ["run", "-A", "cli.ts", "hybridKeyPair"],
     env: coverageEnv(),
     stdout: "piped",
     stderr: "piped",
@@ -45,7 +45,7 @@ test("hybridKeyPair CLI outputs JSON with JWK keys via -f", async () => {
   if (!("Deno" in globalThis)) return
 
   const command = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridKeyPair.ts", "-f", "jwk"],
+    args: ["run", "-A", "cli.ts", "hybridKeyPair", "-f", "jwk"],
     env: coverageEnv(),
     stdout: "piped",
     stderr: "piped",
@@ -63,7 +63,7 @@ test("hybridKeyPair CLI fails for invalid formats", async () => {
   if (!("Deno" in globalThis)) return
 
   const command = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridKeyPair.ts", "--format", "bogus"],
+    args: ["run", "-A", "cli.ts", "hybridKeyPair", "--format", "bogus"],
     env: coverageEnv(),
     stdout: "piped",
     stderr: "piped",
@@ -81,7 +81,7 @@ test("hybridEncrypt CLI encrypts stdin and hybridDecrypt CLI restores it", async
   const publicKeyText = await publicKeyToBase64(publicKey)
   const privateKeyText = await privateKeyToBase64(privateKey)
   const encrypt = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridEncrypt.ts", publicKeyText],
+    args: ["run", "-A", "cli.ts", "hybridEncrypt", publicKeyText],
     env: coverageEnv(),
     stdin: "piped",
     stdout: "piped",
@@ -98,7 +98,7 @@ test("hybridEncrypt CLI encrypts stdin and hybridDecrypt CLI restores it", async
   expect(token.length > 0).toBe(true)
 
   const decrypt = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridDecrypt.ts", privateKeyText],
+    args: ["run", "-A", "cli.ts", "hybridDecrypt", privateKeyText],
     env: coverageEnv(),
     stdin: "piped",
     stdout: "piped",
@@ -118,7 +118,7 @@ test("hybridEncrypt CLI fails when the key argument is missing", async () => {
   if (!("Deno" in globalThis)) return
 
   const command = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridEncrypt.ts"],
+    args: ["run", "-A", "cli.ts", "hybridEncrypt"],
     env: coverageEnv(),
     stdin: "piped",
     stdout: "piped",
@@ -136,7 +136,7 @@ test("hybridDecrypt CLI fails when the key argument is missing", async () => {
   if (!("Deno" in globalThis)) return
 
   const command = new Deno.Command(Deno.execPath(), {
-    args: ["run", "-A", "crypto/hybridDecrypt.ts"],
+    args: ["run", "-A", "cli.ts", "hybridDecrypt"],
     env: coverageEnv(),
     stdin: "piped",
     stdout: "piped",
@@ -148,6 +148,57 @@ test("hybridDecrypt CLI fails when the key argument is missing", async () => {
 
   expect(code).toBe(1)
   expect(new TextDecoder().decode(stderr)).toMatch("Missing private key argument")
+})
+
+test("CLI fails for unknown commands", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const command = new Deno.Command(Deno.execPath(), {
+    args: ["run", "-A", "cli.ts", "bogus"],
+    env: coverageEnv(),
+    stdout: "piped",
+    stderr: "piped",
+  })
+  const { code, stderr } = await command.output()
+
+  expect(code).toBe(1)
+  expect(new TextDecoder().decode(stderr)).toMatch('Unknown command "bogus"')
+})
+
+test("CLI without arguments prints help for all commands", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const command = new Deno.Command(Deno.execPath(), {
+    args: ["run", "-A", "cli.ts"],
+    env: coverageEnv(),
+    stdout: "piped",
+    stderr: "piped",
+  })
+  const { code, stdout, stderr } = await command.output()
+  const output = new TextDecoder().decode(stdout)
+
+  expect(code).toBe(0)
+  expect(new TextDecoder().decode(stderr)).toBe("")
+  expect(output).toMatch("Usage:")
+  expect(output).toMatch("bun cli.ts <command> [arguments]")
+  expect(output).toMatch("encrypt <key>")
+  expect(output).toMatch("decrypt <key>")
+  expect(output).toMatch("rsaEncrypt <publicKey>")
+  expect(output).toMatch("rsaDecrypt <privateKey>")
+  expect(output).toMatch("hybridEncrypt <publicKey>")
+  expect(output).toMatch("hybridDecrypt <privateKey>")
+  expect(output).toMatch("hybridKeyPair [--format <pem|base64|jwk>]")
+  expect(output).toMatch("obfuscate")
+  expect(output).toMatch("deobfuscate [privateKey]")
+  expect(output).toMatch('Example: echo "hello" | bun cli.ts encrypt "secret"')
+  expect(output).toMatch('Example: echo "$TOKEN" | bun cli.ts decrypt "secret"')
+  expect(output).toMatch('Example: echo "hello" | bun cli.ts rsaEncrypt "$PUBLIC_KEY"')
+  expect(output).toMatch('Example: echo "$TOKEN" | bun cli.ts rsaDecrypt "$PRIVATE_KEY"')
+  expect(output).toMatch('Example: echo "hello" | bun cli.ts hybridEncrypt "$PUBLIC_KEY"')
+  expect(output).toMatch('Example: echo "$TOKEN" | bun cli.ts hybridDecrypt "$PRIVATE_KEY"')
+  expect(output).toMatch("Example: bun cli.ts hybridKeyPair --format base64")
+  expect(output).toMatch('Example: echo "hello" | bun cli.ts obfuscate')
+  expect(output).toMatch('Example: echo "$TOKEN" | bun cli.ts deobfuscate')
 })
 
 function coverageEnv(): Record<string, string> {

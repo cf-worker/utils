@@ -1,7 +1,5 @@
 import { base64Decode } from "../encoding/base64Decode.ts"
 import { base64Encode } from "../encoding/base64Encode.ts"
-import { args } from "../cli/args.ts"
-import { setExitCode } from "../cli/setExitCode.ts"
 
 const DEFAULT_MODULUS_LENGTH = 2048
 const PUBLIC_EXPONENT = new Uint8Array([1, 0, 1])
@@ -190,7 +188,7 @@ async function serializePrivateKey(privateKey: CryptoKey, format: KeyTextFormat)
   return await privateKeyToPem(privateKey)
 }
 
-function parseCliFormat(args: string[]): KeyTextFormat {
+export function parseCliFormat(args: string[]): KeyTextFormat {
   const formatIndex = args.findIndex((arg) => arg === "--format" || arg === "-f")
   const formatValue = formatIndex >= 0 ? args[formatIndex + 1] : args[0]
 
@@ -201,22 +199,12 @@ function parseCliFormat(args: string[]): KeyTextFormat {
   throw new Error("Invalid format. Use pem, base64, or jwk")
 }
 
-async function main(): Promise<void> {
-  const format = parseCliFormat(args())
+export async function generateHybridKeyPairText(
+  format: KeyTextFormat = "pem",
+): Promise<{ format: KeyTextFormat; publicKey: string; privateKey: string }> {
   const { publicKey, privateKey } = await generateHybridKeyPair()
   const publicKeyText = await serializePublicKey(publicKey, format)
   const privateKeyText = await serializePrivateKey(privateKey, format)
 
-  console.log(JSON.stringify({ format, publicKey: publicKeyText, privateKey: privateKeyText }))
-}
-
-// bun crypto/hybridKeyPair.ts --format pem
-// deno run crypto/hybridKeyPair.ts base64
-if (import.meta.main) {
-  try {
-    await main()
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : String(error))
-    setExitCode(1)
-  }
+  return { format, publicKey: publicKeyText, privateKey: privateKeyText }
 }
