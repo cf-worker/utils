@@ -3,7 +3,7 @@ import { privateKeyToBase64, publicKeyToBase64 } from "./hybridKeyPair.ts"
 import { generateHybridKeyPair } from "./hybridKeyPair.ts"
 import { decrypt } from "./decrypt.ts"
 import { deobfuscate } from "./deobfuscate.ts"
-import { getObfuscationTestFixture, getRsaTestFixture } from "./hybridTestFixtures.ts"
+import { getObfuscationTestFixture, getRsaTestFixture } from "./hybridTestFixtures.fixture.ts"
 
 test("hybridKeyPair CLI outputs JSON with base64 keys", async () => {
   if (!("Deno" in globalThis)) return

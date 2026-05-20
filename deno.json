@@ -36,11 +36,15 @@
     "./cors/corsDecorator": "./cors/corsDecorator.ts",
     "./cors/corsPreflight": "./cors/corsPreflight.ts",
     "./cors/setCors": "./cors/setCors.ts",
+    "./crypto/decrypt": "./crypto/decrypt.ts",
     "./crypto/deobfuscate": "./crypto/deobfuscate.ts",
+    "./crypto/encrypt": "./crypto/encrypt.ts",
     "./crypto/hybridDecrypt": "./crypto/hybridDecrypt.ts",
     "./crypto/hybridEncrypt": "./crypto/hybridEncrypt.ts",
     "./crypto/hybridKeyPair": "./crypto/hybridKeyPair.ts",
     "./crypto/obfuscate": "./crypto/obfuscate.ts",
+    "./crypto/rsaDecrypt": "./crypto/rsaDecrypt.ts",
+    "./crypto/rsaEncrypt": "./crypto/rsaEncrypt.ts",
     "./datetime/dateGenerator": "./datetime/dateGenerator.ts",
     "./datetime/elapsed": "./datetime/elapsed.ts",
     "./datetime/prettyElapsed": "./datetime/prettyElapsed.ts",
@@ -95,6 +99,8 @@
     "./routers/matcherPath": "./routers/matcherPath.ts",
     "./routers/switchRouter": "./routers/switchRouter.ts",
     "./routers/verbs": "./routers/verbs.ts",
+    "./sql/quoteIdentifier": "./sql/quoteIdentifier.ts",
+    "./sql/quoteValue": "./sql/quoteValue.ts",
     "./strings/escapeHTML": "./strings/escapeHTML.ts",
     "./strings/prettyHTML": "./strings/prettyHTML.ts",
     "./strings/stringByteLength": "./strings/stringByteLength.ts",
@@ -116,6 +122,7 @@
   "publish": {
     "exclude": [
       "**/*.test.ts",
+      "**/*.fixture.ts",
       "**/*.deno.ts",
       "lab/**/*"
     ],

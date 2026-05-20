@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
 import { deobfuscate } from "./deobfuscate.ts"
-import { getObfuscationTestFixture } from "./hybridTestFixtures.ts"
+import { getObfuscationTestFixture } from "./hybridTestFixtures.fixture.ts"
 import { obfuscate } from "./obfuscate.ts"
 
 let obfuscationFixturePromise:

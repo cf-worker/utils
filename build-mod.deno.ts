@@ -14,7 +14,14 @@ function listModuleFiles(dir: string): string[] {
       maxDepth: 1,
       includeDirs: false,
       exts: [".ts"],
-      skip: [/\.d\.ts$/, /\.deno\.ts$/, /\.lab\.ts$/, /\.test\.ts$/, /mod\.ts$/],
+      skip: [
+        /\.d\.ts$/,
+        /\.deno\.ts$/,
+        /\.fixture\.ts$/,
+        /\.lab\.ts$/,
+        /\.test\.ts$/,
+        /mod\.ts$/,
+      ],
     }),
   )
     .map((entry) => entry.name)

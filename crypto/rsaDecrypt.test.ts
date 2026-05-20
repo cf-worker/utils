@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { getRsaTestFixture } from "./hybridTestFixtures.ts"
+import { getRsaTestFixture } from "./hybridTestFixtures.fixture.ts"
 import { rsaDecrypt } from "./rsaDecrypt.ts"
 
 test("rsaDecrypt throws with the wrong private key", async () => {

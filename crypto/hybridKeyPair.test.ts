@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { getHybridTestFixture } from "./hybridTestFixtures.ts"
+import { getHybridTestFixture } from "./hybridTestFixtures.fixture.ts"
 import {
   generateHybridKeyPairText,
   parseCliFormat,

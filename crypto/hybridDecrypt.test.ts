@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
 import { base64Encode } from "../encoding/base64Encode.ts"
-import { getHybridTestFixture } from "./hybridTestFixtures.ts"
+import { getHybridTestFixture } from "./hybridTestFixtures.fixture.ts"
 import { hybridDecrypt } from "./hybridDecrypt.ts"
 
 test("hybridDecrypt restores plaintext from a hybrid token", async () => {
