@@ -1,6 +1,8 @@
 import { expect, test } from "bun:test"
 import { getHybridTestFixture } from "./hybridTestFixtures.ts"
 import {
+  generateHybridKeyPairText,
+  parseCliFormat,
   privateKeyFromText,
   privateKeyToJwkText,
   privateKeyToPem,
@@ -63,6 +65,46 @@ test("publicKeyToText and privateKeyToText return PEM text", async () => {
 
   expect(publicKeyText.startsWith("-----BEGIN PUBLIC KEY-----")).toBe(true)
   expect(privateKeyText.startsWith("-----BEGIN PRIVATE KEY-----")).toBe(true)
+})
+
+test("generateHybridKeyPairText serializes PEM keys by default", async () => {
+  const keyPair = await generateHybridKeyPairText()
+
+  expect(keyPair.format).toBe("pem")
+  expect(keyPair.publicKey.startsWith("-----BEGIN PUBLIC KEY-----")).toBe(true)
+  expect(keyPair.privateKey.startsWith("-----BEGIN PRIVATE KEY-----")).toBe(true)
+})
+
+test("generateHybridKeyPairText serializes base64 keys", async () => {
+  const keyPair = await generateHybridKeyPairText("base64")
+
+  expect(keyPair.format).toBe("base64")
+  expect(keyPair.publicKey.includes("\n")).toBe(false)
+  expect(keyPair.privateKey.includes("\n")).toBe(false)
+})
+
+test("generateHybridKeyPairText serializes JWK keys", async () => {
+  const keyPair = await generateHybridKeyPairText("jwk")
+
+  expect(keyPair.format).toBe("jwk")
+  expect(JSON.parse(keyPair.publicKey).kty).toBe("RSA")
+  expect(JSON.parse(keyPair.privateKey).kty).toBe("RSA")
+})
+
+test("parseCliFormat reads supported flag and positional formats", () => {
+  expect(parseCliFormat([])).toBe("pem")
+  expect(parseCliFormat(["base64"])).toBe("base64")
+  expect(parseCliFormat(["--format", "jwk"])).toBe("jwk")
+  expect(parseCliFormat(["-f", "pem"])).toBe("pem")
+})
+
+test("parseCliFormat rejects unsupported formats", () => {
+  try {
+    parseCliFormat(["bogus"])
+    expect(true).toBe(false)
+  } catch (error) {
+    expect((error as Error).message).toBe("Invalid format. Use pem, base64, or jwk")
+  }
 })
 
 test("publicKeyFromText and privateKeyFromText import PEM keys", async () => {

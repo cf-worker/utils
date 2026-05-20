@@ -1,5 +1,4 @@
 import { expect, spyOn, test } from "bun:test"
-import { Readable } from "node:stream"
 import { stdin } from "./stdin.ts"
 
 declare const Bun: {
@@ -43,93 +42,27 @@ test("stdin prefers Bun when Bun is available", async () => {
 })
 
 test("stdin falls back to Deno when Bun is unavailable", async () => {
-  if ("Bun" in globalThis) return
-
-  const previousBun = (globalThis as typeof globalThis & { Bun?: unknown }).Bun
-  const previousDeno = (globalThis as typeof globalThis & { Deno?: unknown }).Deno
-
-  Reflect.deleteProperty(globalThis, "Bun")
-  Object.defineProperty(globalThis, "Deno", {
-    configurable: true,
-    value: {
-      stdin: {
-        readable: new ReadableStream({
-          start(controller) {
-            controller.enqueue(new TextEncoder().encode(" deno \n"))
-            controller.close()
-          },
-        }),
+  expect(
+    await stdin(
+      { Deno: {} },
+      {
+        bun: () => Promise.resolve("bun"),
+        deno: () => Promise.resolve("deno"),
+        node: () => Promise.resolve("node"),
       },
-    },
-  })
-
-  try {
-    expect(await stdin()).toBe("deno")
-  } finally {
-    if (previousBun === undefined) {
-      Reflect.deleteProperty(globalThis, "Bun")
-    } else {
-      Object.defineProperty(globalThis, "Bun", {
-        configurable: true,
-        value: previousBun,
-      })
-    }
-
-    if (previousDeno === undefined) {
-      Reflect.deleteProperty(globalThis, "Deno")
-    } else {
-      Object.defineProperty(globalThis, "Deno", {
-        configurable: true,
-        value: previousDeno,
-      })
-    }
-  }
+    ),
+  ).toBe("deno")
 })
 
 test("stdin falls back to Node when Bun and Deno are unavailable", async () => {
-  if ("Bun" in globalThis) return
-
-  const previousBun = (globalThis as typeof globalThis & { Bun?: unknown }).Bun
-  const previousDeno = (globalThis as typeof globalThis & { Deno?: unknown }).Deno
-  const previousProcess = (globalThis as typeof globalThis & { process?: unknown }).process
-
-  Reflect.deleteProperty(globalThis, "Bun")
-  Reflect.deleteProperty(globalThis, "Deno")
-  Object.defineProperty(globalThis, "process", {
-    configurable: true,
-    value: {
-      stdin: Readable.from([" node \n"]),
-    },
-  })
-
-  try {
-    expect(await stdin()).toBe("node")
-  } finally {
-    if (previousBun === undefined) {
-      Reflect.deleteProperty(globalThis, "Bun")
-    } else {
-      Object.defineProperty(globalThis, "Bun", {
-        configurable: true,
-        value: previousBun,
-      })
-    }
-
-    if (previousDeno === undefined) {
-      Reflect.deleteProperty(globalThis, "Deno")
-    } else {
-      Object.defineProperty(globalThis, "Deno", {
-        configurable: true,
-        value: previousDeno,
-      })
-    }
-
-    if (previousProcess === undefined) {
-      Reflect.deleteProperty(globalThis, "process")
-    } else {
-      Object.defineProperty(globalThis, "process", {
-        configurable: true,
-        value: previousProcess,
-      })
-    }
-  }
+  expect(
+    await stdin(
+      {},
+      {
+        bun: () => Promise.resolve("bun"),
+        deno: () => Promise.resolve("deno"),
+        node: () => Promise.resolve("node"),
+      },
+    ),
+  ).toBe("node")
 })

@@ -1,4 +1,4 @@
 [test]
 root = "."
-# coverage = true
+coverage = true
 coverageSkipTestFiles = true

@@ -25,8 +25,6 @@ test("setExitCode prefers Deno when Deno is available", () => {
 })
 
 test("setExitCode falls back to process when Deno is unavailable", () => {
-  if ("Bun" in globalThis && !("Deno" in globalThis)) return
-
   const previousDeno = (globalThis as typeof globalThis & { Deno?: unknown }).Deno
   const previousExitCode = process.exitCode
 
@@ -36,7 +34,7 @@ test("setExitCode falls back to process when Deno is unavailable", () => {
     setExitCode(9)
     expect(process.exitCode).toBe(9)
   } finally {
-    process.exitCode = previousExitCode
+    process.exitCode = previousExitCode ?? 0
     if (previousDeno !== undefined) {
       Object.defineProperty(globalThis, "Deno", { configurable: true, value: previousDeno })
     }
