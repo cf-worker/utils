@@ -32,6 +32,12 @@ test("obfuscate output can be deobfuscated back to the original string", async (
   expect(await deobfuscate(token)).toBe("hello world")
 })
 
+test("obfuscate can generate a key pair by default", async () => {
+  const token = await obfuscate("generated key")
+
+  expect(await deobfuscate(token)).toBe("generated key")
+})
+
 test("obfuscate serializes objects before obfuscation", async () => {
   const { keyPair } = await getObfuscationFixture()
   const token = await obfuscate({ hello: "world", count: 1 }, { keyPair })

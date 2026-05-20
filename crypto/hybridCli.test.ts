@@ -1,6 +1,9 @@
 import { expect, test } from "bun:test"
 import { privateKeyToBase64, publicKeyToBase64 } from "./hybridKeyPair.ts"
 import { generateHybridKeyPair } from "./hybridKeyPair.ts"
+import { decrypt } from "./decrypt.ts"
+import { deobfuscate } from "./deobfuscate.ts"
+import { getObfuscationTestFixture, getRsaTestFixture } from "./hybridTestFixtures.ts"
 
 test("hybridKeyPair CLI outputs JSON with base64 keys", async () => {
   if (!("Deno" in globalThis)) return
@@ -114,6 +117,80 @@ test("hybridEncrypt CLI encrypts stdin and hybridDecrypt CLI restores it", async
   expect(new TextDecoder().decode(decrypted.stdout).trim()).toBe("hello from cli")
 })
 
+test("encrypt CLI encrypts stdin and decrypt CLI restores it", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const encrypted = await runCliWithStdin(["encrypt", "secret"], "hello from cli")
+  const token = encrypted.stdout.trim()
+
+  expect(encrypted.code).toBe(0)
+  expect(await decrypt(token, "secret")).toBe("hello from cli")
+
+  const decrypted = await runCliWithStdin(["decrypt", "secret"], token)
+
+  expect(decrypted.code).toBe(0)
+  expect(decrypted.stdout.trim()).toBe("hello from cli")
+})
+
+test("obfuscate CLI obfuscates stdin and deobfuscate CLI restores it", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const obfuscated = await runCliWithStdin(["obfuscate"], "hello from cli")
+  const token = obfuscated.stdout.trim()
+
+  expect(obfuscated.code).toBe(0)
+  expect(await deobfuscate(token)).toBe("hello from cli")
+
+  const deobfuscated = await runCliWithStdin(["deobfuscate"], token)
+
+  expect(deobfuscated.code).toBe(0)
+  expect(deobfuscated.stdout.trim()).toBe("hello from cli")
+})
+
+test("deobfuscate CLI accepts an explicit private key argument", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const { privateKeyText, secretTokenWithoutKey } = await getObfuscationTestFixture()
+  const deobfuscated = await runCliWithStdin(["deobfuscate", privateKeyText], secretTokenWithoutKey)
+
+  expect(deobfuscated.code).toBe(0)
+  expect(deobfuscated.stdout.trim()).toBe("secret value")
+})
+
+test("rsaEncrypt CLI encrypts stdin and rsaDecrypt CLI restores it", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const { privateKeyText, publicKeyText } = await getRsaTestFixture()
+  const encrypted = await runCliWithStdin(["rsaEncrypt", publicKeyText], "hello from cli")
+  const token = encrypted.stdout.trim()
+
+  expect(encrypted.code).toBe(0)
+  expect(token.length > 0).toBe(true)
+
+  const decrypted = await runCliWithStdin(["rsaDecrypt", privateKeyText], token)
+
+  expect(decrypted.code).toBe(0)
+  expect(decrypted.stdout.trim()).toBe("hello from cli")
+})
+
+test("encrypt CLI fails when the key argument is missing", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const { code, stderr } = await runCliWithStdin(["encrypt"], "")
+
+  expect(code).toBe(1)
+  expect(stderr).toMatch("Missing key argument")
+})
+
+test("decrypt CLI fails when the key argument is missing", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const { code, stderr } = await runCliWithStdin(["decrypt"], "")
+
+  expect(code).toBe(1)
+  expect(stderr).toMatch("Missing key argument")
+})
+
 test("hybridEncrypt CLI fails when the key argument is missing", async () => {
   if (!("Deno" in globalThis)) return
 
@@ -148,6 +225,24 @@ test("hybridDecrypt CLI fails when the key argument is missing", async () => {
 
   expect(code).toBe(1)
   expect(new TextDecoder().decode(stderr)).toMatch("Missing private key argument")
+})
+
+test("rsaEncrypt CLI fails when the key argument is missing", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const { code, stderr } = await runCliWithStdin(["rsaEncrypt"], "")
+
+  expect(code).toBe(1)
+  expect(stderr).toMatch("Missing public key argument")
+})
+
+test("rsaDecrypt CLI fails when the key argument is missing", async () => {
+  if (!("Deno" in globalThis)) return
+
+  const { code, stderr } = await runCliWithStdin(["rsaDecrypt"], "")
+
+  expect(code).toBe(1)
+  expect(stderr).toMatch("Missing private key argument")
 })
 
 test("CLI fails for unknown commands", async () => {
@@ -200,6 +295,29 @@ test("CLI without arguments prints help for all commands", async () => {
   expect(output).toMatch('Example: echo "hello" | bun cli.ts obfuscate')
   expect(output).toMatch('Example: echo "$TOKEN" | bun cli.ts deobfuscate')
 })
+
+async function runCliWithStdin(args: string[], input: string) {
+  const command = new Deno.Command(Deno.execPath(), {
+    args: ["run", "-A", "cli.ts", ...args],
+    env: coverageEnv(),
+    stdin: "piped",
+    stdout: "piped",
+    stderr: "piped",
+  })
+  const process = command.spawn()
+  const writer = process.stdin.getWriter()
+  if (input) {
+    await writer.write(new TextEncoder().encode(input))
+  }
+  await writer.close()
+  const { code, stdout, stderr } = await process.output()
+
+  return {
+    code,
+    stderr: new TextDecoder().decode(stderr),
+    stdout: new TextDecoder().decode(stdout),
+  }
+}
 
 function coverageEnv(): Record<string, string> {
   try {
