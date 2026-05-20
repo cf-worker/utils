@@ -1,5 +1,4 @@
 import { expect, test } from "bun:test"
-import "./installURLPatternPolyfill.bun.ts"
 import { matchPath } from "./matchPath.ts"
 
 test("matchPath success", () => {

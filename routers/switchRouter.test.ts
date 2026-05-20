@@ -1,5 +1,4 @@
 import { expect, test } from "bun:test"
-import "./installURLPatternPolyfill.bun.ts"
 import { switchRouter } from "./switchRouter.ts"
 
 function route(method: string, url: string) {

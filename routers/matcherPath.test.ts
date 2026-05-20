@@ -1,5 +1,4 @@
 import { expect, test } from "bun:test"
-import "./installURLPatternPolyfill.bun.ts"
 import { matcherPath } from "./matcherPath.ts"
 
 const match = matcherPath("/users/:id")

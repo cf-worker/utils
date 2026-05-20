@@ -1,5 +1,4 @@
 import { expect, test } from "bun:test"
-import "./installURLPatternPolyfill.bun.ts"
 import { findRoute } from "./findRoute.ts"
 import { GET, POST } from "./verbs.ts"
 

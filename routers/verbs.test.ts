@@ -1,5 +1,4 @@
 import { expect, test } from "bun:test"
-import "./installURLPatternPolyfill.bun.ts"
 import { DELETE, GET, PATCH, POST, PUT, QUERY } from "./verbs.ts"
 
 test("GET success", () => {
