@@ -56,3 +56,31 @@ test("false: Date", () => {
 test("false: BigInt", () => {
   expect(isRecord(123n)).toBe(false)
 })
+
+test("false: FormData", () => {
+  expect(isRecord(new FormData())).toBe(false)
+})
+
+test("false: URLSearchParams", () => {
+  expect(isRecord(new URLSearchParams())).toBe(false)
+})
+
+test("false: Blob", () => {
+  expect(isRecord(new Blob())).toBe(false)
+})
+
+test("false: ArrayBuffer", () => {
+  expect(isRecord(new ArrayBuffer())).toBe(false)
+})
+
+test("false: ReadableStream", () => {
+  expect(isRecord(new ReadableStream())).toBe(false)
+})
+
+test("false: Map", () => {
+  expect(isRecord(new Map())).toBe(false)
+})
+
+test("false: Set", () => {
+  expect(isRecord(new Set())).toBe(false)
+})
