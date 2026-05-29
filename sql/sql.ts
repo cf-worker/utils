@@ -48,8 +48,9 @@ function isRaw(value: unknown): value is RawSql {
  * @param separator - Raw SQL separator to place between fragments.
  * @returns A raw SQL string object containing the joined fragments.
  */
-function join(items: Array<RawSql | string>, separator = "\n"): RawSql {
-  return quoteRaw(items.map(String).join(separator))
+function join(items: RawSql[], separator: RawSql = raw("\n")): RawSql {
+  return quoteRaw(items.map(String).join(String(separator)))
+}
 }
 
 /**
