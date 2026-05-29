@@ -71,6 +71,10 @@ test("quoteValue formats records as identifier predicates joined by comma by def
   expect(quoteValue({ id: 7, name: "Ada" })).toBe("`id` = 7,\n`name` = 'Ada'")
 })
 
+test("quoteValue supports double-quoted record identifiers", () => {
+  expect(quoteValue({ "users.id": [1, 2] }, '"')).toBe('"users"."id" IN (1, 2)')
+})
+
 test("quoteValue formats maps as records", () => {
   expect(quoteValue(new Map<string, unknown>([["id", 7], ["name", "Ada"]]))).toBe(
     "`id` = 7,\n`name` = 'Ada'",
