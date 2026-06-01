@@ -99,8 +99,6 @@
     "./routers/matcherPath": "./routers/matcherPath.ts",
     "./routers/switchRouter": "./routers/switchRouter.ts",
     "./routers/verbs": "./routers/verbs.ts",
-    "./sql/quoteIdentifier": "./sql/quoteIdentifier.ts",
-    "./sql/quoteValue": "./sql/quoteValue.ts",
     "./strings/escapeHTML": "./strings/escapeHTML.ts",
     "./strings/prettyHTML": "./strings/prettyHTML.ts",
     "./strings/stringByteLength": "./strings/stringByteLength.ts",

@@ -32,7 +32,7 @@ let lastId53 = 0
  * - **Collision-free**: Internal counter prevents duplicates within same process
  * - **Sortable**: IDs are naturally ordered by creation time
  */
-export function id53() {
+export function id53(): number {
   let ts = Math.trunc((performance.timeOrigin + performance.now()) * 1000)
   if (ts <= lastId53) ts = lastId53 + 1
   lastId53 = ts
@@ -41,16 +41,16 @@ export function id53() {
 }
 
 /**
- * Extracts the Unix timestamp (in seconds) from a id53 identifier.
+ * Extracts the Unix timestamp (in milliseconds) from a id53 identifier.
  *
  * @param id53 - The 53-bit safe integer identifier to extract timestamp from
- * @returns The Unix timestamp in seconds (truncated, not rounded)
+ * @returns The Unix timestamp in milliseconds (truncated, not rounded)
  *
  * @example
  * ```ts
  * const id = id53()
  * const timestamp = id53ts(id)
- * console.log(new Date(timestamp * 1000)) // Date object
+ * console.log(new Date(timestamp)) // Date object
  * ```
  */
 export function id53ts(id53: number): number {
