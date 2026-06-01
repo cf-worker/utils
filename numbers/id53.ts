@@ -36,13 +36,10 @@ let lastId53 = 0
  *   and monotonic ordering regardless; the timestamp portion simply plateaus until
  *   the next I/O gate advances the clock.
  */
-export function id53(): number {
-  let ts = Math.trunc((performance.timeOrigin + performance.now()) * 1000)
-  if (ts <= lastId53) ts = lastId53 + 1
-  lastId53 = ts
-
-  return ts
-}
+export const id53 = (): number => (lastId53 = Math.max(
+  Math.trunc((performance.timeOrigin + performance.now()) * 1000),
+  lastId53 + 1,
+))
 
 /**
  * Extracts the Unix timestamp (in milliseconds) from a id53 identifier.
@@ -57,6 +54,4 @@ export function id53(): number {
  * console.log(new Date(timestamp)) // Date object
  * ```
  */
-export function id53ts(id53: number): number {
-  return Math.trunc(id53 / 1000)
-}
+export const id53ts = (id53: number): number => Math.trunc(id53 / 1000)
