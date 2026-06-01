@@ -8,7 +8,7 @@ let lastId53 = 0
 /**
  * Generates a unique 53-bit safe integer identifier.
  *
- * The ID is timestamp-based using milliseconds since time origin,
+ * The ID is timestamp-based using microseconds since epoch,
  * ensuring lexicographic sorting order. It has always 16 characters
  * length (up to Number.MAX_SAFE_INTEGER = 9007199254740991).
  *
@@ -31,6 +31,10 @@ let lastId53 = 0
  * - **Not for client-side**: Two different clients can generate the same ID
  * - **Collision-free**: Internal counter prevents duplicates within same process
  * - **Sortable**: IDs are naturally ordered by creation time
+ * - **Cloudflare Workers**: `performance.timeOrigin` and `performance.now()` are frozen
+ *   during CPU-only execution (no I/O). The internal counter guarantees uniqueness
+ *   and monotonic ordering regardless; the timestamp portion simply plateaus until
+ *   the next I/O gate advances the clock.
  */
 export function id53(): number {
   let ts = Math.trunc((performance.timeOrigin + performance.now()) * 1000)

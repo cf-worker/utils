@@ -100,3 +100,31 @@ test("id53 timestamp matches approximate Date.now()", () => {
   expect(ts).toBeGreaterThanOrEqual(before - 1000)
   expect(ts).toBeLessThanOrEqual(after + 1000)
 })
+
+test("id53 handles frozen performance clock (Cloudflare Workers scenario)", () => {
+  const orig = globalThis.performance
+  const frozenOrigin = performance.timeOrigin
+  const frozenNow = performance.now()
+
+  const mockPerf: Performance = {
+    ...orig,
+    timeOrigin: frozenOrigin,
+    now: () => frozenNow,
+  }
+  try {
+    globalThis.performance = mockPerf
+
+    const ids: number[] = []
+    for (let i = 0; i < 1000; i++) {
+      ids.push(id53())
+    }
+
+    expect(ids.length).toBe(1000)
+    expect(new Set(ids).size).toBe(1000)
+    for (let i = 1; i < ids.length; i++) {
+      expect(ids[i]).toBeGreaterThan(ids[i - 1])
+    }
+  } finally {
+    globalThis.performance = orig
+  }
+})
