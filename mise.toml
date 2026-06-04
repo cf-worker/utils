@@ -1,8 +1,13 @@
 [tools]
 bun = "latest"
 deno = "latest"
+opengrep = "latest"
 
 [tasks.bun-slowest-tests]
 description = "Run bun test and print the slowest timed tests"
 raw = true
 run = "bun run bun_slowest_tests.ts"
+
+[tasks.opengrep]
+description = "Run OpenGrep static analysis"
+run = "opengrep scan -f opengrep.yml ."

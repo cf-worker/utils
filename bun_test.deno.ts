@@ -1,5 +1,6 @@
 import {
   assertEquals,
+  assertGreater,
   assertGreaterOrEqual,
   assertInstanceOf,
   assertLess,
@@ -70,6 +71,7 @@ export type ExpectMatchers = {
   toBe: (expected: unknown) => void
   toBeUndefined: () => void
   toBeNull: () => void
+  toBeGreaterThan: (expected: number) => void
   toBeGreaterThanOrEqual: (expected: number) => void
   toBeLessThanOrEqual: (expected: number) => void
   toBeLessThan: (expected: number) => void
@@ -96,6 +98,8 @@ export const expect: ExpectFn = (actual: unknown) => ({
   toBeNull: () => assertStrictEquals(actual, null),
 
   toBeGreaterThanOrEqual: (expected: number) => assertGreaterOrEqual(actual as number, expected),
+
+  toBeGreaterThan: (expected: number) => assertGreater(actual as number, expected),
 
   toBeLessThanOrEqual: (expected: number) => assertLessOrEqual(actual as number, expected),
 
