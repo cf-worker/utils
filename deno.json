@@ -107,8 +107,8 @@
     "./strings/escapeHTML": "./strings/escapeHTML.ts",
     "./strings/prettyHTML": "./strings/prettyHTML.ts",
     "./strings/stringByteLength": "./strings/stringByteLength.ts",
-    "./xml/xml2json": "./xml/xml2json.ts",
-    "./types": "./types.ts"
+    "./types": "./types.ts",
+    "./xml/xml2json": "./xml/xml2json.ts"
   },
   "compilerOptions": {
     "skipLibCheck": true
