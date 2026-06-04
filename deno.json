@@ -83,6 +83,7 @@
     "./local-storage/getLocalStorageUsage": "./local-storage/getLocalStorageUsage.ts",
     "./local-storage/storage2json": "./local-storage/storage2json.ts",
     "./local-storage/storageKeys": "./local-storage/storageKeys.ts",
+    "./numbers/id53": "./numbers/id53.ts",
     "./numbers/id64": "./numbers/id64.ts",
     "./objects/objFilter": "./objects/objFilter.ts",
     "./objects/objSorted": "./objects/objSorted.ts",
