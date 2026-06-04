@@ -1,4 +1,4 @@
-import { quoteIdentifier } from "./quoteIdentifier.ts"
+import { type Quote, quoteIdentifier } from "./quoteIdentifier.ts"
 import { quoteRaw, type RawSql } from "./quoteRaw.ts"
 import { quoteValue } from "./quoteValue.ts"
 
@@ -44,26 +44,27 @@ function isRaw(value: unknown): value is RawSql {
 /**
  * Joins SQL fragments with a raw separator.
  *
- * @param items - SQL fragments or strings to join.
+ * @param items - SQL fragments to join.
  * @param separator - Raw SQL separator to place between fragments.
  * @returns A raw SQL string object containing the joined fragments.
  */
-function join(items: Array<RawSql | string>, separator = "\n"): RawSql {
-  return quoteRaw(items.map(String).join(separator))
+function join(items: RawSql[], separator: RawSql = raw("\n")): RawSql {
+  return quoteRaw(items.join(separator.valueOf()))
 }
 
 /**
  * Quotes a SQL identifier for raw interpolation in {@link sql} templates.
  *
  * @param value - Identifier, or list of identifiers, to quote.
+ * @param quote - Quote character to wrap each identifier segment.
  * @returns A raw SQL string object containing the quoted identifier SQL.
  */
-function id(value: string | string[]): RawSql {
+function id(value: string | string[], quote: Quote = "`"): RawSql {
   if (Array.isArray(value)) {
-    return quoteRaw(value.map((item) => quoteIdentifier(item)).join(", "))
+    return quoteRaw(value.map((item) => quoteIdentifier(item, quote)).join(", "))
   }
 
-  return quoteRaw(quoteIdentifier(value))
+  return quoteRaw(quoteIdentifier(value, quote))
 }
 
 /**
@@ -93,8 +94,9 @@ function json(item: unknown): RawSql {
  * Formats a value as SQL and marks it as raw for interpolation in {@link sql} templates.
  *
  * @param item - Value to format with {@link quoteValue}.
+ * @param quote - Identifier quote style used when formatting record predicates.
  * @returns A raw SQL string object containing the quoted SQL value.
  */
-function value(item: unknown): RawSql {
-  return quoteRaw(quoteValue(item))
+function value(item: unknown, quote: Quote = "`"): RawSql {
+  return quoteRaw(quoteValue(item, quote))
 }

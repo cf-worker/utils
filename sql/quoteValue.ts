@@ -1,5 +1,5 @@
 import { isRecord } from "../booleans/isRecord.ts"
-import { quoteIdentifier } from "./quoteIdentifier.ts"
+import { type Quote, quoteIdentifier } from "./quoteIdentifier.ts"
 import { quoteRaw } from "./quoteRaw.ts"
 
 type Join = "," | " AND" | " OR"
@@ -13,11 +13,19 @@ type Join = "," | " AND" | " OR"
  * raw SQL fragments that must be inserted without quoting or escaping.
  *
  * @param value - Value to format for SQL usage.
- * @param join - Separator used when formatting record predicates.
+ * @param joinOrQuote - Separator used when formatting record predicates, or identifier quote style.
+ * @param quote - Identifier quote style used when formatting record predicates.
  * @returns The SQL-safe literal or predicate fragment.
  * @throws {Error} When a record key is not a valid SQL identifier.
  */
-export function quoteValue(value: unknown, join: Join = ","): string {
+export function quoteValue(
+  value: unknown,
+  joinOrQuote: Join | Quote = ",",
+  quote: Quote = "`",
+): string {
+  const join = joinOrQuote === "`" || joinOrQuote === '"' ? "," : joinOrQuote
+  quote = joinOrQuote === "`" || joinOrQuote === '"' ? joinOrQuote : quote
+
   switch (true) {
     case typeof value === "string":
       return "'" + value.replaceAll("'", "''") + "'"
@@ -36,13 +44,13 @@ export function quoteValue(value: unknown, join: Join = ","): string {
 
     case Array.isArray(value):
       if (value.length === 0) return "(NULL)"
-      return "(" + value.map((o) => quoteValue(o)).join(", ") + ")"
+      return "(" + value.map((o) => quoteValue(o, ",", quote)).join(", ") + ")"
 
     case isRecord(value):
       if (Object.keys(value).length === 0) return "1 = 1"
       return Object.entries(value).map(([k, v]) => {
         const op = Array.isArray(v) ? "IN" : "="
-        return `${quoteIdentifier(k)} ${op} ${quoteValue(v)}`
+        return `${quoteIdentifier(k, quote)} ${op} ${quoteValue(v, ",", quote)}`
       }).join(`${join}\n`)
 
     case typeof value === "bigint":
@@ -56,19 +64,19 @@ export function quoteValue(value: unknown, join: Join = ","): string {
       return value.toString()
 
     case value instanceof Number:
-      return quoteValue(value.valueOf())
+      return quoteValue(value.valueOf(), ",", quote)
 
     case value instanceof Boolean:
-      return quoteValue(value.valueOf())
+      return quoteValue(value.valueOf(), ",", quote)
 
     case typeof value === "symbol":
-      return quoteValue(value.description)
+      return quoteValue(value.description, ",", quote)
 
     case value instanceof Set:
-      return quoteValue([...value])
+      return quoteValue([...value], ",", quote)
 
     case value instanceof Map:
-      return quoteValue(mapToRecord(value))
+      return quoteValue(mapToRecord(value), join, quote)
 
     default:
       return "'" + String(value).replaceAll("'", "''") + "'"

@@ -86,6 +86,12 @@ test("sql.id quotes identifier arrays", () => {
   expect(String(sql`SELECT ${sql.id(columns)} FROM table`)).toBe("SELECT `id`, `name` FROM table")
 })
 
+test("sql.id supports double-quoted identifiers", () => {
+  expect(String(sql`SELECT ${sql.id(["users.id", "users.name"], '"')}`)).toBe(
+    'SELECT "users"."id", "users"."name"',
+  )
+})
+
 test("sql composes nested SQL fragments as raw SQL", () => {
   const subSelect = sql`SELECT ${sql.id(["id", "name"])} FROM ${sql.id("users")}`
 
@@ -98,7 +104,7 @@ test("sql.join joins SQL fragments with a raw separator", () => {
   const activeUsers = sql`SELECT ${sql.id("id")} FROM ${sql.id("users")} WHERE active = ${true}`
   const invitedUsers = sql`SELECT ${sql.id("id")} FROM ${sql.id("invites")} WHERE sent = ${true}`
 
-  const query = sql.join([activeUsers, invitedUsers], "\nUNION\n")
+  const query = sql.join([activeUsers, invitedUsers], sql.raw("\nUNION\n"))
 
   expect(sql.isRaw(query)).toBe(true)
   expect(String(query)).toBe(
@@ -110,8 +116,8 @@ test("sql.join uses newline separator by default", () => {
   expect(String(sql.join([sql`SELECT 1`, sql`SELECT 2`]))).toBe("SELECT 1\nSELECT 2")
 })
 
-test("sql.join accepts strings as raw SQL fragments", () => {
-  expect(String(sql.join(["SELECT 1", sql`SELECT ${2}`], "\nUNION\n"))).toBe(
+test("sql.join accepts explicitly raw SQL fragments", () => {
+  expect(String(sql.join([sql.raw("SELECT 1"), sql`SELECT ${2}`], sql.raw("\nUNION\n")))).toBe(
     "SELECT 1\nUNION\nSELECT 2",
   )
 })

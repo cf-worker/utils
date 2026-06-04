@@ -1,4 +1,4 @@
-type Quote = "`" | '"' // MySql | sqlite/postgres
+export type Quote = "`" | '"' // MySql | sqlite/postgres
 
 /**
  * Quotes a SQL identifier and validates every dotted segment.
