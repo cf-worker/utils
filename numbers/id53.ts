@@ -1,0 +1,57 @@
+/**
+ * numbers/id53 module.
+ * @module
+ */
+
+let lastId53 = 0
+
+/**
+ * Generates a unique 53-bit safe integer identifier.
+ *
+ * The ID is timestamp-based using microseconds since epoch,
+ * ensuring lexicographic sorting order. It has always 16 characters
+ * length (up to Number.MAX_SAFE_INTEGER = 9007199254740991).
+ *
+ * The function guarantees uniqueness within a single thread/process
+ * by maintaining an internal counter. If the current timestamp is
+ * less than or equal to the last generated ID, it increments the
+ * previous value instead.
+ *
+ * @returns A unique 53-bit safe integer (max 16 digits)
+ *
+ * @example
+ * ```ts
+ * const id = id53()
+ * console.log(id) // 1717145600000000 (example)
+ * console.log(String(id).length) // 16
+ * ```
+ *
+ * @remarks
+ * - **Thread safety**: Only safe for single-thread/single-process servers
+ * - **Not for client-side**: Two different clients can generate the same ID
+ * - **Collision-free**: Internal counter prevents duplicates within same process
+ * - **Sortable**: IDs are naturally ordered by creation time
+ * - **Cloudflare Workers**: `performance.timeOrigin` and `performance.now()` are frozen
+ *   during CPU-only execution (no I/O). The internal counter guarantees uniqueness
+ *   and monotonic ordering regardless; the timestamp portion simply plateaus until
+ *   the next I/O gate advances the clock.
+ */
+export const id53 = (): number => (lastId53 = Math.max(
+  Math.trunc((performance.timeOrigin + performance.now()) * 1000),
+  lastId53 + 1,
+))
+
+/**
+ * Extracts the Unix timestamp (in milliseconds) from a id53 identifier.
+ *
+ * @param id53 - The 53-bit safe integer identifier to extract timestamp from
+ * @returns The Unix timestamp in milliseconds (truncated, not rounded)
+ *
+ * @example
+ * ```ts
+ * const id = id53()
+ * const timestamp = id53ts(id)
+ * console.log(new Date(timestamp)) // Date object
+ * ```
+ */
+export const id53ts = (id53: number): number => Math.trunc(id53 / 1000)
