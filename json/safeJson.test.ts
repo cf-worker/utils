@@ -12,3 +12,11 @@ test("safeJson should return undefined when the input is an invalid JSON string"
   const result = safeJson<{ name: string; age: number }>(invalidJsonString)
   expect(result).toBeUndefined()
 })
+
+test("safeJson should return null when the input is null", () => {
+  expect(safeJson(null)).toBeNull()
+})
+
+test("safeJson should return undefined when the input is undefined", () => {
+  expect(safeJson(undefined)).toBeUndefined()
+})
