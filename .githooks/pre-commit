@@ -6,6 +6,11 @@ set -e
 # Redirect output to stderr.
 exec 1>&2
 
+if [ -n "${SKIP_PRE_COMMIT:-}" ]; then
+  echo "Skipping pre-commit hook because SKIP_PRE_COMMIT is set."
+  exit 0
+fi
+
 deno task git-pre-commit
 
 # add changes made by the above checks
