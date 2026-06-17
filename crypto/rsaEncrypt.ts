@@ -3,6 +3,7 @@ import { publicKeyFromText } from "./hybridKeyPair.ts"
 
 const TEXT_ENCODER = new TextEncoder()
 
+/** Encrypts a string or object with RSA-OAEP and returns base64 text. */
 export async function rsaEncrypt(
   data: string | object,
   publicKey: CryptoKey | string,

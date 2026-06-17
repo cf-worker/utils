@@ -2,12 +2,14 @@ import { stdinBun } from "./stdinBun.ts"
 import { stdinDeno } from "./stdinDeno.ts"
 import { stdinNode } from "./stdinNode.ts"
 
-type StdinRuntime = {
+/** Runtime globals used to detect the active stdin implementation. */
+export type StdinRuntime = {
   Bun?: unknown
   Deno?: unknown
 }
 
-type StdinReaders = {
+/** Runtime-specific stdin readers. */
+export type StdinReaders = {
   bun: () => Promise<string>
   deno: () => Promise<string>
   node: () => Promise<string>

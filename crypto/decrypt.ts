@@ -2,6 +2,7 @@ import { base64Decode } from "../encoding/base64Decode.ts"
 import { createKey } from "./encrypt.ts"
 const TEXT_DECODER = new TextDecoder()
 
+/** Decrypts a base64 token produced by `encrypt`. */
 export async function decrypt(token: string, key: string): Promise<string> {
   const bytes = base64Decode(token)
   const cryptoKey = await createKey(key)

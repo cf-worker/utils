@@ -89,7 +89,7 @@ export type ExpectFn = (actual: unknown) => ExpectMatchers
 /**
  * Bun-like expectation API built on top of `@std/assert`.
  */
-export const expect: ExpectFn = (actual: unknown) => ({
+export const expect: ExpectFn = (actual: unknown): ExpectMatchers => ({
   toEqual: (expected: unknown) => assertEquals(actual, expected),
 
   toBe: (expected: unknown) => assertStrictEquals(actual, expected),

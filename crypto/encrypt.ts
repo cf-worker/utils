@@ -2,6 +2,7 @@ import { base64Encode } from "../encoding/base64Encode.ts"
 
 const TEXT_ENCODER = new TextEncoder()
 
+/** Encrypts a string or object into a base64 token. */
 export async function encrypt(data: string | object, key: string): Promise<string> {
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const plainText = typeof data === "string" ? data : JSON.stringify(data)
@@ -17,6 +18,7 @@ export async function encrypt(data: string | object, key: string): Promise<strin
   return base64Encode(bytes)
 }
 
+/** Derives an AES-GCM key from the provided passphrase. */
 export async function createKey(
   key: string,
   keyUsages: KeyUsage[] = ["encrypt", "decrypt"],

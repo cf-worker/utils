@@ -10,6 +10,7 @@ const PUBLIC_KEY_FOOTER = "-----END PUBLIC KEY-----"
 const PRIVATE_KEY_HEADER = "-----BEGIN PRIVATE KEY-----"
 const PRIVATE_KEY_FOOTER = "-----END PRIVATE KEY-----"
 
+/** Options for generating a hybrid RSA key pair. */
 export type GenerateHybridKeyPairOptions = {
   modulusLength?: number
 }
@@ -174,7 +175,8 @@ async function importPrivateKeyFromJwkText(text: string): Promise<CryptoKey> {
   )
 }
 
-type KeyTextFormat = "pem" | "base64" | "jwk"
+/** Supported text encodings for exported key material. */
+export type KeyTextFormat = "pem" | "base64" | "jwk"
 
 async function serializePublicKey(publicKey: CryptoKey, format: KeyTextFormat): Promise<string> {
   if (format === "base64") return await publicKeyToBase64(publicKey)
@@ -188,6 +190,9 @@ async function serializePrivateKey(privateKey: CryptoKey, format: KeyTextFormat)
   return await privateKeyToPem(privateKey)
 }
 
+/**
+ * Parses the requested output format from CLI arguments.
+ */
 export function parseCliFormat(args: string[]): KeyTextFormat {
   const formatIndex = args.findIndex((arg) => arg === "--format" || arg === "-f")
   const formatValue = formatIndex >= 0 ? args[formatIndex + 1] : args[0]
@@ -199,6 +204,9 @@ export function parseCliFormat(args: string[]): KeyTextFormat {
   throw new Error("Invalid format. Use pem, base64, or jwk")
 }
 
+/**
+ * Generates a hybrid key pair and serializes both keys in the requested format.
+ */
 export async function generateHybridKeyPairText(
   format: KeyTextFormat = "pem",
 ): Promise<{ format: KeyTextFormat; publicKey: string; privateKey: string }> {

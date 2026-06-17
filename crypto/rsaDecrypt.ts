@@ -3,6 +3,7 @@ import { privateKeyFromText } from "./hybridKeyPair.ts"
 
 const TEXT_DECODER = new TextDecoder()
 
+/** Decrypts a base64 RSA-OAEP token using a private key or private key text. */
 export async function rsaDecrypt(token: string, privateKey: CryptoKey | string): Promise<string> {
   const importedPrivateKey = typeof privateKey === "string"
     ? await privateKeyFromText(privateKey)

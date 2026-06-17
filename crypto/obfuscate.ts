@@ -14,12 +14,14 @@ const AES_ALGORITHM = {
 // payload, the goal is to make it non-obvious how to deobfuscate it, not to provide
 // strong confidentiality guarantees. It also keeps legacy RSA-OAEP/SHA-1 and
 // AES-CBC choices for compatibility with older Ruby/Rails implementations.
+/** Options for obfuscating a payload. */
 export type ObfuscateOptions = {
   embedPrivateKey?: boolean
   keyPair?: CryptoKeyPair
   privateKeyText?: string
 }
 
+/** Options for generating an obfuscation key pair. */
 export type GenerateObfuscationKeyPairOptions = {
   modulusLength?: number
 }
