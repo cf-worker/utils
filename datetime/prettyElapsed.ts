@@ -12,9 +12,11 @@ export function prettyElapsed(ms: number): string {
   const d = Math.floor(h / 24)
   let str = ""
   if (d > 0) str += `${d}d`
-  if (h > 0) str += `${h % 24}h`
-  if (m > 0) str += `${m % 60}m`
-  if (s > 0) str += `${s % 60}s`
-  else str += `${ms}ms`
+  if (h > 0) str += `${o(h % 24)}h`
+  if (m > 0) str += `${o(m % 60)}m`
+  if (s > 0) str += `${o(s % 60)}s`
+  else str += `${ms.toFixed()}ms`
   return str
 }
+
+const o = (o: number) => o.toString().padStart(2, "0")
