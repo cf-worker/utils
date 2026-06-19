@@ -29,6 +29,7 @@ To force vscode use the long import path instead of the short `@cf-worker/utils`
 
 ## Links
 
+- https://es-toolkit.dev/
 - https://github.com/cfworker/cfworker
 - https://github.com/lowlighter/libs
 - https://sindresorhus.com/blog/micro-benchmark-fallacy

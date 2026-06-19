@@ -13,6 +13,8 @@ export type RequestJson = {
   url?: URLJson
   bodyUsed: boolean
   headers: Record<string, string>
+  cookies?: Record<string, string>
+  params?: Record<string, string>
 }
 
 /**
@@ -22,10 +24,13 @@ export type RequestJson = {
  */
 export function request2json(request: Request): RequestJson {
   const url = url2json(request.url)
-  return {
+  const result: RequestJson = {
     method: request.method,
     url,
     bodyUsed: request.bodyUsed,
     headers: headers2json(request.headers),
   }
+  if ("params" in request) result.params = request.params as Record<string, string>
+  if ("cookies" in request) result.cookies = request.cookies as Record<string, string>
+  return result
 }
